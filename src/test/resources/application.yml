@@ -1,0 +1,23 @@
+application:
+  name: "giraone-test-bridge"
+  url: "http://www.sndjkn"
+
+giraone:
+  hostname: "192.168.178.38"
+  username: "User"
+  password: "!Ncc1701D"
+
+mqtt:
+  broker: "192.168.178.69"
+  port: 1883
+  username: "mqtt-dev"
+  password: "mqtt-pass"
+  client_id: "gira-mqqt-bridge"
+  topic: g1test
+
+
+logging:
+  level:
+    root: INFO
+    de:
+      matgroe: trace
