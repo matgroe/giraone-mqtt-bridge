@@ -18,23 +18,9 @@
 
 package de.matgroe.mqtt;
 
-import com.google.gson.Gson;
-import de.matgroe.GiraOneBridge;
-import de.matgroe.GiraOneBridgeConfiguration;
 import de.matgroe.SpringTestConfiguration;
 import de.matgroe.giraone.GiraOneClientConfiguration;
-import de.matgroe.giraone.GiraOneTestDataProvider;
 import de.matgroe.giraone.client.GiraOneClient;
-import de.matgroe.giraone.client.GiraOneClientConnectionState;
-import de.matgroe.giraone.client.GiraOneTypeMapperFactory;
-import de.matgroe.giraone.client.types.GiraOneChannelCollection;
-import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
-import de.matgroe.giraone.client.types.GiraOneProject;
-import de.matgroe.giraone.client.webservice.GiraOneWebserviceClient;
-import de.matgroe.giraone.client.websocket.GiraOneWebsocketClient;
-import de.matgroe.giraone.client.websocket.GiraOneWebsocketResponse;
-import de.matgroe.util.ResourceLoader;
-import org.apache.commons.codec.digest.DigestUtils;
 import static org.awaitility.Awaitility.await;
 import static org.awaitility.Duration.ONE_MINUTE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,24 +28,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import static org.mockito.Mockito.when;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
- * Test class for {@link GiraOneMqttBridge}
+ * Test class for {@link MqttClient}
  *
  * @author Matthias Groeger - Initial contribution
  */
@@ -75,11 +51,11 @@ public class GiraOneMqttBridgeTest {
     @Autowired
     GiraOneClient giraOneClient;
 
-    GiraOneMqttBridge mqttBridge;
+    MqttClient mqttBridge;
 
     @BeforeEach
     void setUp() {
-        mqttBridge = new GiraOneMqttBridge(mqttConfiguration, giraOneClient);
+        mqttBridge = new MqttClient(mqttConfiguration, giraOneClient);
     }
 
     @Test

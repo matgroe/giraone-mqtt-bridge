@@ -19,7 +19,6 @@ package de.matgroe.mqtt;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.hivemq.client.mqtt.MqttClient;
 import com.hivemq.client.mqtt.datatypes.MqttQos;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
 import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAck;
@@ -46,8 +45,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 @Component
-public class GiraOneMqttBridge {
-    private final Logger logger = LoggerFactory.getLogger(GiraOneMqttBridge.class);
+public class MqttClient {
+    private final Logger logger = LoggerFactory.getLogger(MqttClient.class);
 
     /** Observe this subject for MQTT Broker connection state */
     private final ReplaySubject<MqttClientConnectionState> connectionState = ReplaySubject.createWithSize(1);
@@ -72,7 +71,7 @@ public class GiraOneMqttBridge {
 
     private Subject<GiraOneValue> giraOutbound;
 
-    public GiraOneMqttBridge(MqttConfiguration mqttConfiguration, GiraOneClient giraOneClient)  {
+    public MqttClient(MqttConfiguration mqttConfiguration, GiraOneClient giraOneClient)  {
                 this.mqttConfiguration = mqttConfiguration;
         this.giraOneClient = giraOneClient;
         this.gson = new GsonBuilder().create();
@@ -126,7 +125,6 @@ public class GiraOneMqttBridge {
             GiraOneDeviceConfiguration cfg = giraOneClient.lookupGiraOneDeviceConfiguration();
             return String.format("%s/%s", cfg.get(GiraOneDeviceConfiguration.DEVICE_NAME), cfg.get(GiraOneDeviceConfiguration.DEVICE_ID));
         } catch (GiraOneClientException exp) {
-            logger.warn("Caannot format topic prefix. ", exp);
             return mqttConfiguration.getApplicationName();
         }
     }
@@ -146,7 +144,7 @@ public class GiraOneMqttBridge {
         disconnect();
         this.connectionState.onNext(MqttClientConnectionState.Connecting);
 
-        mqttClient = MqttClient.builder()
+        mqttClient = com.hivemq.client.mqtt.MqttClient.builder()
                 .useMqttVersion5()
                 .identifier(UUID.randomUUID().toString())
                 .serverHost(mqttConfiguration.getMqttBroker())

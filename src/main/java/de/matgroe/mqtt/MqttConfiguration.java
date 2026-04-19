@@ -17,28 +17,41 @@
  */
 package de.matgroe.mqtt;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.annotation.Validated;
 
-@Configuration
+@Validated
+@ConfigurationProperties(prefix="mqtt")
 public class MqttConfiguration {
 
     @Value("${application.name}")
+    @NotEmpty
     private String applicationName;
 
     @Value("${application.url}")
+    @NotEmpty
     private String applicationUrl;
 
     @Value("${mqtt.username}")
+    @NotEmpty
     private String username;
 
     @Value("${mqtt.password}")
+    @NotEmpty
     private String password;
 
     @Value("${mqtt.broker}")
+    @NotEmpty
     private String mqttBroker;
 
     @Value("${mqtt.port}")
+    @Min(1000)
+    @Max(65655)
     private int mqttPort;
 
     public String getUsername() {
