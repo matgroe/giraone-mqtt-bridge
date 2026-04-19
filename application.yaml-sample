@@ -1,0 +1,22 @@
+# Example application.yml
+#
+application:
+  name: xxx-giraone-bridge
+  url: "http://www.heise.de"
+
+giraone:
+  hostname: "127.0.0.1"
+  username: "GiraOneUsername"
+  password: "GiraOneSecretPhrase"
+
+mqtt:
+  broker: "192.168.178.69"
+  port: 1883
+  username: "MqttUsername"
+  password: "MqttSecretPhrase"
+
+logging:
+  level:
+    root: INFO
+    de:
+      matgroe: debug

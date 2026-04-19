@@ -19,40 +19,27 @@ package de.matgroe;
 
 import de.matgroe.giraone.GiraOneClientConfiguration;
 import de.matgroe.giraone.client.GiraOneClient;
-import de.matgroe.giraone.client.GiraOneClientException;
-import de.matgroe.giraone.client.types.GiraOneValue;
-import de.matgroe.mqtt.GiraOneMqttBridge;
+import de.matgroe.mqtt.MqttClient;
 import de.matgroe.mqtt.MqttConfiguration;
-import io.reactivex.rxjava3.subjects.PublishSubject;
-import io.reactivex.rxjava3.subjects.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan("de.matgroe")
-public class GiraOneBridgeConfiguration  {
-    private final Logger logger = LoggerFactory.getLogger(GiraOneBridgeConfiguration.class);
-
-    @Autowired
-    GiraOneClientConfiguration giraOneClientConfiguration;
-
-    @Bean("giraInboundMessages")
-    Subject<GiraOneValue> giraInbound() { return PublishSubject.create(); }
-
-    @Bean("giraOutboundMessages")
-    Subject<GiraOneValue> giraOutbound() { return PublishSubject.create(); }
+@EnableConfigurationProperties({GiraOneClientConfiguration.class, MqttConfiguration.class})
+public class GiraOneMqttApplicationConfiguration {
 
     @Bean
-    GiraOneClient createGiraOneClient() {
+    GiraOneClient createGiraOneClient(GiraOneClientConfiguration giraOneClientConfiguration) {
         return new GiraOneClient(giraOneClientConfiguration);
     }
 
     @Bean
-    GiraOneMqttBridge createGiraOneMqttBridge(MqttConfiguration mqttConfiguration, GiraOneClient giraOneClient) {
-        return new GiraOneMqttBridge(mqttConfiguration, giraOneClient);
+    MqttClient createGiraOneMqttBridge(MqttConfiguration mqttConfiguration, GiraOneClient giraOneClient) {
+        return new MqttClient(mqttConfiguration, giraOneClient);
     }
 }

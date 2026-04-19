@@ -365,7 +365,7 @@ public class GiraOneWebsocketClient {
 
     private void registerApplication() {
         CompletableFuture.runAsync(() -> {
-            logger.debug("Registering GiraOneBridge");
+            logger.debug("Registering GiraOneMqttBridge");
             execute(RegisterApplication.builder()
                     .with(RegisterApplication::setApplicationId, UUID.randomUUID().toString())
                     .with(RegisterApplication::setApplicationType, "api").build());

@@ -1,17 +1,16 @@
 application:
-  name: giraone-test-bridge
-  url: "http://www.heise.de"
+  name: giraone-mqtt-bridge
 
 giraone:
-  hostname: "192.168.178.38"
-  username: "User"
-  password: "!Ncc1701D"
+  hostname: "127.0.0.1"
+  username: ""
+  password: ""
 
 mqtt:
-  broker: "192.168.178.69"
-  port: 1883
-  username: "mqtt-dev"
-  password: "mqtt-pass"
+  broker: "127.0.0.1"
+  port: 0
+  username: ""
+  password: ""
 
 logging:
   level:

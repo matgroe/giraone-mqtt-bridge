@@ -17,26 +17,36 @@
  */
 package de.matgroe.giraone;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.annotation.Validated;
 
-@Configuration
+@Validated
+@ConfigurationProperties(prefix="giraone")
 public class GiraOneClientConfiguration {
+
     @Value("${giraone.hostname:}")
+    @NotEmpty
     public String hostname;
 
     @Value("${giraone.username:}")
+    @NotEmpty
     public String username;
 
     @Value("${giraone.password:}")
+    @NotEmpty
     public String password;
 
-    public int defaultTimeoutSeconds = 10;
-    public int maxTextMessageSize = 100; // 100kB
-    public int tryReconnectAfterSeconds = 30;
-    public int buttonReleaseTimeout = 1200;
-    public int sessionTimeToLive = 5;
-    public boolean discoverDevices = true;
-    public boolean discoverButtons = true;
-    public boolean overrideWithProjectSettings = false;
+    @Value("${giraone.defaultTimeoutSeconds:10}")
+    public int defaultTimeoutSeconds;
+
+    @Value("${giraone.maxTextMessageSize:100}")
+    public int maxTextMessageSize; // 100kB
+
+    @Value("${giraone.discoverButtons:true}")
+    public boolean discoverButtons;
+
 }
