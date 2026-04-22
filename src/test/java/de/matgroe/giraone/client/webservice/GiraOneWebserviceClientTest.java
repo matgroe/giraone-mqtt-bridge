@@ -51,8 +51,8 @@ class GiraOneWebserviceClientTest {
 
         configuration = new GiraOneClientConfiguration();
         configuration.username = "User";
-        configuration.password = "!Ncc1701D";
-        configuration.hostname = "192.168.178.38";
+        configuration.password = "passowrd";
+        configuration.hostname = "localhost";
         configuration.maxTextMessageSize = 350000;
         configuration.defaultTimeoutSeconds = 45;
 
@@ -78,7 +78,7 @@ class GiraOneWebserviceClientTest {
 
         assertEquals("doAuthenticateSession",
                 JsonParser.parseString(args[1]).getAsJsonObject().get("command").getAsString());
-        assertEquals("EC1D6D0C2CCEAD3C3A6CD0536FE1E4968AF3BAE59DBF9730FE36338A7B03DB7D",
+        assertEquals("CADCD53C53A6BF8D3DECB15BEC310EA1C98614A5960E156C922D707FBDF7E84E",
                 JsonParser.parseString(args[1]).getAsJsonObject().getAsJsonObject("data").get("token").getAsString());
     }
 
@@ -105,17 +105,5 @@ class GiraOneWebserviceClientTest {
         assertNotNull(components);
 
         components.getAllChannels(GiraOneComponentType.KnxButton);
-    }
-
-    @DisplayName("Should provide GiraOneComponentCollection")
-    @Test
-    void testChangeGiraOneDataPointValue() throws Exception {
-        GiraOneDataPoint dp = new GiraOneDataPoint(
-                "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-1:Brightness");
-        giraOneWebserviceClient.connect();
-        giraOneWebserviceClient.changeGiraOneDataPointValue(dp, "0");
-
-        Thread.sleep(2000);
-        giraOneWebserviceClient.readGiraOneDataPointValue(dp);
     }
 }

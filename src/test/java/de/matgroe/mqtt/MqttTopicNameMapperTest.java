@@ -24,12 +24,14 @@ import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneProject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,23 +44,27 @@ import java.util.stream.Stream;
 /**
  * Testclass for @{@link MqttTopicNameMapper}
  */
-@ExtendWith(SpringExtension.class)
+
 public class MqttTopicNameMapperTest {
     private final Logger logger = LoggerFactory.getLogger(MqttTopicNameMapperTest.class);
 
-    @MockitoBean
-    GiraOneClient giraOneClient;
+    static GiraOneClient giraOneClient = Mockito.mock(GiraOneClient.class);
 
     GiraOneProject giraOneProject;
 
     MqttTopicNameMapper creator = new MqttTopicNameMapper("g1-junit");
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void init() {
         when(giraOneClient.getGiraOneProject()).thenReturn(GiraOneTestDataProvider.createGiraOneProject());
         when(giraOneClient.lookupGiraOneDeviceConfiguration()).thenReturn(GiraOneTestDataProvider.createGiraOneDeviceConfiguration());
+    }
+
+    @BeforeEach
+    void setUp() {
         giraOneProject = giraOneClient.getGiraOneProject();
     }
+
 
     private static Stream<Arguments> providePairTopicNameOfChannelAndDataPoint() {
         return Stream.of(
