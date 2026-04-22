@@ -1,0 +1,42 @@
+##
+#
+#
+
+name: Patch Home Assistant Config Repository
+on:
+  workflow_dispatch:
+
+jobs:
+  update-homeasstant-config:
+    name: Update config.yaml
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+    - name: Checkout Home Assistant Config Repository
+      uses: actions/checkout@v6
+      with:
+        repository: matgroe/home-assistant-apps
+        ref: main
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+
+    - name: Update config.yaml 'version'
+      uses: fjogeleit/yaml-update-action@main
+      with:
+        valueFile: 'giraone-mqtt-bridge/config.yaml'
+        propertyPath: 'version'
+        value: "0.0.1"
+
+    - name: Update config.yaml 'version'
+      uses: fjogeleit/yaml-update-action@main
+      with:
+        valueFile: 'giraone-mqtt-bridge/config.yaml'
+        propertyPath: 'version'
+        value: "0.0.1"
+        message: "[BOT] Update version to 0.0.1"
+
+    - run: ls -al
+    - run: cat giraone-mqtt-bridge/config.yaml
