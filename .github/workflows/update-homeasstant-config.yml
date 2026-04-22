@@ -5,6 +5,13 @@
 name: Patch Home Assistant Config Repository
 on:
   workflow_dispatch:
+     inputs:
+      version:
+        required: true
+        type: string
+      image:
+        required: true
+        type: string
 
 jobs:
   update-homeasstant-config:
@@ -22,15 +29,18 @@ jobs:
         ref: main
         token: ${{ secrets.WORKFLOW_TOKEN }}
 
-
     - name: Update config.yaml 'version'
+      if: inputs.version != '' && inputs.image != ''
       uses: fjogeleit/yaml-update-action@main
       with:
+        repository: matgroe/home-assistant-apps
+        branch: main
         valueFile: 'giraone-mqtt-bridge/config.yaml'
-        propertyPath: 'version'
-        value: "0.0.1"
+        changes: |
+            {
+              "version": "${{ inputs.version }}",
+              "image": "${{ inputs.image }}"
+            }
         token: ${{ secrets.WORKFLOW_TOKEN }}
-        message: "[BOT] Update version to 0.0.1"
+        message: "[BOT] Update version for Release ${{ inputs.version }}"
 
-    - run: ls -al
-    - run: cat giraone-mqtt-bridge/config.yaml
