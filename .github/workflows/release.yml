@@ -1,16 +1,16 @@
 # This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
 # For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
 
-name: Build Source Code
+name: Release Version
 on:
   workflow_dispatch:
-  push:
+
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
 
     steps:
@@ -22,26 +22,4 @@ jobs:
         distribution: 'adopt'
         cache: maven
 
-    - run: echo "Publishing package to GitHub Packages... ${{secrets.SECRET}}"
-
-    - name: Build with Maven
-      run: mvn --update-snapshots package
-
-    - name: Generate JaCoCo Badge
-      id: jacoco
-      uses: cicirello/jacoco-badge-generator@v2
-
-    - name: Publish Test Report
-      if: success() || failure()
-      uses: scacap/action-surefire-report@v1
-
-    - name: Log coverage percentage
-      run: |
-        echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
-        echo "branch coverage = ${{ steps.jacoco.outputs.branches }}"
-
-    - run: mkdir staging && cp target/giraone-bridge-*.jar staging
-    - uses: actions/upload-artifact@v4
-      with:
-        name: jacoco-report
-        path: target/site/jacoco/
+    - run: echo "Releasing package to GitHub Packages... ${{secrets.SECRET}}"
