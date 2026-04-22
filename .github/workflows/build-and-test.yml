@@ -13,6 +13,7 @@ jobs:
       contents: write
       checks: write
       packages: write
+      pull-requests: write
 
     steps:
     - uses: actions/checkout@v5
@@ -42,7 +43,10 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         min-coverage-overall: 40
         min-coverage-changed-files: 60
-
+        title: '# :recycle: Coverage Report'
+        update-comment: true
+        pass-emoji: ':green_circle:'
+        fail-emoji: ':red_circle:'
 
     - run: mkdir staging && cp target/giraone-bridge-*.jar staging
     - uses: actions/upload-artifact@v4
