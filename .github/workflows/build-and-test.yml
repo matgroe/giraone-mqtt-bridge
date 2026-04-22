@@ -25,14 +25,11 @@ jobs:
         cache: maven
 
     - name: Build with Maven
-      run: mvn --update-snapshots package
+      run: mvn --update-snapshots verify package
 
     - name: Publish Test Report
       if: success() || failure()
       uses: scacap/action-surefire-report@v1
-
-    - name: Generate JaCoCo Report
-      run: mvn jacoco:report
 
     - name: Publish JaCoCo Report
       id: jacoco
@@ -43,13 +40,26 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         min-coverage-overall: 40
         min-coverage-changed-files: 60
-        title: '# :recycle: Coverage Report'
+        title: '# :recycle: Code Coverage Report'
         update-comment: true
+        comment-type: 'both'
         pass-emoji: ':green_circle:'
         fail-emoji: ':red_circle:'
 
-    - run: mkdir staging && cp target/giraone-bridge-*.jar staging
-    - uses: actions/upload-artifact@v4
+    - name: Generate JaCoCo Badge
+      uses: cicirello/jacoco-badge-generator@v2
+      with:
+        generate-branches-badge: true
+        jacoco-csv-file: target/site/jacoco/jacoco.csv
+
+    - uses: actions/upload-artifact@v7
       with:
         name: jacoco-report
         path: target/site/jacoco/
+        archive: true
+
+    - uses: actions/upload-artifact@v7
+      with:
+        name: giraone-bridge.jar
+        path: target/giraone-bridge-*.jar
+        archive: false
