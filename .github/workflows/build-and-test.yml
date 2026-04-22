@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: Build and Test
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -46,11 +47,11 @@ jobs:
         pass-emoji: ':green_circle:'
         fail-emoji: ':red_circle:'
 
-    - name: Generate JaCoCo Badge
-      uses: cicirello/jacoco-badge-generator@v2
-      with:
-        generate-branches-badge: true
-        jacoco-csv-file: target/site/jacoco/jacoco.csv
+    #- name: Generate JaCoCo Badge
+    #  uses: cicirello/jacoco-badge-generator@v2
+    #  with:
+    #    generate-branches-badge: true
+    #    jacoco-csv-file: target/site/jacoco/jacoco.csv
 
     - uses: actions/upload-artifact@v7
       with:
