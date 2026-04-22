@@ -38,3 +38,5 @@ build/
 .DS_Store
 /.idea/
 /application.yaml
+.env
+.secrets
