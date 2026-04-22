@@ -23,23 +23,26 @@ jobs:
         distribution: 'adopt'
         cache: maven
 
-    - run: echo "Publishing package to GitHub Packages... ${{secrets.SECRET}}"
-
     - name: Build with Maven
       run: mvn --update-snapshots package
-
-    - name: Generate JaCoCo Badge
-      id: jacoco
-      uses: cicirello/jacoco-badge-generator@v2
 
     - name: Publish Test Report
       if: success() || failure()
       uses: scacap/action-surefire-report@v1
 
-    - name: Log coverage percentage
-      run: |
-        echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
-        echo "branch coverage = ${{ steps.jacoco.outputs.branches }}"
+    - name: Generate JaCoCo Report
+      run: mvn jacoco:report
+
+    - name: Publish JaCoCo Report
+      id: jacoco
+      if: success() || failure()
+      uses: madrapps/jacoco-report@v1.7.2
+      with:
+        paths: ${{ github.workspace }}/target/site/jacoco/jacoco.xml
+        token: ${{ secrets.GITHUB_TOKEN }}
+        min-coverage-overall: 40
+        min-coverage-changed-files: 60
+
 
     - run: mkdir staging && cp target/giraone-bridge-*.jar staging
     - uses: actions/upload-artifact@v4
