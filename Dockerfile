@@ -4,7 +4,7 @@ COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 
 LABEL \
-    io.hass.type=app
+    io.hass.type=app \
     io.hass.name="The Name" \
     io.hass.description="Bridge between GiraOne Server and MQTT." \
     org.opencontainers.image.title="Home Assistant App: GiraOneMQTTBridge" \
