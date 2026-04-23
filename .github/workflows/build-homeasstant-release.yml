@@ -1,4 +1,4 @@
-name: Create Home Assistant App Image
+name: Release for Home Assistant
 on:
   workflow_dispatch:
      inputs:
@@ -43,7 +43,6 @@ jobs:
         push: true
         tags: |
           docker.io/${{ vars.DOCKER_USERNAME }}/${{ vars.HOMEASSISTANT_IMAGE_NAME }}:${{ inputs.version }}
-          docker.io/${{ vars.DOCKER_USERNAME }}/${{ vars.HOMEASSISTANT_IMAGE_NAME }}:latest
 
   update-homeasstant-config:
     needs: create-homeasstant-image
@@ -54,7 +53,7 @@ jobs:
       packages: write
 
     steps:
-    - name: Checkout Home Assistant Config Repository
+    - name: Checkout Home Assistant App Repository
       uses: actions/checkout@v6
       with:
         repository: matgroe/home-assistant-apps
@@ -71,7 +70,12 @@ jobs:
         changes: |
             {
               "version": "${{ inputs.version }}",
-              "image": "${{ vars.DOCKER_USERNAME }}/${{ vars.HOMEASSISTANT_IMAGE_NAME }}:latest"
+              "image": "${{ vars.DOCKER_USERNAME }}/${{ vars.HOMEASSISTANT_IMAGE_NAME }}:${{ inputs.version }}"
             }
         token: ${{ secrets.WORKFLOW_TOKEN }}
         message: "[BOT] Update version for Release ${{ inputs.version }}"
+    - name: Summary
+      run: |
+        echo "(Home Assistant App Repository)[https://github.com/matgroe/home-assistant-apps] is patched." >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+        echo "- Patched (config.yaml)[https://github.com/matgroe/home-assistant-apps/blob/main/giraone-mqtt-bridge/config.yaml]" >> $GITHUB_STEP_SUMMARY
