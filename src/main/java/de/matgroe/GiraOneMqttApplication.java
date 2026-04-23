@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringApplicationHook;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Map;
@@ -35,10 +36,12 @@ public class GiraOneMqttApplication implements CommandLineRunner {
     private GiraOneMqttBridge theBridge;
 
     public static void main(String[] args) {
+        dumpEnvironmentInfo(args);
         SpringApplication.run(GiraOneMqttApplication.class, args);
     }
 
-    private void dumpEnvironmentInfo(String... args) {
+    private static void dumpEnvironmentInfo(String... args) {
+        Logger logger = LoggerFactory.getLogger(GiraOneMqttApplication.class);
         for (String arg : args) {
             logger.info("Argument: {}", arg);
         }
