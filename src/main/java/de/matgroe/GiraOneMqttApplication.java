@@ -17,14 +17,18 @@
  */
 package de.matgroe;
 
+import ch.qos.logback.core.util.FileUtil;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.UnsatisfiedDependencyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.SpringApplicationHook;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.env.Environment;
 
+import java.util.Arrays;
 import java.util.Map;
 
 
@@ -35,9 +39,13 @@ public class GiraOneMqttApplication implements CommandLineRunner {
     @Autowired
     private GiraOneMqttBridge theBridge;
 
+
     public static void main(String[] args) {
-        dumpEnvironmentInfo(args);
-        SpringApplication.run(GiraOneMqttApplication.class, args);
+        try {
+            SpringApplication.run(GiraOneMqttApplication.class, args);
+        } catch (UnsatisfiedDependencyException e) {
+            dumpEnvironmentInfo(args);
+        }
     }
 
     private static void dumpEnvironmentInfo(String... args) {
@@ -50,6 +58,7 @@ public class GiraOneMqttApplication implements CommandLineRunner {
         for (String envName : env.keySet()) {
             logger.info("Environment: {}={}", envName, env.get(envName));
         }
+
     }
 
     public void run(String... args) throws Exception {
