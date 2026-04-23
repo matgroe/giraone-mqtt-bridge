@@ -1,0 +1,19 @@
+application:
+  name: giraone-mqtt-bridge
+
+giraone:
+  hostname: "127.0.0.1"
+  username: ""
+  password: ""
+
+mqtt:
+  broker: "127.0.0.1"
+  port: 0
+  username: ""
+  password: ""
+
+logging:
+  level:
+    root: INFO
+    de:
+      matgroe: debug
