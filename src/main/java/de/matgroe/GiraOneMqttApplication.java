@@ -17,14 +17,20 @@
  */
 package de.matgroe;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Map;
+
 
 @SpringBootApplication
 public class GiraOneMqttApplication implements CommandLineRunner {
+    private final  Logger logger = LoggerFactory.getLogger(GiraOneMqttApplication.class);
+
     @Autowired
     private GiraOneMqttBridge theBridge;
 
@@ -32,7 +38,19 @@ public class GiraOneMqttApplication implements CommandLineRunner {
         SpringApplication.run(GiraOneMqttApplication.class, args);
     }
 
+    private void dumpEnvironmentInfo(String... args) {
+        for (String arg : args) {
+            logger.info("Argument: {}", arg);
+        }
+
+        Map<String, String> env = System.getenv();
+        for (String envName : env.keySet()) {
+            logger.info("Environment: {}={}", envName, env.get(envName));
+        }
+    }
+
     public void run(String... args) throws Exception {
+        dumpEnvironmentInfo(args);
         do {
             theBridge.run();
             Thread.sleep(1000);
