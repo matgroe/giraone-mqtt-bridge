@@ -22,7 +22,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
@@ -31,27 +30,27 @@ public class MqttConfiguration {
 
     @Value("${application.name}")
     @NotEmpty
-    private String applicationName;
+    String applicationName;
 
     @Value("${application.url}")
-    private String applicationUrl;
+    String applicationUrl;
 
     @Value("${mqtt.user}")
     @NotEmpty
-    private String username;
+    String username;
 
     @Value("${mqtt.password}")
     @NotEmpty(message = "provide a value for")
-    private String password;
+    String password;
 
     @Value("${mqtt.broker}")
     @NotEmpty
-    private String mqttBroker;
+    String mqttBroker;
 
     @Value("${mqtt.port}")
     @Min(1000)
     @Max(65655)
-    private int mqttPort;
+    int mqttPort;
 
     public String getUsername() {
         return username;

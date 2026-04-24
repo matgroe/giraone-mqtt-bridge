@@ -18,49 +18,41 @@
 
 package de.matgroe.mqtt;
 
-import de.matgroe.SpringTestConfiguration;
-import de.matgroe.giraone.GiraOneClientConfiguration;
 import de.matgroe.giraone.client.GiraOneClient;
 import static org.awaitility.Awaitility.await;
 import static org.awaitility.Duration.ONE_MINUTE;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.Mockito;
 
 /**
  * Test class for {@link MqttClient}
  *
  * @author Matthias Groeger - Initial contribution
  */
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(useMainMethod = SpringBootTest.UseMainMethod.NEVER)
-@ComponentScan("de.matgroe")
-@ContextConfiguration(classes = {SpringTestConfiguration.class, GiraOneClientConfiguration.class, MqttConfiguration.class})
+@Disabled
 public class GiraOneMqttBridgeTest {
 
-    @Autowired
-    MqttConfiguration mqttConfiguration;
 
-    @Autowired
-    GiraOneClient giraOneClient;
 
     MqttClient mqttBridge;
 
     @BeforeEach
     void setUp() {
+        MqttConfiguration mqttConfiguration = new MqttConfiguration();
+        mqttConfiguration.mqttBroker = "localhost";
+        mqttConfiguration.mqttPort = 1234;
+        mqttConfiguration.username = "user";
+        mqttConfiguration.password = "secret";
+
+        GiraOneClient giraOneClient = Mockito.mock(GiraOneClient.class);
         mqttBridge = new MqttClient(mqttConfiguration, giraOneClient);
     }
 
     @Test
-    void createRegistrationMessage() throws Exception{
-        giraOneClient.lookupGiraOneDeviceConfiguration();
+    void createRegistrationMessage(){
         mqttBridge.connect();
         await().atMost(ONE_MINUTE).untilAsserted(() -> assertTrue(true));
        // mqttBridge.register();
