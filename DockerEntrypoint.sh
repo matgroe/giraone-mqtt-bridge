@@ -15,7 +15,7 @@ else
     export MQTT_BROKER=$(bashio::services mqtt "host")
     export MQTT_PORT=$(bashio::services mqtt "port")
     export MQTT_USER=$(bashio::services mqtt "username")
-    export MQTT_PASS=$(bashio::services mqtt "password")
+    export MQTT_PASSWORD=$(bashio::services mqtt "password")
     bashio::log.info "Configured'$MQTT_BROKER' mqtt broker."
 fi
 
