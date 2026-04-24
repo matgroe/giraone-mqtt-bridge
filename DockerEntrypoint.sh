@@ -7,7 +7,7 @@ echo '- Preparing Environment Settings'
 export GIRAONE_SERVER=$(bashio::config 'GIRA_SERVER')
 export GIRAONE_USER=$(bashio::config 'GIRA_USER')
 export GIRAONE_PASSWORD=$(bashio::config 'GIRA_PASSWORD')
-export LOG_LEVEL=$(bashio::config 'LOG_LEVEL')
+export LOGGING_LEVEL_DE_MATGROE=$(bashio::config 'LOG_LEVEL')
 
 if ! bashio::services.available "mqtt"; then
    bashio::exit.nok "No internal MQTT Broker found. Please install Mosquitto broker."
