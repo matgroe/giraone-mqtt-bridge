@@ -1,15 +1,27 @@
-#!/usr/bin/env bashio
+#!/usr/bin/with-contenv bashio
+
 echo
 echo '###########################################################################################################'
 echo '   Starting Container '
 
+LOG_LEVEL=$(bashio::config 'Log_level')
+MQTT_HOST=$(bashio::config 'Mqtt_host')
+MQTT_PORT=$(bashio::config 'Mqtt_port')
+MQTT_USER=$(bashio::config 'Mqtt_user')
+MQTT_PASS=$(bashio::config 'Mqtt_pass')
+
+if ! bashio::services.available "mqtt"; then
+   bashio::exit.nok "No internal MQTT Broker found. Please install Mosquitto broker."
+else
+    MQTT_HOST=$(bashio::services mqtt "host")
+    MQTT_PORT=$(bashio::services mqtt "port")
+    MQTT_USER=$(bashio::services mqtt "username")
+    MQTT_PASS=$(bashio::services mqtt "password")
+    bashio::log.info "Configured'$MQTT_HOST' mqtt broker."
+fi
+
 export
 
-if ! bashio::services.available "mqtt" && ! bashio::config.exists 'mqtt_server'; then
-    bashio::exit.nok "No internal MQTT service found and no MQTT server defined. Please install Mosquitto broker or specify your own."
-else
-    bashio::log.info "MQTT available, fetching server detail ..."
-fi
 #export MQTT_BROKER=$(bashio::services mqtt "host")
 #export MQTT_PORT=$(bashio::services mqtt "port")
 #export MQTT_USER=$(bashio::services mqtt "username")
