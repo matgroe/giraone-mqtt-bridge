@@ -3,13 +3,13 @@ application:
 
 giraone:
   hostname: ${GIRA_SERVER}
-  username: ${GIRA_USERNAME}
+  username: ${GIRA_USER}
   password: ${GIRA_PASSWORD}
 
 mqtt:
   broker: ${MQTT_BROKER}
   port: ${MQTT_PORT:1883}
-  username: ${MQTT_USERNAME}
+  username: ${MQTT_USER}
   password: ${MQTT_PASSWORD}
 
 logging:

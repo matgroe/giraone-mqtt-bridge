@@ -18,12 +18,12 @@ The Application as executed within a docker container need to be configured via 
 | Variable      | Mandatory | Default | Description                                                       |
 |---------------|-----------|---------|-------------------------------------------------------------------|
 | GIRA_SERVER   | Yes       |         | GiraOneServer's hostname or IP of within your network.            |
-| GIRA_USERNAME | Yes       |         | Username to auth against GiraOneServer                            |
+| GIRA_USER     | Yes       |         | Username to auth against GiraOneServer                            |
 | GIRA_PASSWORD | Yes       |         | Password                                                          |
 |               |           |         |                                                                   |
 | MQTT_BROKER   | Yes       |         | MQTT Broker's hostname or IP of within your network.              |
 | MQTT_PORT     | No        | 1883    | MQTT Broker's portnumber                                          |
-| MQTT_USERNAME | Yes       |         | Username                                                          |
+| MQTT_USER     | Yes       |         | Username                                                          |
 | MQTT_PASSWORD | Yes       |         | Password                                                          |
 |               |           |         |
 | LOG_LEVEL     | No        | INFO    | Application Loglevel. One of TRACE, DEBUG, INFO, WARN, ERROR, OFF |
