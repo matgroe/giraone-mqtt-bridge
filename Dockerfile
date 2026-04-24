@@ -8,10 +8,9 @@ RUN \
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} /app.jar
 
-COPY run.sh /
-RUN chmod a+x /run.sh
-CMD [ "/run.sh" ]
-#ENTRYPOINT ["java","-jar","/app.jar"]
+COPY DockerEntrypoint.sh /entrypoint.sh
+RUN chmod a+x /entrypoint.sh
+CMD [ "/entrypoint.sh" ]
 
 LABEL \
     io.hass.version="VERSION" \

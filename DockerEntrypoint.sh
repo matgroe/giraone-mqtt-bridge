@@ -2,9 +2,8 @@
 
 echo
 echo '###########################################################################################################'
-echo '   Starting Container '
+echo '- Preparing Environment Settings'
 
-export LOG_LEVEL=$(bashio::config 'Log_level')
 export MQTT_HOST=$(bashio::config 'Mqtt_host')
 export MQTT_PORT=$(bashio::config 'Mqtt_port')
 export MQTT_USER=$(bashio::config 'Mqtt_user')
@@ -20,16 +19,8 @@ else
     bashio::log.info "Configured'$MQTT_HOST' mqtt broker."
 fi
 
+echo '- Environment Settings:'
 export
 
-#export MQTT_BROKER=$(bashio::services mqtt "host")
-#export MQTT_PORT=$(bashio::services mqtt "port")
-#export MQTT_USER=$(bashio::services mqtt "username")
-#export MQTT_PASSWORD=$(bashio::services mqtt "password")
-
-#export XMQTT_BROKER=$(bashio::services mqtt "host")
-#export XMQTT_USER=$(bashio::services mqtt "username")
-#export XMQTT_PASSWORD=$(bashio::services mqtt "password")
-
-
+echo '- Starting Application:'
 java -jar app.jar
