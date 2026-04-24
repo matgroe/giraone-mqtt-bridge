@@ -17,22 +17,47 @@
  */
 package de.matgroe;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.UnsatisfiedDependencyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.util.Map;
 
 
 @SpringBootApplication
 public class GiraOneMqttApplication implements CommandLineRunner {
+    private final  Logger logger = LoggerFactory.getLogger(GiraOneMqttApplication.class);
+
     @Autowired
     private GiraOneMqttBridge theBridge;
 
+
     public static void main(String[] args) {
-        SpringApplication.run(GiraOneMqttApplication.class, args);
+        try {
+            SpringApplication.run(GiraOneMqttApplication.class, args);
+        } catch (UnsatisfiedDependencyException e) {
+            dumpEnvironmentInfo(args);
+        }
+    }
+
+    private static void dumpEnvironmentInfo(String... args) {
+        Logger logger = LoggerFactory.getLogger(GiraOneMqttApplication.class);
+        for (String arg : args) {
+            logger.info("Argument: {}", arg);
+        }
+
+        Map<String, String> env = System.getenv();
+        for (String envName : env.keySet()) {
+            logger.info("Environment: {}={}", envName, env.get(envName));
+        }
+
     }
 
     public void run(String... args) throws Exception {
+        dumpEnvironmentInfo(args);
         do {
             theBridge.run();
             Thread.sleep(1000);

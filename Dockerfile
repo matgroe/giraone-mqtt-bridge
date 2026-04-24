@@ -1,10 +1,20 @@
-FROM alpine/java:21-jre
+FROM ghcr.io/home-assistant/base:latest
+
+# Install requirements for app
+RUN \
+  apk add --no-cache \
+    openjdk21
+
 ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+COPY ${JAR_FILE} /app.jar
+
+COPY DockerEntrypoint.sh /entrypoint.sh
+RUN chmod a+x /entrypoint.sh
+CMD [ "/entrypoint.sh" ]
 
 LABEL \
-    org.opencontainers.image.title="Home Assistant App: GiraOneMQTTBridge" \
-    org.opencontainers.image.description="Bridge between GiraOne Server and MQTT." \
-    org.opencontainers.image.source="https://github.com/home-assistant/apps-example" \
+    io.hass.version="VERSION" \
+    io.hass.type="app" \
+    io.hass.arch="amd64" \
+    io.hass.description="Bridge between GiraOne Server and MQTT." \
     org.opencontainers.image.licenses="Apache License 2.0"
