@@ -34,15 +34,14 @@ public class MqttConfiguration {
     private String applicationName;
 
     @Value("${application.url}")
-    @NotEmpty
     private String applicationUrl;
 
-    @Value("${mqtt.username}")
+    @Value("${mqtt.user}")
     @NotEmpty
     private String username;
 
     @Value("${mqtt.password}")
-    @NotEmpty
+    @NotEmpty(message = "provide a value for")
     private String password;
 
     @Value("${mqtt.broker}")

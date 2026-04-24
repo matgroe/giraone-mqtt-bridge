@@ -17,8 +17,6 @@
  */
 package de.matgroe;
 
-import ch.qos.logback.core.util.FileUtil;
-import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.UnsatisfiedDependencyException;
@@ -26,9 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.core.env.Environment;
-
-import java.util.Arrays;
 import java.util.Map;
 
 

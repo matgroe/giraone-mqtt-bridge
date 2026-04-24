@@ -28,11 +28,11 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix="giraone")
 public class GiraOneClientConfiguration {
 
-    @Value("${giraone.hostname:}")
+    @Value("${giraone.server}")
     @NotEmpty
     public String hostname;
 
-    @Value("${giraone.username:}")
+    @Value("${giraone.user}")
     @NotEmpty
     public String username;
 

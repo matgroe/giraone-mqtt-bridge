@@ -1,16 +1,17 @@
 application:
   name: giraone-mqtt-bridge
+  url: "https://github.com/matgroe/giraone-mqtt-bridge"
 
 giraone:
-  hostname: ${GIRA_SERVER}
-  username: ${GIRA_USER}
-  password: ${GIRA_PASSWORD}
+  server: ${GIRAONE_SERVER:#{null}}
+  user: ${GIRAONE_USER:#{null}}
+  password: ${GIRAONE_PASSWORD:#{null}}
 
 mqtt:
-  broker: ${MQTT_BROKER}
+  broker: ${MQTT_BROKER:#{null}}
   port: ${MQTT_PORT:1883}
-  username: ${MQTT_USER}
-  password: ${MQTT_PASSWORD}
+  user: ${MQTT_USER:#{null}}
+  password: ${MQTT_PASSWORD:#{null}}
 
 logging:
   level:
