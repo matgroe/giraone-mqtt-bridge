@@ -15,7 +15,7 @@ export MQTT_PORT=$(bashio::config 'MQTT_PORT')
 export MQTT_USER=$(bashio::config 'MQTT_USER')
 export MQTT_PASSWORD=$(bashio::config 'MQTT_PASSWORD')
 
-if [ "${MQTT_USE_INTERNAL_BROKER}" == "country" ]; then
+if [ "${MQTT_USE_INTERNAL_BROKER}" == "true" ]; then
   if bashio::services.available "mqtt"; then
    bashio::exit.nok "No internal MQTT Broker found. Please install Mosquitto broker."
   else
