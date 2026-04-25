@@ -17,81 +17,56 @@
  */
 package de.matgroe.mqtt;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.hivemq.client.mqtt.datatypes.MqttQos;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
 import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAck;
 import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAckReasonCode;
 import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5Publish;
 import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5PublishResult;
-import de.matgroe.giraone.client.GiraOneClient;
-import de.matgroe.giraone.client.GiraOneClientException;
-import de.matgroe.giraone.client.types.GiraOneChannelType;
-import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
-import de.matgroe.giraone.client.types.GiraOneProject;
-import de.matgroe.giraone.client.types.GiraOneValue;
-import de.matgroe.mqtt.types.DiscoveryMessage;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 import io.reactivex.rxjava3.subjects.ReplaySubject;
+
 import io.reactivex.rxjava3.subjects.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
-@Component
 public class MqttClient {
     private final Logger logger = LoggerFactory.getLogger(MqttClient.class);
 
     /** Observe this subject for MQTT Broker connection state */
     private final ReplaySubject<MqttClientConnectionState> connectionState = ReplaySubject.createWithSize(1);
 
-    private final Disposable connectionStateDisposable;
+    /** this subject receives the incoming messages from {@link MqttClient} */
+    private final Subject<MqttMessage> inboundQueue = PublishSubject.create();
 
-    private final MqttConfiguration mqttConfiguration;
+    private final MqttClientProperties mqttClientProperties;
 
-    private final GiraOneClient giraOneClient;
+    private String topicNamePrefix = "";
 
-    private MqttDiscoveryMessageFactory mqttDiscoveryMessageFactory;
+    Mqtt5AsyncClient mqtt5Client;
 
-    private MqttComponentFactory mqttComponentFactory;
-
-    private MqttTopicNameMapper mqttTopicNameMapper;
-
-    private final Gson gson;
-
-    Mqtt5AsyncClient mqttClient;
-
-    private Subject<GiraOneValue> giraInbound;
-
-    private Subject<GiraOneValue> giraOutbound;
-
-    public MqttClient(MqttConfiguration mqttConfiguration, GiraOneClient giraOneClient)  {
-                this.mqttConfiguration = mqttConfiguration;
-        this.giraOneClient = giraOneClient;
-        this.gson = new GsonBuilder().create();
+    public MqttClient(MqttClientProperties mqttClientProperties)  {
+                this.mqttClientProperties = mqttClientProperties;
         this.connectionState.onNext(MqttClientConnectionState.Disconnected);
-        this.connectionStateDisposable = this.connectionState.subscribe(this::onConnectionStateChanged);
+        this.connectionState.subscribe(this::onConnectionStateChanged);
     }
 
     private void onConnectionStateChanged(MqttClientConnectionState mqttClientConnectionState) {
         logger.debug("MqttClientConnectionState changed to {}", mqttClientConnectionState);
-        String topicFilter = String.format("%s/#", formatTopicPrefix());
+        String topicFilter = String.format("%s/#", topicNamePrefix);
         if (mqttClientConnectionState == MqttClientConnectionState.Connected) {
-            mqttClient.subscribeWith()
+            mqtt5Client.subscribeWith()
                     .topicFilter(topicFilter)
                     .callback(this::onMessageReceived)
                     .send();
-
-            this.sendDiscoveryMessage();
         } else {
-            if (mqttClient != null) {
-                mqttClient.unsubscribeWith().topicFilter(topicFilter).send();
+            if (mqtt5Client != null) {
+                mqtt5Client.unsubscribeWith().topicFilter(topicFilter).send();
             }
         }
     }
@@ -100,10 +75,10 @@ public class MqttClient {
      * Disconnect from Broker
      */
     public void disconnect() {
-        if (mqttClient != null && mqttClient.getState().isConnected()) {
-            mqttClient.disconnect().whenComplete((Void unused, Throwable throwable) -> {
+        if (mqtt5Client != null && mqtt5Client.getState().isConnected()) {
+            mqtt5Client.disconnect().whenComplete((Void unused, Throwable throwable) -> {
                 if (throwable != null) {
-                    logger.error("Error on disconnecting from '{}'", mqttConfiguration.getMqttBroker(), throwable);
+                    logger.error("Error on disconnecting from '{}'", mqttClientProperties.getMqttBroker(), throwable);
                 }
                 this.connectionState.onNext(MqttClientConnectionState.Disconnected);
             });
@@ -116,45 +91,39 @@ public class MqttClient {
      * @param consumer The Consumer for {@link MqttClientConnectionState} changes.
      * @return a {@link Disposable}
      */
-    public Disposable observeGiraOneConnectionState(Consumer<MqttClientConnectionState> consumer) {
+    public Disposable observeMqttConnectionState(Consumer<MqttClientConnectionState> consumer) {
         return connectionState.subscribe(consumer);
     }
 
-    private String formatTopicPrefix() {
-        try {
-            GiraOneDeviceConfiguration cfg = giraOneClient.lookupGiraOneDeviceConfiguration();
-            return String.format("%s/%s", cfg.get(GiraOneDeviceConfiguration.DEVICE_NAME), cfg.get(GiraOneDeviceConfiguration.DEVICE_ID));
-        } catch (GiraOneClientException exp) {
-            return mqttConfiguration.getApplicationName();
-        }
+    /**
+     * Register's a listener incoming {@link MqttMessage}
+     *
+     * @param consumer The Consumer for {@link MqttMessage} changes.
+     * @return a {@link Disposable}
+     */
+    public Disposable observeInboundQueue(Consumer<MqttMessage> consumer) {
+        return inboundQueue.subscribe(consumer);
     }
 
-    private void initializeFactories() {
-        this.mqttDiscoveryMessageFactory = new MqttDiscoveryMessageFactory(mqttConfiguration, giraOneClient);
-        this.mqttTopicNameMapper = new MqttTopicNameMapper(formatTopicPrefix());
-        this.mqttComponentFactory = new MqttComponentFactory(this.mqttTopicNameMapper);
-    }
 
     /**
-     *  Connects to the MQTT Broker as given within the {@link MqttConfiguration} object.
+     *  Connects to the MQTT Broker as given within the {@link MqttClientProperties} object.
      */
-    public void connect() {
-        // just to be safe
-        initializeFactories();
+    public void connect(String topicNamePrefix) {
+        this.topicNamePrefix = topicNamePrefix;
         disconnect();
         this.connectionState.onNext(MqttClientConnectionState.Connecting);
-
-        mqttClient = com.hivemq.client.mqtt.MqttClient.builder()
+        mqtt5Client = com.hivemq.client.mqtt.MqttClient.builder()
                 .useMqttVersion5()
                 .identifier(UUID.randomUUID().toString())
-                .serverHost(mqttConfiguration.getMqttBroker())
-                .serverPort(mqttConfiguration.getMqttPort())
+                .serverHost(mqttClientProperties.getMqttBroker())
+                .serverPort(mqttClientProperties.getMqttPort())
                 .buildAsync();
 
-        mqttClient.connectWith()
+        mqtt5Client.connectWith()
                 .simpleAuth()
-                .username(mqttConfiguration.getUsername())
-                .password(mqttConfiguration.getPassword().getBytes())
+                .username(mqttClientProperties.getUsername())
+                .password(mqttClientProperties.getPassword().getBytes())
                 .applySimpleAuth()
                 .send()
                 .whenComplete((Mqtt5ConnAck connAck, Throwable throwable) -> {
@@ -163,10 +132,11 @@ public class MqttClient {
                         if (connAck.getReasonCode() == Mqtt5ConnAckReasonCode.SUCCESS) {
                             this.connectionState.onNext(MqttClientConnectionState.Connected);
                         }
+                    } else {
+                        logger.error("Establish connection to MQTT-Broker failed.", throwable);
+                        this.connectionState.onNext(MqttClientConnectionState.Error);
                     }
                 });
-
-
     }
 
 
@@ -175,38 +145,36 @@ public class MqttClient {
         try {
             mqtt5Publish.getPayload().ifPresentOrElse((ByteBuffer byteBuffer) -> {
                 String payload = StandardCharsets.UTF_8.decode(byteBuffer).toString();
-                logger.debug("'{}' --->> {}", mqtt5Publish.getTopic(), payload);
+                logger.info("received from topic: '{}'. Payload: '{}'", mqtt5Publish.getTopic(), payload);
+                this.inboundQueue.onNext(new MqttMessage(mqtt5Publish.getTopic(), payload));
             }, () -> {
-                logger.info("'{}' --->> [empty payload]", mqtt5Publish.getTopic());
+                logger.info("received from topic: '{}'. {Empty Payload}", mqtt5Publish.getTopic());
+                this.inboundQueue.onNext(new MqttMessage(mqtt5Publish.getTopic(), null));
             });
         } catch (Throwable throwable) {
             logger.warn("Something went wrong on processing received payload.", throwable);
         }
     }
 
-    public void publish(GiraOneValue giraOneValue) {
+    public void publish(MqttMessage message) {
         if (this.connectionState.getValue() == MqttClientConnectionState.Connected) {
-            String topic = mqttTopicNameMapper.topicNameOf(giraOneValue.getGiraOneDataPoint());
-            publish(topic, giraOneValue.getValue());
+            logger.info("Publishing MqttMessage: {}", message);
+            publish(message.getTopic(), message.getPayload());
         } else {
-            logger.warn("MQTT is not fully connected, ignoring message {}", giraOneValue);
+            logger.warn("MQTT is not fully connected, ignoring message {}", message);
         }
-    }
-
-    void publish(final String topic, final Object object) {
-        publish(topic, gson.toJson(object));
     }
 
     void publish(final String topic, final String payload) {
-        if (mqttClient == null || !mqttClient.getState().isConnected()) {
+        if (mqtt5Client == null || !mqtt5Client.getState().isConnected()) {
             logger.info("MQTT is not connected, skip publish message '{}' to {}", payload,topic);
             return;
         }
-        logger.debug("'{}' <<--- {}", topic, payload);
-        mqttClient.publishWith()
+        logger.debug("Publish to topic: '{}' with payload: '{}'", topic, payload);
+        mqtt5Client.publishWith()
                 .topic(topic)
                 .payload(payload.getBytes())
-                .qos(MqttQos.EXACTLY_ONCE)
+                .qos(MqttQos.AT_LEAST_ONCE)
                 .send()
                 .whenComplete((Mqtt5PublishResult mqttPublishResult, Throwable throwable) -> {
                     if (throwable != null) {
@@ -217,14 +185,4 @@ public class MqttClient {
                 });
     }
 
-
-    private void sendDiscoveryMessage() {
-        logger.info("Create and send DiscoveryMessage");
-        DiscoveryMessage dm = mqttDiscoveryMessageFactory.createDiscoveryMessage();
-        GiraOneProject project = this.giraOneClient.getGiraOneProject();
-        project.lookupChannels().stream().filter(ch -> ch.getChannelType() == GiraOneChannelType.Status).forEach(channel -> {
-            dm.addComponent(mqttComponentFactory.from(channel));
-        });
-        publish(mqttDiscoveryMessageFactory.createDiscoveryTopic(), dm);
-    }
 }

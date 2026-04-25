@@ -26,14 +26,7 @@ import org.springframework.validation.annotation.Validated;
 
 @Validated
 @ConfigurationProperties(prefix="mqtt")
-public class MqttConfiguration {
-
-    @Value("${application.name}")
-    @NotEmpty
-    String applicationName;
-
-    @Value("${application.url}")
-    String applicationUrl;
+public class MqttClientProperties {
 
     @Value("${mqtt.user}")
     @NotEmpty
@@ -64,15 +57,8 @@ public class MqttConfiguration {
         return mqttBroker;
     }
 
-    public String getApplicationName() {
-        return applicationName;
-    }
-
     public int getMqttPort() {
         return mqttPort;
     }
 
-    public String getApplicationUrl() {
-        return applicationUrl;
-    }
 }

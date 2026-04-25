@@ -33,27 +33,25 @@ import org.mockito.Mockito;
  * @author Matthias Groeger - Initial contribution
  */
 @Disabled
-public class GiraOneMqttBridgeTest {
+public class MqttClientTest {
 
-
-
-    MqttClient mqttBridge;
+    MqttClient mqttClient;
 
     @BeforeEach
     void setUp() {
-        MqttConfiguration mqttConfiguration = new MqttConfiguration();
-        mqttConfiguration.mqttBroker = "localhost";
-        mqttConfiguration.mqttPort = 1234;
-        mqttConfiguration.username = "user";
-        mqttConfiguration.password = "secret";
+        MqttClientProperties mqttClientProperties = new MqttClientProperties();
+        mqttClientProperties.mqttBroker = "192.168.178.69";
+        mqttClientProperties.mqttPort = 1883;
+        mqttClientProperties.username = "mqtt-dev";
+        mqttClientProperties.password = "mqtt-pass";
 
         GiraOneClient giraOneClient = Mockito.mock(GiraOneClient.class);
-        mqttBridge = new MqttClient(mqttConfiguration, giraOneClient);
+        mqttClient = new MqttClient(mqttClientProperties);
     }
 
     @Test
     void createRegistrationMessage(){
-        mqttBridge.connect();
+        mqttClient.connect("junit");
         await().atMost(ONE_MINUTE).untilAsserted(() -> assertTrue(true));
        // mqttBridge.register();
     }

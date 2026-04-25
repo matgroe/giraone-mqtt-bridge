@@ -1,4 +1,4 @@
-package de.matgroe.mqtt.types;
+package de.matgroe.hassio.types;
 
 import com.google.gson.annotations.SerializedName;
 

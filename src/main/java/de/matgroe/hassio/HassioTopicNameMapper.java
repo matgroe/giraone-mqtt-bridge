@@ -15,29 +15,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package de.matgroe.mqtt;
+package de.matgroe.hassio;
 
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
+import de.matgroe.giraone.client.types.GiraOneProject;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.TreeSet;
 
 /**
  * This class offers functionality to derive a MQTT Topicname from a {@link GiraOneDataPoint}
- * and offers a mapping between the TopiocName and the concerning {@link GiraOneDataPoint} *
+ * and offers a mapping between the TopiocName and the concerning {@link GiraOneDataPoint}
  */
-public class MqttTopicNameMapper {
+public class HassioTopicNameMapper {
     private final String prefix;
 
-    private Collection<ImmutablePair<String, GiraOneDataPoint>> dataPointTopicPairs;
+    private Map<String, GiraOneDataPoint> dataPointTopicMap;
 
-    public MqttTopicNameMapper(String prefix) {
-        this.dataPointTopicPairs = Collections.synchronizedSortedSet(new TreeSet<>());
+    public HassioTopicNameMapper(String prefix, GiraOneProject giraOneProject) {
+        this.dataPointTopicMap = Collections.synchronizedMap(new HashMap<String, GiraOneDataPoint>());
         this.prefix = prefix;
+        giraOneProject.lookupGiraOneDataPoints().forEach(dp ->{
+            dataPointTopicMap.put(topicNameOf(dp), dp);
+        });
     }
 
     private String formatDatapointChannel(GiraOneDataPoint dataPoint) {
@@ -51,12 +56,10 @@ public class MqttTopicNameMapper {
     }
 
     /**
+     * Creates a topicname for the given {@link GiraOneDataPoint}. The
      *
-     * Formats Topicname to {prefix}/{location}/{channel}/{datapointId}
-     *
-     * @param dataPoint
-     * @return
-     *
+     * @param dataPoint The {@link GiraOneDataPoint}
+     * @return returns a topicname in format of {prefix}/{channel}/{datapointId}
      */
     public String topicNameOf(GiraOneDataPoint dataPoint) {
         String topicName =  String.format("%s/%s/%s",
@@ -64,16 +67,16 @@ public class MqttTopicNameMapper {
                 formatDatapointChannel(dataPoint),
                 generateDataPointId(dataPoint)
         );
-        //this.dataPointTopicPairs.add(new ImmutablePair<>(topicName, dataPoint));
         return topicName;
     }
 
+    /**
+     * Creates a topicname for the given {@link GiraOneDataPoint}. The
+     * @return returns a topicname in format of {prefix}/{channel}/{datapointId}
+     */
     public Optional<GiraOneDataPoint> giraOneDataPointOf(String topic) {
-        Optional<ImmutablePair<String, GiraOneDataPoint>> pair = this.dataPointTopicPairs.stream().filter(p -> topic.equals(p.left)).findFirst();
-        if (pair.isPresent()) {
-            return Optional.of(pair.get().right);
-        }
-        return Optional.empty();
+        GiraOneDataPoint dp = this.dataPointTopicMap.get(topic);
+        return dp != null ? Optional.of(dp) : Optional.empty();
     }
 
 }

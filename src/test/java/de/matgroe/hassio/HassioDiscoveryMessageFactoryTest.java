@@ -16,14 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.matgroe.mqtt;
+package de.matgroe.hassio;
 
+import de.matgroe.GiraOneMqttApplicationProperties;
 import de.matgroe.SpringTestConfiguration;
-import de.matgroe.giraone.GiraOneClientConfiguration;
+import de.matgroe.giraone.GiraOneClientProperties;
 import de.matgroe.giraone.client.GiraOneClient;
 import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
-import de.matgroe.mqtt.types.Device;
-import de.matgroe.mqtt.types.Origin;
+import de.matgroe.hassio.types.Device;
+import de.matgroe.hassio.types.Origin;
+import de.matgroe.mqtt.MqttClientProperties;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,33 +39,33 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
- * Testclass for MqttDiscoveryMessageFactory
+ * Testclass for HassioDiscoveryMessageFactory
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(useMainMethod = SpringBootTest.UseMainMethod.NEVER)
 @ComponentScan("de.matgroe")
-@ContextConfiguration(classes = {SpringTestConfiguration.class, GiraOneClientConfiguration.class, MqttConfiguration.class})
-public class MqttDiscoveryMessageFactoryTest {
+@ContextConfiguration(classes = {SpringTestConfiguration.class, GiraOneClientProperties.class, MqttClientProperties.class, GiraOneMqttApplicationProperties.class})
+public class HassioDiscoveryMessageFactoryTest {
 
     @Autowired
-    MqttConfiguration mqttConfiguration;
+    GiraOneMqttApplicationProperties applicationProperties;
 
     @Autowired
     GiraOneClient giraOneClient;
 
-    MqttDiscoveryMessageFactory factory;
+    HassioDiscoveryMessageFactory factory;
 
     @BeforeEach
     void setUp() {
-        factory= new MqttDiscoveryMessageFactory(mqttConfiguration, giraOneClient);
+        factory= new HassioDiscoveryMessageFactory(applicationProperties, giraOneClient.lookupGiraOneDeviceConfiguration());
     }
 
     @Test
-    @DisplayName("Should map applications MqttConfiguration  to MQTT-Origin")
+    @DisplayName("Should map applications MqttClientProperties  to MQTT-Origin")
     void testCreateOrigin() {
-        Origin o = factory.createOrigin(mqttConfiguration);
-        assertEquals(o.getName(), mqttConfiguration.getApplicationName());
-        assertEquals(o.getSupportUrl(), mqttConfiguration.getApplicationUrl());
+        Origin o = factory.createOrigin(applicationProperties);
+        assertEquals(o.getName(), applicationProperties.getName());
+        assertEquals(o.getSupportUrl(), applicationProperties.getUrl());
     }
 
     @Test

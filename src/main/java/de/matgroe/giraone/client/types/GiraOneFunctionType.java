@@ -33,6 +33,7 @@ public enum GiraOneFunctionType {
     Status("de.gira.schema.functions.NumericFloatStatus"),
     Scene("de.gira.schema.functions.FunctionScene"),
     Switch("de.gira.schema.functions.Switch"),
+    HueLight("de.gira.schema.functions.Hue.Light"),
     Unknown("Unknown");
 
     private final String name;

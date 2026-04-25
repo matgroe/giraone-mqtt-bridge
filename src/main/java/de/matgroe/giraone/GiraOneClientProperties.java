@@ -18,15 +18,13 @@
 package de.matgroe.giraone;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
 @ConfigurationProperties(prefix="giraone")
-public class GiraOneClientConfiguration {
+public class GiraOneClientProperties {
 
     @Value("${giraone.server}")
     @NotEmpty

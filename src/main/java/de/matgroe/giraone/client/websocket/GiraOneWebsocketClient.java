@@ -25,7 +25,7 @@ import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import io.reactivex.rxjava3.subjects.ReplaySubject;
 import io.reactivex.rxjava3.subjects.Subject;
-import de.matgroe.giraone.GiraOneClientConfiguration;
+import de.matgroe.giraone.GiraOneClientProperties;
 import de.matgroe.giraone.client.GiraOneClientConnectionState;
 import de.matgroe.giraone.client.GiraOneClientException;
 import de.matgroe.giraone.client.GiraOneCommand;
@@ -102,12 +102,12 @@ public class GiraOneWebsocketClient {
     /**
      * Constructor
      *
-     * @param config A {@link GiraOneClientConfiguration} object
+     * @param config A {@link GiraOneClientProperties} object
      */
-    public GiraOneWebsocketClient(final GiraOneClientConfiguration config) {
-        Objects.requireNonNull(config.hostname, "GiraOneClientConfiguration 'hostname' must not be null");
-        Objects.requireNonNull(config.username, "GiraOneClientConfiguration 'username' must not be null");
-        Objects.requireNonNull(config.password, "GiraOneClientConfiguration 'password' must not be null");
+    public GiraOneWebsocketClient(final GiraOneClientProperties config) {
+        Objects.requireNonNull(config.hostname, "GiraOneClientProperties 'hostname' must not be null");
+        Objects.requireNonNull(config.username, "GiraOneClientProperties 'username' must not be null");
+        Objects.requireNonNull(config.password, "GiraOneClientProperties 'password' must not be null");
 
         this.gson = GiraOneTypeMapperFactory.createGson();
         this.giraOneWssEndpoint = String.format(TEMPLATE_WEBSOCKET_URL, config.hostname,
@@ -153,7 +153,7 @@ public class GiraOneWebsocketClient {
         if (connectionState.getValue() != GiraOneWebsocketConnectionState.Disconnected) {
             this.disconnect();
         }
-        logger.debug("Connecting to {}", this.giraOneWssEndpoint);
+        logger.info("Connecting to {}", this.giraOneWssEndpoint);
         observeAndEmitDataPointValues();
         this.initiateWebsocketSession();
     }
@@ -180,13 +180,13 @@ public class GiraOneWebsocketClient {
     void observeAndEmitDataPointValues() {
         // dispose existing observable
         dataPointDisposable.dispose();
-
         // and create a new one
         dataPointDisposable = Observable
                 .merge(this.responses.filter(this::isGetValueResponse).map(this::createGiraOneValue),
-                        this.events.filter(e -> e.getId() > 0).map(this::createGiraOneValue))
-                .retry().subscribe(this.values::onNext, this::onSubscriptionError);
+                        this.events.map(this::createGiraOneValue))
+                        .retry().subscribe(this.values::onNext, this::onSubscriptionError);
     }
+
 
     private boolean isGetValueResponse(GiraOneWebsocketResponse response) {
         return response.getRequestServerCommand().getCommand() instanceof GetValue;
@@ -259,11 +259,11 @@ public class GiraOneWebsocketClient {
     }
 
     public Disposable subscribeOnConnectionState(Consumer<GiraOneWebsocketConnectionState> onNext) {
-        return this.connectionState.subscribe(onNext);
+        return this.connectionState.distinctUntilChanged().subscribe(onNext, this::onSubscriptionError);
     }
 
     public Disposable subscribeOnGiraOneValues(Consumer<GiraOneValue> onNext) {
-        return this.values.retry().subscribe(onNext, this::onSubscriptionError);
+        return this.values.subscribe(onNext);
     }
 
     public Disposable subscribeOnGiraOneClientExceptions(Consumer<GiraOneClientException> onNext) {
@@ -326,7 +326,7 @@ public class GiraOneWebsocketClient {
     }
 
     public void onWebSocketText(String message) {
-        logger.trace("Received Message :: {}", message);
+        logger.debug("Received Message :: {}", message);
         GiraOneMessageType type = Objects.requireNonNullElse(gson.fromJson(message, GiraOneMessageType.class),
                 GiraOneMessageType.Invalid);
         switch (type) {

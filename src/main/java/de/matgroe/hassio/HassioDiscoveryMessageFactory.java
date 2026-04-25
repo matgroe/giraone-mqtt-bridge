@@ -16,44 +16,44 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.matgroe.mqtt;
+package de.matgroe.hassio;
 
-import de.matgroe.giraone.client.GiraOneClient;
+import de.matgroe.GiraOneMqttApplicationProperties;
 import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
-import de.matgroe.mqtt.types.Device;
-import de.matgroe.mqtt.types.DiscoveryMessage;
-import de.matgroe.mqtt.types.Origin;
+import de.matgroe.hassio.types.Device;
+import de.matgroe.hassio.types.DiscoveryMessage;
+import de.matgroe.hassio.types.Origin;
 
 /**
  * This class is responsible to create the
  */
-class MqttDiscoveryMessageFactory {
-    private GiraOneClient giraOneClient;
-    private MqttConfiguration mqttConfiguration;
+public class HassioDiscoveryMessageFactory {
+    private GiraOneDeviceConfiguration giraOneDeviceConfiguration;
+    private GiraOneMqttApplicationProperties applicationProperties;
 
-    public MqttDiscoveryMessageFactory(MqttConfiguration mqttConfiguration, GiraOneClient giraOneClient) {
-        this.giraOneClient = giraOneClient;
-        this.mqttConfiguration = mqttConfiguration;
+    public HassioDiscoveryMessageFactory(GiraOneMqttApplicationProperties applicationProperties, GiraOneDeviceConfiguration giraOneDeviceConfiguration) {
+        this.giraOneDeviceConfiguration = giraOneDeviceConfiguration;
+        this.applicationProperties = applicationProperties;
     }
 
     public String createDiscoveryTopic() {
         return String.format("homeassistant/device/%s/config",
-                giraOneClient.lookupGiraOneDeviceConfiguration().get(GiraOneDeviceConfiguration.SERIAL_NUMBER)
+                giraOneDeviceConfiguration.get(GiraOneDeviceConfiguration.SERIAL_NUMBER)
         );
     }
 
     public DiscoveryMessage createDiscoveryMessage() {
         DiscoveryMessage ddm = new DiscoveryMessage();
-        ddm.setOrigin(createOrigin(mqttConfiguration));
-        ddm.setDevice(createDevice(giraOneClient.lookupGiraOneDeviceConfiguration()));
+        ddm.setOrigin(createOrigin(applicationProperties));
+        ddm.setDevice(createDevice(giraOneDeviceConfiguration));
         return ddm;
     }
 
-    Origin createOrigin(MqttConfiguration mqttConfiguration) {
+    Origin createOrigin(GiraOneMqttApplicationProperties mqttClientProperties) {
         Origin origin = new Origin();
-        origin.setName(mqttConfiguration.getApplicationName());
+        origin.setName(mqttClientProperties.getName());
         origin.setSwVersion("123454");
-        origin.setSupportUrl(mqttConfiguration.getApplicationUrl());
+        origin.setSupportUrl(mqttClientProperties.getUrl());
         return origin;
     }
 

@@ -46,21 +46,22 @@ public class GiraOneMqttApplication implements CommandLineRunner {
     private static void dumpEnvironmentInfo(String... args) {
         Logger logger = LoggerFactory.getLogger(GiraOneMqttApplication.class);
         for (String arg : args) {
-            logger.info("Argument: {}", arg);
+            logger.debug("Argument: {}", arg);
         }
 
         Map<String, String> env = System.getenv();
         for (String envName : env.keySet()) {
-            logger.info("Environment: {}={}", envName, env.get(envName));
+            logger.debug("Environment: {}={}", envName, env.get(envName));
         }
 
     }
 
     public void run(String... args) throws Exception {
         dumpEnvironmentInfo(args);
-        do {
-            theBridge.run();
-            Thread.sleep(1000);
+        theBridge.run();
+         {
+            Thread.sleep(2000);
         } while (theBridge.isExecuteable());
+        System.exit(1);
     }
 }
