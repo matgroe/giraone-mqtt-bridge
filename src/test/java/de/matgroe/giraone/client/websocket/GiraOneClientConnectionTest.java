@@ -17,7 +17,7 @@
  */
 package de.matgroe.giraone.client.websocket;
 
-import de.matgroe.giraone.GiraOneClientConfiguration;
+import de.matgroe.giraone.GiraOneClientProperties;
 import de.matgroe.giraone.client.GiraOneClientConnectionState;
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import static org.awaitility.Awaitility.await;
@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  */
 @Disabled
 public class GiraOneClientConnectionTest {
-    private GiraOneClientConfiguration configuration = new GiraOneClientConfiguration();
+    private GiraOneClientProperties configuration = new GiraOneClientProperties();
     private GiraOneWebsocketClient giraClient = new GiraOneWebsocketClient(configuration);
 
     @BeforeEach

@@ -18,11 +18,10 @@
 package de.matgroe.giraone.client.webservice;
 
 import com.google.gson.JsonParser;
-import de.matgroe.giraone.GiraOneClientConfiguration;
+import de.matgroe.giraone.GiraOneClientProperties;
 import de.matgroe.giraone.client.GiraOneCommunicationException;
 import de.matgroe.giraone.client.types.GiraOneComponentCollection;
 import de.matgroe.giraone.client.types.GiraOneComponentType;
-import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.websocket.GiraOneWebsocketSequence;
 import de.matgroe.util.ResourceLoader;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,13 +42,13 @@ import static org.mockito.Mockito.verify;
  */
 class GiraOneWebserviceClientTest {
     private GiraOneWebserviceClient giraOneWebserviceClient;
-    private GiraOneClientConfiguration configuration;
+    private GiraOneClientProperties configuration;
 
     @BeforeEach
     void setUp() {
         GiraOneWebsocketSequence.reset();
 
-        configuration = new GiraOneClientConfiguration();
+        configuration = new GiraOneClientProperties();
         configuration.username = "User";
         configuration.password = "passowrd";
         configuration.hostname = "localhost";

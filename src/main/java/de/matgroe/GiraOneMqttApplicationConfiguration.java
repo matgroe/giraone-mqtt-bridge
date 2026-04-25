@@ -17,29 +17,25 @@
  */
 package de.matgroe;
 
-import de.matgroe.giraone.GiraOneClientConfiguration;
+import de.matgroe.giraone.GiraOneClientProperties;
 import de.matgroe.giraone.client.GiraOneClient;
 import de.matgroe.mqtt.MqttClient;
-import de.matgroe.mqtt.MqttConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import de.matgroe.mqtt.MqttClientProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableConfigurationProperties({GiraOneClientConfiguration.class, MqttConfiguration.class})
+@EnableConfigurationProperties({GiraOneMqttApplicationProperties.class, GiraOneClientProperties.class, MqttClientProperties.class})
 public class GiraOneMqttApplicationConfiguration {
 
     @Bean
-    GiraOneClient createGiraOneClient(GiraOneClientConfiguration giraOneClientConfiguration) {
-        return new GiraOneClient(giraOneClientConfiguration);
+    GiraOneClient createGiraOneClient(GiraOneClientProperties giraOneClientProperties) {
+        return new GiraOneClient(giraOneClientProperties);
     }
 
     @Bean
-    MqttClient createGiraOneMqttBridge(MqttConfiguration mqttConfiguration, GiraOneClient giraOneClient) {
-        return new MqttClient(mqttConfiguration, giraOneClient);
+    MqttClient createGiraOneMqttBridge(MqttClientProperties mqttClientProperties) {
+        return new MqttClient(mqttClientProperties);
     }
 }

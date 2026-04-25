@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.matgroe.mqtt;
+package de.matgroe.hassio;
 
 import de.matgroe.giraone.GiraOneTestDataProvider;
 import de.matgroe.giraone.client.GiraOneClient;
@@ -27,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -35,29 +34,29 @@ import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * Testclass for @{@link MqttTopicNameMapper}
+ * Testclass for @{@link HassioTopicNameMapper}
  */
 
-public class MqttTopicNameMapperTest {
-    private final Logger logger = LoggerFactory.getLogger(MqttTopicNameMapperTest.class);
+public class HassioTopicNameMapperTest {
+    private final Logger logger = LoggerFactory.getLogger(HassioTopicNameMapperTest.class);
 
     static GiraOneClient giraOneClient = Mockito.mock(GiraOneClient.class);
 
     GiraOneProject giraOneProject;
 
-    MqttTopicNameMapper creator = new MqttTopicNameMapper("g1-junit");
+    static HassioTopicNameMapper creator;
 
     @BeforeAll
     static void init() {
         when(giraOneClient.getGiraOneProject()).thenReturn(GiraOneTestDataProvider.createGiraOneProject());
         when(giraOneClient.lookupGiraOneDeviceConfiguration()).thenReturn(GiraOneTestDataProvider.createGiraOneDeviceConfiguration());
+
+        creator = new HassioTopicNameMapper("g1-junit", giraOneClient.getGiraOneProject());
     }
 
     @BeforeEach
@@ -435,13 +434,25 @@ public class MqttTopicNameMapperTest {
         );
     }
 
-    @DisplayName("should generate topic name")
+    @DisplayName("should generate topic name from GiraOneDataPoint")
     @ParameterizedTest
     @MethodSource("providePairTopicNameOfChannelAndDataPoint")
-    void createTopicName(String dpUrn, String expectedTopicName) {
+    void topicNameFromDatapoint(String dpUrn, String expectedTopicName) {
         Optional<GiraOneDataPoint> dp = giraOneProject.lookupGiraOneDataPoint(dpUrn);
         if (dp.isPresent()) {
             assertEquals(expectedTopicName, creator.topicNameOf(dp.get()));
+        } else {
+            fail("Invaid combination of channelUrn and dataPointUrn given");
+        }
+    }
+
+    @DisplayName("should generate GiraOneDataPoint from topic name")
+    @ParameterizedTest
+    @MethodSource("providePairTopicNameOfChannelAndDataPoint")
+    void topicDatapointFromTopicName(String dpUrn, String topicName) {
+        Optional<GiraOneDataPoint> dp = creator.giraOneDataPointOf(topicName);
+        if (dp.isPresent()) {
+            assertEquals(dpUrn, dp.get().toString());
         } else {
             fail("Invaid combination of channelUrn and dataPointUrn given");
         }

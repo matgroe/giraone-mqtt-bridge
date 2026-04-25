@@ -145,7 +145,7 @@ abstract class GiraOneWebsocketEndpoint {
      * @return A {@link Disposable}
      */
     public final Disposable subscribeOnConnectionState(Consumer<GiraOneWebsocketConnectionState> stateConsumer) {
-        return this.endpointConnectionState.subscribe(stateConsumer);
+        return this.endpointConnectionState.distinctUntilChanged().subscribe(stateConsumer);
     }
 
     /**

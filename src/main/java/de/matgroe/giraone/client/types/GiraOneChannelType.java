@@ -32,6 +32,7 @@ public enum GiraOneChannelType {
     Function("de.gira.schema.channels.FunctionScene"),
     Heating("de.gira.schema.channels.KNX.HeatingCoolingSwitchable"),
     Trigger("de.gira.schema.channels.Trigger"),
+    HueLight("de.gira.schema.channels.Hue.Light"),
 
     Unknown("Unknown");
 

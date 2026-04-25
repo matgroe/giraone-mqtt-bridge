@@ -21,7 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import de.matgroe.giraone.GiraOneClientConfiguration;
+import de.matgroe.giraone.GiraOneClientProperties;
 import de.matgroe.giraone.client.GiraOneClientException;
 import de.matgroe.giraone.client.GiraOneCommand;
 import de.matgroe.giraone.client.GiraOneCommandResponse;
@@ -60,7 +60,7 @@ public class GiraOneWebserviceClient {
     private static final String TEMPLATE_WEBSERVICE_URL = "http://%s/webservice";
 
     private final Logger logger = LoggerFactory.getLogger(GiraOneWebserviceClient.class);
-    private final GiraOneClientConfiguration clientConfiguration;
+    private final GiraOneClientProperties clientConfiguration;
     private final HttpClient.Builder clientBuilder;
     private final URI webserviceUri;
     private final Gson gson;
@@ -68,12 +68,12 @@ public class GiraOneWebserviceClient {
     /**
      * Constructor
      *
-     * @param config A {@link GiraOneClientConfiguration} object
+     * @param config A {@link GiraOneClientProperties} object
      */
-    public GiraOneWebserviceClient(final GiraOneClientConfiguration config) {
-        Objects.requireNonNull(config.hostname, "GiraOneClientConfiguration 'hostname' must not be null");
-        Objects.requireNonNull(config.username, "GiraOneClientConfiguration 'username' must not be null");
-        Objects.requireNonNull(config.password, "GiraOneClientConfiguration 'password' must not be null");
+    public GiraOneWebserviceClient(final GiraOneClientProperties config) {
+        Objects.requireNonNull(config.hostname, "GiraOneClientProperties 'hostname' must not be null");
+        Objects.requireNonNull(config.username, "GiraOneClientProperties 'username' must not be null");
+        Objects.requireNonNull(config.password, "GiraOneClientProperties 'password' must not be null");
         this.clientConfiguration = config;
         this.gson = GiraOneTypeMapperFactory.createGson();
         this.clientBuilder = HttpClient.newBuilder().cookieHandler(new CookieManager(null, CookiePolicy.ACCEPT_ALL))

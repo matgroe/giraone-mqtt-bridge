@@ -1,24 +1,24 @@
-package de.matgroe.mqtt;
+package de.matgroe.hassio;
 
 import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneChannelTypeId;
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
-import de.matgroe.mqtt.types.Component;
-import de.matgroe.mqtt.types.Sensor;
+import de.matgroe.hassio.types.Component;
+import de.matgroe.hassio.types.Sensor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Optional;
 
-public class MqttComponentFactory {
+public class HassioComponentFactory {
     private static final String DATAPOINT_TEMPERATURE = "Temperature";
     private static final String DATAPOINT_HUMIDITY = "HumidityStatus";
 
-    private Logger logger = LoggerFactory.getLogger(MqttComponentFactory.class);
-    private final MqttTopicNameMapper mqttTopicNameMapper;
+    private Logger logger = LoggerFactory.getLogger(HassioComponentFactory.class);
+    private final HassioTopicNameMapper hassioTopicNameMapper;
 
-    public MqttComponentFactory(MqttTopicNameMapper mqttTopicNameMapper) {
-        this.mqttTopicNameMapper = mqttTopicNameMapper;
+    public HassioComponentFactory(HassioTopicNameMapper hassioTopicNameMapper) {
+        this.hassioTopicNameMapper = hassioTopicNameMapper;
     }
 
     public Component from(GiraOneChannel channel) {
@@ -48,7 +48,7 @@ public class MqttComponentFactory {
             s.setUnitOfMeasurement("°C");
             datapoint = channel.getDatapoint(DATAPOINT_TEMPERATURE);
         }
-        datapoint.ifPresent(dataPoint -> s.setStateTopic(mqttTopicNameMapper.topicNameOf(dataPoint)));
+        datapoint.ifPresent(dataPoint -> s.setStateTopic(hassioTopicNameMapper.topicNameOf(dataPoint)));
         return s;
     }
 }

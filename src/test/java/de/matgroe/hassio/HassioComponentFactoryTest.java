@@ -16,13 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.matgroe.mqtt;
+package de.matgroe.hassio;
 
 import de.matgroe.giraone.GiraOneTestDataProvider;
 import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneProject;
-import de.matgroe.mqtt.types.Component;
-import de.matgroe.mqtt.types.Sensor;
+import de.matgroe.hassio.types.Component;
+import de.matgroe.hassio.types.Sensor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -33,21 +33,21 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 /**
- * Test class for {@link MqttComponentFactory}
+ * Test class for {@link HassioComponentFactory}
  *
  * @author Matthias Groeger - Initial contribution
  */
 
-public class MqttComponentFactoryTest {
+public class HassioComponentFactoryTest {
 
     private GiraOneProject project;
 
-    private MqttComponentFactory mqttComponentFactory;
+    private HassioComponentFactory hassioComponentFactory;
 
     @BeforeEach
     void setUp() {
         project = GiraOneTestDataProvider.createGiraOneProject();
-        mqttComponentFactory = new MqttComponentFactory(new MqttTopicNameMapper("junit"));
+        hassioComponentFactory = new HassioComponentFactory(new HassioTopicNameMapper("junit", project));
     }
 
     @Test
@@ -55,7 +55,7 @@ public class MqttComponentFactoryTest {
     void testTemperatureStatusChannel() {
         Optional<GiraOneChannel> channel = project.lookupChannelByUrn("urn:gds:chv:NumericFloatingPointStatus-Float-16");
         channel.ifPresentOrElse((ch) -> {
-            Component component = mqttComponentFactory.from(ch);
+            Component component = hassioComponentFactory.from(ch);
             assertInstanceOf(Sensor.class, component);
             assertEquals("temperature", component.getDeviceClass());
         }, () -> fail("Channel not found in project"));
@@ -66,7 +66,7 @@ public class MqttComponentFactoryTest {
     void testHumidityStatusChannel() {
         Optional<GiraOneChannel> channel = project.lookupChannelByUrn("urn:gds:chv:NumericFloatingPointStatus-Float-1");
         channel.ifPresentOrElse(ch -> {
-            Component component = mqttComponentFactory.from(ch);
+            Component component = hassioComponentFactory.from(ch);
             assertInstanceOf(Sensor.class, component);
             assertEquals("humidity", component.getDeviceClass());
         }, () -> fail("Channel not found in project"));
