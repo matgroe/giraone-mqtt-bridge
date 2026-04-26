@@ -239,7 +239,7 @@ public class GiraOneMqttBridge {
      * @param mqttMessage
      */
     private void onMqttMessage(MqttMessage mqttMessage) {
-        logger.info("onMqttMessage : {}", mqttMessage);
+        logger.info("Received MqttMessage:: {}", mqttMessage);
     }
 
     /**
@@ -247,9 +247,10 @@ public class GiraOneMqttBridge {
      * @param giraOneValue
      */
     void onGiraOneValue(GiraOneValue giraOneValue) {
-        logger.info("onGiraOneValue :: {}", giraOneValue);
         String topic = hassioTopicNameMapper.topicNameOf(giraOneValue.getGiraOneDataPoint());
-        mqttClient.publish(new MqttMessage(topic, giraOneValue.getValue()));
+        MqttMessage mqttMessage = new MqttMessage(topic, giraOneValue.getValue());
+        logger.info("Publishing MqttMessage:: {}", mqttMessage);
+        mqttClient.publish(mqttMessage);
     }
 
     public Disposable subscribeOnGiraOneDataPointValues(final String deviceUrnPattern, Consumer<GiraOneValue> consumer) {

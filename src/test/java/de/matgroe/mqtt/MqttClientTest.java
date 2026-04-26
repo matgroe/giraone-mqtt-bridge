@@ -18,6 +18,9 @@
 
 package de.matgroe.mqtt;
 
+import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
+import com.hivemq.client.mqtt.mqtt5.message.connect.Mqtt5ConnectBuilderBase;
+import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAck;
 import de.matgroe.giraone.client.GiraOneClient;
 import static org.awaitility.Awaitility.await;
 import static org.awaitility.Duration.ONE_MINUTE;
@@ -25,7 +28,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 /**
  * Test class for {@link MqttClient}
@@ -33,9 +38,10 @@ import org.mockito.Mockito;
  * @author Matthias Groeger - Initial contribution
  */
 @Disabled
-public class MqttClientTest {
+class MqttClientTest {
 
     MqttClient mqttClient;
+    Mqtt5AsyncClient mqtt5ClientMock = mock(Mqtt5AsyncClient.class);
 
     @BeforeEach
     void setUp() {
@@ -45,8 +51,8 @@ public class MqttClientTest {
         mqttClientProperties.username = "mqtt-dev";
         mqttClientProperties.password = "mqtt-pass";
 
-        GiraOneClient giraOneClient = Mockito.mock(GiraOneClient.class);
-        mqttClient = new MqttClient(mqttClientProperties);
+        mqttClient = spy(new MqttClient(mqttClientProperties));
+        when(mqttClient.buildMqtt5Client()).thenReturn(mqtt5ClientMock);
     }
 
     @Test

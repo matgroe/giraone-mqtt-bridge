@@ -18,7 +18,10 @@
 package de.matgroe.mqtt;
 
 import com.hivemq.client.mqtt.datatypes.MqttQos;
+import com.hivemq.client.mqtt.datatypes.MqttUtf8String;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
+import com.hivemq.client.mqtt.mqtt5.datatypes.Mqtt5UserProperties;
+import com.hivemq.client.mqtt.mqtt5.datatypes.Mqtt5UserProperty;
 import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAck;
 import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAckReasonCode;
 import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5Publish;
@@ -33,9 +36,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import java.util.UUID;
 
 public class MqttClient {
+    private static final String CLIENT_ID = "client-id";
+    private static final String MESSAGE_ID = "message-id";
+
     private final Logger logger = LoggerFactory.getLogger(MqttClient.class);
 
     /** Observe this subject for MQTT Broker connection state */
@@ -47,6 +54,8 @@ public class MqttClient {
     private final MqttClientProperties mqttClientProperties;
 
     private String topicNamePrefix = "";
+
+    private String clientIdentifier = UUID.randomUUID().toString();
 
     Mqtt5AsyncClient mqtt5Client;
 
@@ -105,6 +114,29 @@ public class MqttClient {
         return inboundQueue.subscribe(consumer);
     }
 
+    /**
+     * Build an {@link Mqtt5AsyncClient} to be used in this class.
+     *
+     * @return Mqtt5AsyncClient
+     */
+    Mqtt5AsyncClient buildMqtt5Client() {
+        return com.hivemq.client.mqtt.MqttClient.builder()
+                .useMqttVersion5()
+                .identifier(UUID.randomUUID().toString())
+                .serverHost(mqttClientProperties.getMqttBroker())
+                .serverPort(mqttClientProperties.getMqttPort())
+                .buildAsync();
+    }
+
+    /**
+     *  Disconnects from  MQTT Broker if connected.
+     */
+    public void disonnect() {
+        if (this.mqtt5Client != null) {
+            this.mqtt5Client.disconnect();
+            this.mqtt5Client = null;
+        }
+    }
 
     /**
      *  Connects to the MQTT Broker as given within the {@link MqttClientProperties} object.
@@ -113,14 +145,11 @@ public class MqttClient {
         this.topicNamePrefix = topicNamePrefix;
         disconnect();
         this.connectionState.onNext(MqttClientConnectionState.Connecting);
-        mqtt5Client = com.hivemq.client.mqtt.MqttClient.builder()
-                .useMqttVersion5()
-                .identifier(UUID.randomUUID().toString())
-                .serverHost(mqttClientProperties.getMqttBroker())
-                .serverPort(mqttClientProperties.getMqttPort())
-                .buildAsync();
-
+        mqtt5Client = buildMqtt5Client();
         mqtt5Client.connectWith()
+                .noSessionExpiry()
+                .keepAlive(mqttClientProperties.keepAlive)
+                .userProperties().add(CLIENT_ID, clientIdentifier).applyUserProperties()
                 .simpleAuth()
                 .username(mqttClientProperties.getUsername())
                 .password(mqttClientProperties.getPassword().getBytes())
@@ -139,48 +168,58 @@ public class MqttClient {
                 });
     }
 
+    private String getUserPropertyValue(Mqtt5UserProperties userproperties, String propertyName) {
+        Optional<? extends Mqtt5UserProperty> mqttProp = userproperties.asList().stream().filter(p-> MqttUtf8String.of(propertyName).equals(p.getName())).findFirst();
+        return mqttProp.map(mqtt5UserProperty -> mqtt5UserProperty.getValue().toString()).orElse(null);
+    }
 
+    private MqttMessage createMqttMessage(Mqtt5Publish mqtt5Publish) {
+        String messageId = getUserPropertyValue(mqtt5Publish.getUserProperties(), MESSAGE_ID);
+        String payload = StandardCharsets.UTF_8.decode(mqtt5Publish.getPayload().orElse(ByteBuffer.wrap(new byte[0]))).toString();
+        return new MqttMessage(mqtt5Publish.getTopic(), payload, messageId);
+        }
 
-    private void onMessageReceived(Mqtt5Publish mqtt5Publish) {
+    void onMessageReceived(Mqtt5Publish mqtt5Publish) {
         try {
-            mqtt5Publish.getPayload().ifPresentOrElse((ByteBuffer byteBuffer) -> {
-                String payload = StandardCharsets.UTF_8.decode(byteBuffer).toString();
-                logger.info("received from topic: '{}'. Payload: '{}'", mqtt5Publish.getTopic(), payload);
-                this.inboundQueue.onNext(new MqttMessage(mqtt5Publish.getTopic(), payload));
-            }, () -> {
-                logger.info("received from topic: '{}'. {Empty Payload}", mqtt5Publish.getTopic());
-                this.inboundQueue.onNext(new MqttMessage(mqtt5Publish.getTopic(), null));
-            });
+            String clientId = getUserPropertyValue(mqtt5Publish.getUserProperties(), CLIENT_ID);
+            MqttMessage mqttMessage = createMqttMessage(mqtt5Publish);
+            if (clientIdentifier.equals(clientId)) {
+                logger.debug("dropping self published message '{}' at '{}'", mqttMessage.messageId(), mqttMessage.topic());
+            } else {
+                logger.debug("received at topic: '{}'", mqttMessage);
+                this.inboundQueue.onNext(mqttMessage);
+            }
         } catch (Throwable throwable) {
             logger.warn("Something went wrong on processing received payload.", throwable);
         }
     }
 
     public void publish(MqttMessage message) {
-        if (this.connectionState.getValue() == MqttClientConnectionState.Connected) {
-            logger.info("Publishing MqttMessage: {}", message);
-            publish(message.getTopic(), message.getPayload());
-        } else {
-            logger.warn("MQTT is not fully connected, ignoring message {}", message);
-        }
-    }
-
-    void publish(final String topic, final String payload) {
-        if (mqtt5Client == null || !mqtt5Client.getState().isConnected()) {
-            logger.info("MQTT is not connected, skip publish message '{}' to {}", payload,topic);
+        if (message == null) {
+            logger.warn("Cannot send empty message");
             return;
         }
-        logger.debug("Publish to topic: '{}' with payload: '{}'", topic, payload);
+
+        if (mqtt5Client == null || !mqtt5Client.getState().isConnected() || this.connectionState.getValue() != MqttClientConnectionState.Connected) {
+            logger.warn("MQTT is not fully connected, ignoring message {}", message);
+            return;
+        }
+
+        logger.debug("Publishing {}", message);
         mqtt5Client.publishWith()
-                .topic(topic)
-                .payload(payload.getBytes())
+                .topic(message.topic())
+                .payload(message.payload().getBytes())
+                .userProperties()
+                    .add(CLIENT_ID, clientIdentifier)
+                    .add(MESSAGE_ID, message.messageId())
+                    .applyUserProperties()
                 .qos(MqttQos.AT_LEAST_ONCE)
                 .send()
                 .whenComplete((Mqtt5PublishResult mqttPublishResult, Throwable throwable) -> {
                     if (throwable != null) {
                         logger.error("publish; ", throwable);
                     } else {
-                        logger.info("publish {}", mqttPublishResult);
+                        logger.debug("publish {}", mqttPublishResult);
                     }
                 });
     }

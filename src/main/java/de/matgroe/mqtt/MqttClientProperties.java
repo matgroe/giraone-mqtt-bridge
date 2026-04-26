@@ -45,6 +45,11 @@ public class MqttClientProperties {
     @Max(65655)
     int mqttPort;
 
+    @Value("${mqtt.keepalive:60}")
+    @Min(60)
+    @Max(3600)
+    int keepAlive;
+
     public String getUsername() {
         return username;
     }
