@@ -55,6 +55,14 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>de/matgroe/GiraOneMqttApplication.class</exclude>
+                        <exclude>de/matgroe/GiraOneMqttApplicationConfiguration.class</exclude>
+                        <exclude>de/matgroe/hassio/types/**/*.class</exclude>
+                        <exclude>de/matgroe/**/*Properties.class</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>

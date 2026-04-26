@@ -44,10 +44,6 @@ public class MqttClient {
 
   private final Logger logger = LoggerFactory.getLogger(MqttClient.class);
 
-  /** Observe this subject for MQTT Broker connection state */
-  private final ReplaySubject<MqttClientConnectionState> connectionState =
-      ReplaySubject.createWithSize(1);
-
   /** this subject receives the incoming messages from {@link MqttClient} */
   private final Subject<MqttMessage> inboundQueue = PublishSubject.create();
 
@@ -56,6 +52,9 @@ public class MqttClient {
   private String topicNamePrefix = "";
 
   private String clientIdentifier = UUID.randomUUID().toString();
+
+  /** Observe this subject for MQTT Broker connection state */
+  final ReplaySubject<MqttClientConnectionState> connectionState = ReplaySubject.createWithSize(1);
 
   Mqtt5AsyncClient mqtt5Client;
 
@@ -68,7 +67,7 @@ public class MqttClient {
   private void onConnectionStateChanged(MqttClientConnectionState mqttClientConnectionState) {
     logger.debug("MqttClientConnectionState changed to {}", mqttClientConnectionState);
     String topicFilter = String.format("%s/#", topicNamePrefix);
-    if (mqttClientConnectionState == MqttClientConnectionState.Connected) {
+    if (mqttClientConnectionState == MqttClientConnectionState.Connected && mqtt5Client != null) {
       mqtt5Client.subscribeWith().topicFilter(topicFilter).callback(this::onMessageReceived).send();
     } else {
       if (mqtt5Client != null) {
@@ -147,9 +146,6 @@ public class MqttClient {
         .connectWith()
         .noSessionExpiry()
         .keepAlive(mqttClientProperties.keepAlive)
-        .userProperties()
-        .add(CLIENT_ID, clientIdentifier)
-        .applyUserProperties()
         .simpleAuth()
         .username(mqttClientProperties.getUsername())
         .password(mqttClientProperties.getPassword().getBytes())
@@ -159,9 +155,10 @@ public class MqttClient {
             (Mqtt5ConnAck connAck, Throwable throwable) -> {
               if (connAck != null) {
                 logger.debug("MQTT Connect Completes with :: {}", connAck);
-                if (connAck.getReasonCode() == Mqtt5ConnAckReasonCode.SUCCESS) {
-                  this.connectionState.onNext(MqttClientConnectionState.Connected);
-                }
+                this.connectionState.onNext(
+                    connAck.getReasonCode() == Mqtt5ConnAckReasonCode.SUCCESS
+                        ? MqttClientConnectionState.Connected
+                        : MqttClientConnectionState.Error);
               } else {
                 logger.error("Establish connection to MQTT-Broker failed.", throwable);
                 this.connectionState.onNext(MqttClientConnectionState.Error);
