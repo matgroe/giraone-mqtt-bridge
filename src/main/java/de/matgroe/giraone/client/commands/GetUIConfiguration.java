@@ -22,47 +22,45 @@ import de.matgroe.giraone.client.GiraOneServerCommand;
 import de.matgroe.util.GenericBuilder;
 
 /**
- * {@link GiraOneCommand} for reading the current project configuration
- * from Gira One Server.
+ * {@link GiraOneCommand} for reading the current project configuration from Gira One Server.
  *
  * @author Matthias Gröger - Initial contribution
  */
 @GiraOneServerCommand(name = "GetUIConfiguration", responsePayload = "config")
 public class GetUIConfiguration extends GiraOneCommand {
-    public static GenericBuilder<GetUIConfiguration> builder() {
-        return GenericBuilder.of(GetUIConfiguration::new);
-    }
+  public static GenericBuilder<GetUIConfiguration> builder() {
+    return GenericBuilder.of(GetUIConfiguration::new);
+  }
 
-    private boolean urns = true;
+  private boolean urns = true;
 
-    private String guid = null;
+  private String guid = null;
 
-    private String instanceId = null;
+  private String instanceId = null;
 
-    protected GetUIConfiguration() {
-    }
+  protected GetUIConfiguration() {}
 
-    public boolean withUrns() {
-        return urns;
-    }
+  public boolean withUrns() {
+    return urns;
+  }
 
-    public void withUrns(boolean urns) {
-        this.urns = urns;
-    }
+  public void withUrns(boolean urns) {
+    this.urns = urns;
+  }
 
-    public String getInstanceId() {
-        return instanceId;
-    }
+  public String getInstanceId() {
+    return instanceId;
+  }
 
-    public void setInstanceId(String instanceId) {
-        this.instanceId = instanceId;
-    }
+  public void setInstanceId(String instanceId) {
+    this.instanceId = instanceId;
+  }
 
-    public String getGuid() {
-        return guid;
-    }
+  public String getGuid() {
+    return guid;
+  }
 
-    public void setGuid(String guid) {
-        this.guid = guid;
-    }
+  public void setGuid(String guid) {
+    this.guid = guid;
+  }
 }

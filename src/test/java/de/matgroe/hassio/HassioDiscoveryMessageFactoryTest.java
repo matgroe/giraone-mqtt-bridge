@@ -18,6 +18,9 @@
 
 package de.matgroe.hassio;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import de.matgroe.GiraOneMqttApplicationProperties;
 import de.matgroe.SpringTestConfiguration;
 import de.matgroe.giraone.GiraOneClientProperties;
@@ -26,8 +29,6 @@ import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
 import de.matgroe.hassio.types.Device;
 import de.matgroe.hassio.types.Origin;
 import de.matgroe.mqtt.MqttClientProperties;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,53 +39,56 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-/**
- * Testclass for HassioDiscoveryMessageFactory
- */
+/** Testclass for HassioDiscoveryMessageFactory */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(useMainMethod = SpringBootTest.UseMainMethod.NEVER)
 @ComponentScan("de.matgroe")
-@ContextConfiguration(classes = {SpringTestConfiguration.class, GiraOneClientProperties.class, MqttClientProperties.class, GiraOneMqttApplicationProperties.class})
+@ContextConfiguration(
+    classes = {
+      SpringTestConfiguration.class,
+      GiraOneClientProperties.class,
+      MqttClientProperties.class,
+      GiraOneMqttApplicationProperties.class
+    })
 public class HassioDiscoveryMessageFactoryTest {
 
-    @Autowired
-    GiraOneMqttApplicationProperties applicationProperties;
+  @Autowired GiraOneMqttApplicationProperties applicationProperties;
 
-    @Autowired
-    GiraOneClient giraOneClient;
+  @Autowired GiraOneClient giraOneClient;
 
-    HassioDiscoveryMessageFactory factory;
+  HassioDiscoveryMessageFactory factory;
 
-    @BeforeEach
-    void setUp() {
-        factory= new HassioDiscoveryMessageFactory(applicationProperties, giraOneClient.lookupGiraOneDeviceConfiguration());
-    }
+  @BeforeEach
+  void setUp() {
+    factory =
+        new HassioDiscoveryMessageFactory(
+            applicationProperties, giraOneClient.lookupGiraOneDeviceConfiguration());
+  }
 
-    @Test
-    @DisplayName("Should map applications MqttClientProperties  to MQTT-Origin")
-    void testCreateOrigin() {
-        Origin o = factory.createOrigin(applicationProperties);
-        assertEquals(o.getName(), applicationProperties.getName());
-        assertEquals(o.getSupportUrl(), applicationProperties.getUrl());
-    }
+  @Test
+  @DisplayName("Should map applications MqttClientProperties  to MQTT-Origin")
+  void testCreateOrigin() {
+    Origin o = factory.createOrigin(applicationProperties);
+    assertEquals(o.getName(), applicationProperties.getName());
+    assertEquals(o.getSupportUrl(), applicationProperties.getUrl());
+  }
 
-    @Test
-    @DisplayName("Should map GiraOneDeviceConfiguration to MQTT-Device")
-    void testCreateDevice() {
-        GiraOneDeviceConfiguration cfg = giraOneClient.lookupGiraOneDeviceConfiguration();
-        Device d = factory.createDevice(cfg);
-        assertEquals(cfg.get(GiraOneDeviceConfiguration.DEVICE_NAME), d.getName());
-        assertEquals(cfg.get(GiraOneDeviceConfiguration.SERIAL_NUMBER), d.getSerialNumber());
-        assertEquals(cfg.get(GiraOneDeviceConfiguration.APP_DEVICE_NAME), d.getModel());
-        assertEquals("Gira", d.getManufacturer());
-        assertTrue(d.getIdentifiers().contains(cfg.get(GiraOneDeviceConfiguration.SERIAL_NUMBER)));
+  @Test
+  @DisplayName("Should map GiraOneDeviceConfiguration to MQTT-Device")
+  void testCreateDevice() {
+    GiraOneDeviceConfiguration cfg = giraOneClient.lookupGiraOneDeviceConfiguration();
+    Device d = factory.createDevice(cfg);
+    assertEquals(cfg.get(GiraOneDeviceConfiguration.DEVICE_NAME), d.getName());
+    assertEquals(cfg.get(GiraOneDeviceConfiguration.SERIAL_NUMBER), d.getSerialNumber());
+    assertEquals(cfg.get(GiraOneDeviceConfiguration.APP_DEVICE_NAME), d.getModel());
+    assertEquals("Gira", d.getManufacturer());
+    assertTrue(d.getIdentifiers().contains(cfg.get(GiraOneDeviceConfiguration.SERIAL_NUMBER)));
+  }
 
-    }
-
-    @Test
-    @DisplayName("Should generate correct discovery topic name")
-    void testCreateConfigorationTopicName() {
-        GiraOneDeviceConfiguration cfg = giraOneClient.lookupGiraOneDeviceConfiguration();
-        assertEquals("homeassistant/device/GIOSRVKX0340073A/config", factory.createDiscoveryTopic());
-    }
+  @Test
+  @DisplayName("Should generate correct discovery topic name")
+  void testCreateConfigorationTopicName() {
+    GiraOneDeviceConfiguration cfg = giraOneClient.lookupGiraOneDeviceConfiguration();
+    assertEquals("homeassistant/device/GIOSRVKX0340073A/config", factory.createDiscoveryTopic());
+  }
 }

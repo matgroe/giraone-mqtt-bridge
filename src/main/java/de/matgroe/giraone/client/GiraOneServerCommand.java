@@ -30,16 +30,16 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface GiraOneServerCommand {
-    enum Context {
-        Websocket,
-        Webservice
-    };
+  enum Context {
+    Websocket,
+    Webservice
+  };
 
-    Context context() default Context.Websocket;
+  Context context() default Context.Websocket;
 
-    String name();
+  String name();
 
-    String request() default "";
+  String request() default "";
 
-    String responsePayload() default "";
+  String responsePayload() default "";
 }

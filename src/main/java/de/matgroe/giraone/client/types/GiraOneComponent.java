@@ -16,38 +16,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package de.matgroe.giraone.client.types;
+
 import java.util.List;
 
 /**
- * The {@link GiraOneComponent} describes a base component within the GiraOne SmartHome system.
- * A physical GiraOneComponent might Triggering Element like a Rocker or Button
+ * The {@link GiraOneComponent} describes a base component within the GiraOne SmartHome system. A
+ * physical GiraOneComponent might Triggering Element like a Rocker or Button
  *
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneComponent {
-    private String name;
-    private String urn;
-    private GiraOneComponentType type;
-    private List<GiraOneChannel> channels = List.of();
+  private String name;
+  private String urn;
+  private GiraOneComponentType type;
+  private List<GiraOneChannel> channels = List.of();
 
-    public GiraOneComponent(String name, String urn) {
-        this.name = name;
-        this.urn = urn;
-    }
+  public GiraOneComponent(String name, String urn) {
+    this.name = name;
+    this.urn = urn;
+  }
 
-    public GiraOneComponentType getType() {
-        return type;
-    }
+  public GiraOneComponentType getType() {
+    return type;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getUrn() {
-        return urn;
-    }
+  public String getUrn() {
+    return urn;
+  }
 
-    public List<GiraOneChannel> getChannels() {
-        return channels;
-    }
+  public List<GiraOneChannel> getChannels() {
+    return channels;
+  }
 }

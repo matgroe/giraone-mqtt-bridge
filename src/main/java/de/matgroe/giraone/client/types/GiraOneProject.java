@@ -31,82 +31,89 @@ import java.util.Set;
  */
 public class GiraOneProject {
 
-    private final Set<GiraOneChannel> channels = Collections.synchronizedSet(new HashSet<>());
+  private final Set<GiraOneChannel> channels = Collections.synchronizedSet(new HashSet<>());
 
-    /**
-     * Adds the given channel to it's Set of {@link GiraOneChannel}. Duplicates
-     * with same urn are getting ignored.
-     *
-     * @param channel The {@link GiraOneChannel} to add.
-     */
-    public void addChannel(GiraOneChannel channel) {
-        this.channels.add(channel);
+  /**
+   * Adds the given channel to it's Set of {@link GiraOneChannel}. Duplicates with same urn are
+   * getting ignored.
+   *
+   * @param channel The {@link GiraOneChannel} to add.
+   */
+  public void addChannel(GiraOneChannel channel) {
+    this.channels.add(channel);
+  }
+
+  /**
+   * @return Returna a {@link Collection} of all {@link GiraOneChannel} within this project.
+   */
+  public Collection<GiraOneChannel> lookupChannels() {
+    return channels;
+  }
+
+  /**
+   * Performs a lookup within the internal {@link Collection} of {@link GiraOneChannel} by the given
+   * channelUrn.
+   *
+   * @param urn The channelUrn
+   * @return The optional {@link GiraOneChannel}, if there is any
+   */
+  public Optional<GiraOneChannel> lookupChannelByUrn(final String urn) {
+    return this.channels.stream().filter(f -> urn.equals(f.getUrn())).findFirst();
+  }
+
+  /**
+   * Performs a lookup within the internal {@link Collection} of {@link GiraOneChannel} by the given
+   * channel name.
+   *
+   * @param name The channel name
+   * @return The optional {@link GiraOneChannel}, if there is any
+   */
+  public Optional<GiraOneChannel> lookupChannelByName(final String name) {
+    return this.channels.stream().filter(f -> name.equalsIgnoreCase(f.getName())).findFirst();
+  }
+
+  /**
+   * This method returns the {@link GiraOneChannel} the given {@link GiraOneDataPoint} is assigned
+   * to.
+   *
+   * @param dataPoint - The {@link GiraOneDataPoint} to assign on it's referenced channel
+   * @return A {@link Optional} of {@link GiraOneChannel} for the given {@link GiraOneDataPoint}
+   */
+  public Optional<GiraOneChannel> lookupGiraOneChannel(GiraOneDataPoint dataPoint) {
+    return this.channels.stream()
+        .filter(ch -> ch.containsGiraOneDataPoint(dataPoint.getUrn()))
+        .findFirst();
+  }
+
+  /**
+   * @return Returna a {@link Collection} of all {@link GiraOneChannel} within this project.
+   */
+  public Collection<GiraOneDataPoint> lookupGiraOneDataPoints() {
+    return this.channels.stream()
+        .map(GiraOneChannel::getDataPoints)
+        .flatMap(Collection::stream)
+        .toList();
+  }
+
+  /**
+   * This method iterates over all channels for the given dataPointUrn and returns the concerning
+   * {@link GiraOneDataPoint} if there is any.
+   *
+   * @param dataPointUrn - The datapoint urn
+   * @return A {@link Optional} of {@link GiraOneDataPoint}
+   */
+  public Optional<GiraOneDataPoint> lookupGiraOneDataPoint(final String dataPointUrn) {
+    return this.channels.stream()
+        .map(GiraOneChannel::getDataPoints)
+        .flatMap(Collection::stream)
+        .filter(f -> matches(dataPointUrn, f))
+        .findFirst();
+  }
+
+  private boolean matches(String dataPointUrn, GiraOneDataPoint dataPoint) {
+    if (dataPoint.getUrn() != null) {
+      return dataPointUrn.matches(dataPoint.getUrn().toString());
     }
-
-    /**
-     * @return Returna a {@link Collection} of all {@link GiraOneChannel} within this project.
-     */
-    public Collection<GiraOneChannel> lookupChannels() {
-        return channels;
-    }
-
-    /**
-     * Performs a lookup within the internal {@link Collection} of {@link GiraOneChannel}
-     * by the given channelUrn.
-     *
-     * @param urn The channelUrn
-     * @return The optional {@link GiraOneChannel}, if there is any
-     */
-    public Optional<GiraOneChannel> lookupChannelByUrn(final String urn) {
-        return this.channels.stream().filter(f -> urn.equals(f.getUrn())).findFirst();
-    }
-
-    /**
-     * Performs a lookup within the internal {@link Collection} of {@link GiraOneChannel}
-     * by the given channel name.
-     *
-     * @param name The channel name
-     * @return The optional {@link GiraOneChannel}, if there is any
-     */
-    public Optional<GiraOneChannel> lookupChannelByName(final String name) {
-        return this.channels.stream().filter(f -> name.equalsIgnoreCase(f.getName())).findFirst();
-    }
-
-    /**
-     * This method returns the {@link GiraOneChannel} the given {@link GiraOneDataPoint} is assigned to.
-     *
-     * @param dataPoint - The {@link GiraOneDataPoint} to assign on it's referenced channel
-     * @return A {@link Optional} of {@link GiraOneChannel} for the given {@link GiraOneDataPoint}
-     */
-    public Optional<GiraOneChannel> lookupGiraOneChannel(GiraOneDataPoint dataPoint) {
-        return this.channels.stream().filter(ch -> ch.containsGiraOneDataPoint(dataPoint.getUrn())).findFirst();
-    }
-
-
-    /**
-     * @return Returna a {@link Collection} of all {@link GiraOneChannel} within this project.
-     */
-    public Collection<GiraOneDataPoint> lookupGiraOneDataPoints() {
-        return this.channels.stream().map(GiraOneChannel::getDataPoints).flatMap(Collection::stream).toList();
-    }
-
-
-    /**
-     * This method iterates over all channels for the given dataPointUrn and returns the
-     * concerning {@link GiraOneDataPoint} if there is any.
-     *
-     * @param dataPointUrn - The datapoint urn
-     * @return A {@link Optional} of {@link GiraOneDataPoint}
-     */
-    public Optional<GiraOneDataPoint> lookupGiraOneDataPoint(final String dataPointUrn) {
-        return this.channels.stream().map(GiraOneChannel::getDataPoints).flatMap(Collection::stream)
-                .filter(f -> matches(dataPointUrn, f)).findFirst();
-    }
-
-    private boolean matches(String dataPointUrn, GiraOneDataPoint dataPoint) {
-        if (dataPoint.getUrn() != null) {
-            return dataPointUrn.matches(dataPoint.getUrn().toString());
-        }
-        return false;
-    }
+    return false;
+  }
 }

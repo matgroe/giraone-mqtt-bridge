@@ -22,7 +22,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import de.matgroe.giraone.client.webservice.GiraOneWebserviceRequest;
-
 import java.lang.reflect.Type;
 
 /**
@@ -30,22 +29,25 @@ import java.lang.reflect.Type;
  *
  * @author Matthias Gröger - Initial contribution
  */
-public class GiraOneWebserviceCommandRequestSerializer implements JsonSerializer<GiraOneWebserviceRequest> {
-    private static final String PROPERTY_COMMAND_NAME = "command";
-    private static final String PROPERTY_KEEP_ALIVE = "keepAlive";
-    private static final String PROPERTY_DATA = "data";
+public class GiraOneWebserviceCommandRequestSerializer
+    implements JsonSerializer<GiraOneWebserviceRequest> {
+  private static final String PROPERTY_COMMAND_NAME = "command";
+  private static final String PROPERTY_KEEP_ALIVE = "keepAlive";
+  private static final String PROPERTY_DATA = "data";
 
-    @Override
-    public JsonElement serialize(GiraOneWebserviceRequest serverCommand,  Type type,
-             JsonSerializationContext jsonSerializationContext) {
-        JsonObject json = new JsonObject();
-        assert serverCommand != null;
+  @Override
+  public JsonElement serialize(
+      GiraOneWebserviceRequest serverCommand,
+      Type type,
+      JsonSerializationContext jsonSerializationContext) {
+    JsonObject json = new JsonObject();
+    assert serverCommand != null;
 
-        json.addProperty(PROPERTY_COMMAND_NAME, serverCommand.getCommand().getCommand());
-        json.addProperty(PROPERTY_KEEP_ALIVE, true);
-        if (jsonSerializationContext != null) {
-            json.add(PROPERTY_DATA, jsonSerializationContext.serialize(serverCommand.getCommand()));
-        }
-        return json;
+    json.addProperty(PROPERTY_COMMAND_NAME, serverCommand.getCommand().getCommand());
+    json.addProperty(PROPERTY_KEEP_ALIVE, true);
+    if (jsonSerializationContext != null) {
+      json.add(PROPERTY_DATA, jsonSerializationContext.serialize(serverCommand.getCommand()));
     }
+    return json;
+  }
 }

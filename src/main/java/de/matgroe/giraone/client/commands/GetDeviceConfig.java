@@ -30,13 +30,12 @@ import de.matgroe.util.GenericBuilder;
 @GiraOneServerCommand(name = "GetDeviceConfig", responsePayload = "deviceConfig")
 public class GetDeviceConfig extends GiraOneCommand {
 
-    @SerializedName("ipc")
-    private final String ipc = "true";
+  @SerializedName("ipc")
+  private final String ipc = "true";
 
-    public static GenericBuilder<GetDeviceConfig> builder() {
-        return GenericBuilder.of(GetDeviceConfig::new);
-    }
+  public static GenericBuilder<GetDeviceConfig> builder() {
+    return GenericBuilder.of(GetDeviceConfig::new);
+  }
 
-    protected GetDeviceConfig() {
-    }
+  protected GetDeviceConfig() {}
 }

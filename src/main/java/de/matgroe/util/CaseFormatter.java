@@ -17,7 +17,6 @@
  */
 package de.matgroe.util;
 
-
 /**
  * Utility class with some string case formatting functions.
  *
@@ -25,14 +24,18 @@ package de.matgroe.util;
  */
 public abstract class CaseFormatter {
 
-    /**
-     * Converts the given input String into it's lower-case-hyphen representation.
-     *
-     * @param input The String to format
-     * @return the lower-case-hyphen formatted input String.
-     */
-    public static String lowerCaseHyphen(final String input) {
-        return input.replaceAll("[a-z]+[0-9]*|[A-Z][a-z]+[0-9]*", "-$0-").replaceFirst("^-+", "")
-                .replaceFirst("-+$", "").replaceAll("--+", "-").toLowerCase();
-    }
+  /**
+   * Converts the given input String into it's lower-case-hyphen representation.
+   *
+   * @param input The String to format
+   * @return the lower-case-hyphen formatted input String.
+   */
+  public static String lowerCaseHyphen(final String input) {
+    return input
+        .replaceAll("[a-z]+[0-9]*|[A-Z][a-z]+[0-9]*", "-$0-")
+        .replaceFirst("^-+", "")
+        .replaceFirst("-+$", "")
+        .replaceAll("--+", "-")
+        .toLowerCase();
+  }
 }

@@ -21,7 +21,6 @@ import com.google.gson.annotations.SerializedName;
 import de.matgroe.giraone.client.GiraOneCommand;
 import de.matgroe.giraone.client.GiraOneServerCommand;
 import de.matgroe.util.GenericBuilder;
-
 import java.util.HashMap;
 
 /**
@@ -32,21 +31,20 @@ import java.util.HashMap;
 @GiraOneServerCommand(name = "GetConfiguration", responsePayload = "object")
 public class GetConfiguration extends GiraOneCommand {
 
-    @SerializedName("object")
-    private final HashMap<String, Object> object = new HashMap<>();
+  @SerializedName("object")
+  private final HashMap<String, Object> object = new HashMap<>();
 
-    public static GenericBuilder<GetConfiguration> builder() {
-        return GenericBuilder.of(GetConfiguration::new);
-    }
+  public static GenericBuilder<GetConfiguration> builder() {
+    return GenericBuilder.of(GetConfiguration::new);
+  }
 
-    protected GetConfiguration() {
-    }
+  protected GetConfiguration() {}
 
-    public void setId(int id) {
-        this.object.put("id", id);
-    }
+  public void setId(int id) {
+    this.object.put("id", id);
+  }
 
-    public void setUrn(String urn) {
-        this.object.put("urn", urn);
-    }
+  public void setUrn(String urn) {
+    this.object.put("urn", urn);
+  }
 }

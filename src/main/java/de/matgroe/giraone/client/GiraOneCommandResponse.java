@@ -20,26 +20,24 @@ package de.matgroe.giraone.client;
 import com.google.gson.JsonObject;
 
 /**
- * This interface represents a command response as received from the Gira One Sever.
- * It offers access to the raw {@link JsonObject} and the deserialized Object as well.
+ * This interface represents a command response as received from the Gira One Sever. It offers
+ * access to the raw {@link JsonObject} and the deserialized Object as well.
  *
  * @author Matthias Gröger - Initial contribution
  */
-
 public interface GiraOneCommandResponse {
 
-    /**
-     * @return returns the raw {@link JsonObject} as received from Gira One Server.
-     */
-    JsonObject getResponseBody();
+  /**
+   * @return returns the raw {@link JsonObject} as received from Gira One Server.
+   */
+  JsonObject getResponseBody();
 
-    /**
-     * @param <T> The typed response
-     * @param classOfT The class, ths response should get deserializes into
-     *
-     * @return The deserialized response
-     */
-    default <T> T getReply(Class<T> classOfT) {
-        return GiraOneTypeMapperFactory.createGson().fromJson(getResponseBody(), classOfT);
-    }
+  /**
+   * @param <T> The typed response
+   * @param classOfT The class, ths response should get deserializes into
+   * @return The deserialized response
+   */
+  default <T> T getReply(Class<T> classOfT) {
+    return GiraOneTypeMapperFactory.createGson().fromJson(getResponseBody(), classOfT);
+  }
 }

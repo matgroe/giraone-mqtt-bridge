@@ -24,7 +24,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import de.matgroe.giraone.client.GiraOneMessageType;
 import de.matgroe.giraone.client.types.GiraOneMessageError;
-
 import java.lang.reflect.Type;
 
 /**
@@ -33,29 +32,34 @@ import java.lang.reflect.Type;
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneMessageTypeDeserializer extends GiraOneMessageJsonTypeAdapter
-        implements JsonDeserializer<GiraOneMessageType> {
+    implements JsonDeserializer<GiraOneMessageType> {
 
-    @Override
-    public GiraOneMessageType deserialize(JsonElement jsonElement, Type type,
-            JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-        if (jsonElement != null && jsonDeserializationContext != null) {
-            if (isResponse(jsonElement)) {
-                return isError(getResponse(jsonElement), jsonDeserializationContext) ? GiraOneMessageType.Error
-                        : GiraOneMessageType.Response;
-            } else if (isEvent(jsonElement)) {
-                return isError(getEvent(jsonElement), jsonDeserializationContext) ? GiraOneMessageType.Error
-                        : GiraOneMessageType.Event;
-            }
-        }
-        return GiraOneMessageType.Invalid;
+  @Override
+  public GiraOneMessageType deserialize(
+      JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
+      throws JsonParseException {
+    if (jsonElement != null && jsonDeserializationContext != null) {
+      if (isResponse(jsonElement)) {
+        return isError(getResponse(jsonElement), jsonDeserializationContext)
+            ? GiraOneMessageType.Error
+            : GiraOneMessageType.Response;
+      } else if (isEvent(jsonElement)) {
+        return isError(getEvent(jsonElement), jsonDeserializationContext)
+            ? GiraOneMessageType.Error
+            : GiraOneMessageType.Event;
+      }
     }
+    return GiraOneMessageType.Invalid;
+  }
 
-    private boolean isError(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext) {
-        GiraOneMessageError error = jsonDeserializationContext.deserialize(jsonObject.getAsJsonObject(PROPERTY_ERROR),
-                GiraOneMessageError.class);
-        if (error != null) {
-            return error.isErrorState();
-        }
-        return false;
+  private boolean isError(
+      JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext) {
+    GiraOneMessageError error =
+        jsonDeserializationContext.deserialize(
+            jsonObject.getAsJsonObject(PROPERTY_ERROR), GiraOneMessageError.class);
+    if (error != null) {
+      return error.isErrorState();
     }
+    return false;
+  }
 }

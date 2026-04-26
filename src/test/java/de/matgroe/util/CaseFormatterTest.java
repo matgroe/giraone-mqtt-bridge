@@ -18,12 +18,12 @@
 package de.matgroe.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
 
 /**
  * Test class for {@link CaseFormatter}.
@@ -32,16 +32,19 @@ import java.util.stream.Stream;
  */
 class CaseFormatterTest {
 
-    private static Stream<Arguments> provideCaseHyphenArguments() {
-        return Stream.of(Arguments.of("Hello", "hello"), Arguments.of("HelloWorld", "hello-world"),
-                Arguments.of("helloWorld", "hello-world"), Arguments.of("hello-World", "hello-world"));
-    }
+  private static Stream<Arguments> provideCaseHyphenArguments() {
+    return Stream.of(
+        Arguments.of("Hello", "hello"),
+        Arguments.of("HelloWorld", "hello-world"),
+        Arguments.of("helloWorld", "hello-world"),
+        Arguments.of("hello-World", "hello-world"));
+  }
 
-    @DisplayName("test for correct lower-case-hyphen formatting")
-    @ParameterizedTest
-    @MethodSource("provideCaseHyphenArguments")
-    void testLowerCaseHyphen(String input, String expected) {
-        String formatted = CaseFormatter.lowerCaseHyphen(input);
-        assertEquals(expected, formatted);
-    }
+  @DisplayName("test for correct lower-case-hyphen formatting")
+  @ParameterizedTest
+  @MethodSource("provideCaseHyphenArguments")
+  void testLowerCaseHyphen(String input, String expected) {
+    String formatted = CaseFormatter.lowerCaseHyphen(input);
+    assertEquals(expected, formatted);
+  }
 }

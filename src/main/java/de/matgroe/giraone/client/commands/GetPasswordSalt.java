@@ -29,17 +29,16 @@ import de.matgroe.util.GenericBuilder;
  */
 @GiraOneServerCommand(name = "getPasswordSalt", responsePayload = "data")
 public class GetPasswordSalt extends GiraOneCommand {
-    @SerializedName("username")
-    private String username = "";
+  @SerializedName("username")
+  private String username = "";
 
-    public static GenericBuilder<GetPasswordSalt> builder() {
-        return GenericBuilder.of(GetPasswordSalt::new);
-    }
+  public static GenericBuilder<GetPasswordSalt> builder() {
+    return GenericBuilder.of(GetPasswordSalt::new);
+  }
 
-    private GetPasswordSalt() {
-    }
+  private GetPasswordSalt() {}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+  public void setUsername(String username) {
+    this.username = username;
+  }
 }

@@ -17,24 +17,23 @@
  */
 package de.matgroe.giraone.client.types;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * The {@link GiraOneChannelCollection} describes a base component within the GiraOne SmartHome system.
- * A physical GiraOneComponent might Triggering Element like a Rocker or Button
+ * The {@link GiraOneChannelCollection} describes a base component within the GiraOne SmartHome
+ * system. A physical GiraOneComponent might Triggering Element like a Rocker or Button
  *
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneChannelCollection {
-    private final Collection<GiraOneChannel> channels = new ArrayList<>();
+  private final Collection<GiraOneChannel> channels = new ArrayList<>();
 
-    public Collection<GiraOneChannel> getChannels() {
-        return channels;
-    }
+  public Collection<GiraOneChannel> getChannels() {
+    return channels;
+  }
 
-    public void add(GiraOneChannel giraOneChannel) {
-        this.channels.add(giraOneChannel);
-    }
+  public void add(GiraOneChannel giraOneChannel) {
+    this.channels.add(giraOneChannel);
+  }
 }

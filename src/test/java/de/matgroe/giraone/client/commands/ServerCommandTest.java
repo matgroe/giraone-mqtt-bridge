@@ -19,42 +19,48 @@ package de.matgroe.giraone.client.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.junit.jupiter.api.Test;
 
 /**
- * Test class for {@link de.matgroe.giraone.client.websocket.GiraOneWebsocketRequest} {@link RegisterApplication}
- * 
+ * Test class for {@link de.matgroe.giraone.client.websocket.GiraOneWebsocketRequest} {@link
+ * RegisterApplication}
+ *
  * @author Matthias Groeger - Initial contribution
  */
 class ServerCommandTest {
-    private static final String APP_ID = "APP_ID_123";
-    private static final String APP_TYPE = "APP_TYPE";
-    private static final String INSTANCE_ID = "InstanceId";
-    private static final String URN = "junit:test:blah-blah";
+  private static final String APP_ID = "APP_ID_123";
+  private static final String APP_TYPE = "APP_TYPE";
+  private static final String INSTANCE_ID = "InstanceId";
+  private static final String URN = "junit:test:blah-blah";
 
-    @Test
-    void shouldBuildGiraOneCommandRegisterApplication() {
-        RegisterApplication cmd = RegisterApplication.builder().with(RegisterApplication::setApplicationId, APP_ID)
-                .with(RegisterApplication::setApplicationType, APP_TYPE)
-                .with(RegisterApplication::setInstanceId, INSTANCE_ID).build();
+  @Test
+  void shouldBuildGiraOneCommandRegisterApplication() {
+    RegisterApplication cmd =
+        RegisterApplication.builder()
+            .with(RegisterApplication::setApplicationId, APP_ID)
+            .with(RegisterApplication::setApplicationType, APP_TYPE)
+            .with(RegisterApplication::setInstanceId, INSTANCE_ID)
+            .build();
 
-        assertEquals("RegisterApplication", cmd.getCommand());
-        assertEquals(APP_ID, cmd.getApplicationId());
-        assertEquals(APP_TYPE, cmd.getApplicationType());
-        assertEquals(INSTANCE_ID, cmd.getInstanceId());
-    }
+    assertEquals("RegisterApplication", cmd.getCommand());
+    assertEquals(APP_ID, cmd.getApplicationId());
+    assertEquals(APP_TYPE, cmd.getApplicationType());
+    assertEquals(INSTANCE_ID, cmd.getInstanceId());
+  }
 
-    @Test
-    void shouldBuildGiraOneCommandGetUIConfiguration() {
-        GetUIConfiguration cmd = GetUIConfiguration.builder().with(GetUIConfiguration::setGuid, INSTANCE_ID).build();
-        assertEquals("GetUIConfiguration", cmd.getCommand());
-    }
+  @Test
+  void shouldBuildGiraOneCommandGetUIConfiguration() {
+    GetUIConfiguration cmd =
+        GetUIConfiguration.builder().with(GetUIConfiguration::setGuid, INSTANCE_ID).build();
+    assertEquals("GetUIConfiguration", cmd.getCommand());
+  }
 
-    @Test
-    void shouldBuildGiraOneCommandGetValue() {
-        GetValue cmd = GetValue.builder().with(GetValue::setUrn, URN).build();
-        assertEquals("GetValue", cmd.getCommand());
-        assertEquals(URN, cmd.getUrn());
-        assertNull(cmd.getId());
-    }
+  @Test
+  void shouldBuildGiraOneCommandGetValue() {
+    GetValue cmd = GetValue.builder().with(GetValue::setUrn, URN).build();
+    assertEquals("GetValue", cmd.getCommand());
+    assertEquals(URN, cmd.getUrn());
+    assertNull(cmd.getId());
+  }
 }

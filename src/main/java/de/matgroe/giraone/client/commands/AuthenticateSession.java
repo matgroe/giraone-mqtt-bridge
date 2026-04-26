@@ -29,24 +29,23 @@ import de.matgroe.util.GenericBuilder;
  */
 @GiraOneServerCommand(name = "doAuthenticateSession")
 public class AuthenticateSession extends GiraOneCommand {
-    @SerializedName("username")
-    private String username = "";
+  @SerializedName("username")
+  private String username = "";
 
-    @SerializedName("token")
-    private String token = "";
+  @SerializedName("token")
+  private String token = "";
 
-    public static GenericBuilder<AuthenticateSession> builder() {
-        return GenericBuilder.of(AuthenticateSession::new);
-    }
+  public static GenericBuilder<AuthenticateSession> builder() {
+    return GenericBuilder.of(AuthenticateSession::new);
+  }
 
-    private AuthenticateSession() {
-    }
+  private AuthenticateSession() {}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
+  public void setToken(String token) {
+    this.token = token;
+  }
 }

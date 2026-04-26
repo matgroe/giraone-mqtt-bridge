@@ -24,7 +24,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import de.matgroe.giraone.client.types.GiraOneEvent;
-
 import java.lang.reflect.Type;
 
 /**
@@ -32,22 +31,25 @@ import java.lang.reflect.Type;
  *
  * @author Matthias Gröger - Initial contribution
  */
-public class GiraOneEventDeserializer extends GiraOneMessageJsonTypeAdapter implements JsonDeserializer<GiraOneEvent> {
+public class GiraOneEventDeserializer extends GiraOneMessageJsonTypeAdapter
+    implements JsonDeserializer<GiraOneEvent> {
 
-    private JsonObject getValue(JsonElement jsonElement) {
-        JsonObject event = getEvent(jsonElement);
-        if (event.has("value")) {
-            return event.getAsJsonObject("value");
-        }
-        return new JsonObject();
+  private JsonObject getValue(JsonElement jsonElement) {
+    JsonObject event = getEvent(jsonElement);
+    if (event.has("value")) {
+      return event.getAsJsonObject("value");
     }
+    return new JsonObject();
+  }
 
-    @Override
-    public GiraOneEvent deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-        if (jsonElement != null && isEvent(jsonElement)) {
-            JsonObject value = getValue(jsonElement);
-            return new Gson().fromJson(value, GiraOneEvent.class);
-        }
-        throw new JsonParseException("Cannot parse JsonElement as GiraOneEvent.");
+  @Override
+  public GiraOneEvent deserialize(
+      JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
+      throws JsonParseException {
+    if (jsonElement != null && isEvent(jsonElement)) {
+      JsonObject value = getValue(jsonElement);
+      return new Gson().fromJson(value, GiraOneEvent.class);
     }
+    throw new JsonParseException("Cannot parse JsonElement as GiraOneEvent.");
+  }
 }

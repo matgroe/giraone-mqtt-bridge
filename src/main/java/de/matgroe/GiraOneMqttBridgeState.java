@@ -18,24 +18,21 @@
 package de.matgroe;
 
 /**
- * Describes the bridge's current working state.
- *  - Stopped - Nothing happens right now
- *  - ConnectingGiraOneClient - wait for GiraOneServer to be connected
- *  - ConnectingMqttClient wait for MQTT-Broker to be connected
- *  - Connected - Everything is ok, Bridge is transfering messsages between Gira and MQTT
- *  - Disconnected -
- *  - Error - Something bad happend, Work stops
+ * Describes the bridge's current working state. - Stopped - Nothing happens right now -
+ * ConnectingGiraOneClient - wait for GiraOneServer to be connected - ConnectingMqttClient wait for
+ * MQTT-Broker to be connected - Connected - Everything is ok, Bridge is transfering messsages
+ * between Gira and MQTT - Disconnected - - Error - Something bad happend, Work stops
  *
- *  The normal state flow for startup is
- *    Stopped -> ConnectingGiraOneClient -> ConnectingMqttClient -> Connected -> Disconnected -> Stopped
+ * <p>The normal state flow for startup is Stopped -> ConnectingGiraOneClient ->
+ * ConnectingMqttClient -> Connected -> Disconnected -> Stopped
  *
- *  Each state may change to Error
+ * <p>Each state may change to Error
  */
 public enum GiraOneMqttBridgeState {
-    Stopped,
-    ConnectingGiraOneClient,
-    ConnectingMqttClient,
-    Connected,
-    Disconnected,
-    Error
+  Stopped,
+  ConnectingGiraOneClient,
+  ConnectingMqttClient,
+  Connected,
+  Disconnected,
+  Error
 }

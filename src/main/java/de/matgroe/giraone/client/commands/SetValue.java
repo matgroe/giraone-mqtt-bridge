@@ -29,33 +29,32 @@ import de.matgroe.util.GenericBuilder;
  */
 @GiraOneServerCommand(name = "SetValue")
 public class SetValue extends GiraOneCommand {
-    public static GenericBuilder<SetValue> builder() {
-        return GenericBuilder.of(SetValue::new);
-    }
+  public static GenericBuilder<SetValue> builder() {
+    return GenericBuilder.of(SetValue::new);
+  }
 
-    private String urn;
-    private Object value;
+  private String urn;
+  private Object value;
 
-    protected SetValue() {
-    }
+  protected SetValue() {}
 
-    public Object getValue() {
-        return value;
-    }
+  public Object getValue() {
+    return value;
+  }
 
-    public void setValue(Object value) {
-        this.value = value;
-    }
+  public void setValue(Object value) {
+    this.value = value;
+  }
 
-    public String getUrn() {
-        return urn;
-    }
+  public String getUrn() {
+    return urn;
+  }
 
-    public void setUrn(String urn) {
-        this.urn = urn;
-    }
+  public void setUrn(String urn) {
+    this.urn = urn;
+  }
 
-    public void setUrn(GiraOneURN urn) {
-        this.urn = urn.toString();
-    }
+  public void setUrn(GiraOneURN urn) {
+    this.urn = urn.toString();
+  }
 }

@@ -19,64 +19,61 @@ package de.matgroe.hassio;
 
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneProject;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.TreeSet;
 
 /**
- * This class offers functionality to derive a MQTT Topicname from a {@link GiraOneDataPoint}
- * and offers a mapping between the TopiocName and the concerning {@link GiraOneDataPoint}
+ * This class offers functionality to derive a MQTT Topicname from a {@link GiraOneDataPoint} and
+ * offers a mapping between the TopiocName and the concerning {@link GiraOneDataPoint}
  */
 public class HassioTopicNameMapper {
-    private final String prefix;
+  private final String prefix;
 
-    private Map<String, GiraOneDataPoint> dataPointTopicMap;
+  private Map<String, GiraOneDataPoint> dataPointTopicMap;
 
-    public HassioTopicNameMapper(String prefix, GiraOneProject giraOneProject) {
-        this.dataPointTopicMap = Collections.synchronizedMap(new HashMap<String, GiraOneDataPoint>());
-        this.prefix = prefix;
-        giraOneProject.lookupGiraOneDataPoints().forEach(dp ->{
-            dataPointTopicMap.put(topicNameOf(dp), dp);
-        });
-    }
+  public HassioTopicNameMapper(String prefix, GiraOneProject giraOneProject) {
+    this.dataPointTopicMap = Collections.synchronizedMap(new HashMap<String, GiraOneDataPoint>());
+    this.prefix = prefix;
+    giraOneProject
+        .lookupGiraOneDataPoints()
+        .forEach(
+            dp -> {
+              dataPointTopicMap.put(topicNameOf(dp), dp);
+            });
+  }
 
-    private String formatDatapointChannel(GiraOneDataPoint dataPoint) {
-        String parent = dataPoint.getUrn().getParent().getResourceName();
-        parent = parent.replace('.', '/');
-        return parent.toLowerCase();
-    }
+  private String formatDatapointChannel(GiraOneDataPoint dataPoint) {
+    String parent = dataPoint.getUrn().getParent().getResourceName();
+    parent = parent.replace('.', '/');
+    return parent.toLowerCase();
+  }
 
-    private String generateDataPointId(GiraOneDataPoint dataPoint) {
-        return dataPoint.getUrn().getResourceName().toLowerCase();
-    }
+  private String generateDataPointId(GiraOneDataPoint dataPoint) {
+    return dataPoint.getUrn().getResourceName().toLowerCase();
+  }
 
-    /**
-     * Creates a topicname for the given {@link GiraOneDataPoint}. The
-     *
-     * @param dataPoint The {@link GiraOneDataPoint}
-     * @return returns a topicname in format of {prefix}/{channel}/{datapointId}
-     */
-    public String topicNameOf(GiraOneDataPoint dataPoint) {
-        String topicName =  String.format("%s/%s/%s",
-                prefix,
-                formatDatapointChannel(dataPoint),
-                generateDataPointId(dataPoint)
-        );
-        return topicName;
-    }
+  /**
+   * Creates a topicname for the given {@link GiraOneDataPoint}. The
+   *
+   * @param dataPoint The {@link GiraOneDataPoint}
+   * @return returns a topicname in format of {prefix}/{channel}/{datapointId}
+   */
+  public String topicNameOf(GiraOneDataPoint dataPoint) {
+    String topicName =
+        String.format(
+            "%s/%s/%s", prefix, formatDatapointChannel(dataPoint), generateDataPointId(dataPoint));
+    return topicName;
+  }
 
-    /**
-     * Creates a topicname for the given {@link GiraOneDataPoint}. The
-     * @return returns a topicname in format of {prefix}/{channel}/{datapointId}
-     */
-    public Optional<GiraOneDataPoint> giraOneDataPointOf(String topic) {
-        GiraOneDataPoint dp = this.dataPointTopicMap.get(topic);
-        return dp != null ? Optional.of(dp) : Optional.empty();
-    }
-
+  /**
+   * Creates a topicname for the given {@link GiraOneDataPoint}. The
+   *
+   * @return returns a topicname in format of {prefix}/{channel}/{datapointId}
+   */
+  public Optional<GiraOneDataPoint> giraOneDataPointOf(String topic) {
+    GiraOneDataPoint dp = this.dataPointTopicMap.get(topic);
+    return dp != null ? Optional.of(dp) : Optional.empty();
+  }
 }

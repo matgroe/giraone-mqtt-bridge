@@ -27,14 +27,14 @@ import java.io.InputStream;
  */
 public abstract class ResourceLoader {
 
-    public static String loadStringResource(final String name) {
-        try (InputStream inputStream = ResourceLoader.class.getResourceAsStream(name)) {
-            if (inputStream != null) {
-                return new String(inputStream.readAllBytes());
-            }
-            throw new ResourceException("Cannot create Inputstream for resource '" + name + "'");
-        } catch (IOException e) {
-            throw new ResourceException(e);
-        }
+  public static String loadStringResource(final String name) {
+    try (InputStream inputStream = ResourceLoader.class.getResourceAsStream(name)) {
+      if (inputStream != null) {
+        return new String(inputStream.readAllBytes());
+      }
+      throw new ResourceException("Cannot create Inputstream for resource '" + name + "'");
+    } catch (IOException e) {
+      throw new ResourceException(e);
     }
+  }
 }

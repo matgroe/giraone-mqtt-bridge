@@ -20,40 +20,41 @@ package de.matgroe.giraone.client.types;
 import java.util.Arrays;
 
 /**
- * Enumeration describes channel type id
- * for {@link GiraOneChannelTypeId}
+ * Enumeration describes channel type id for {@link GiraOneChannelTypeId}
  *
  * @author Matthias Gröger - Initial contribution
  */
 public enum GiraOneChannelTypeId {
-    Temperature("NumericFloatStatus.Temperatur"),
-    Humidity("NumericFloatStatus.Humidity"),
-    Underfloor("KNX.HeatingCooling.HeatingUnderfloorHeatingWaterBased"),
-    Light("KNX.Light.Light"),
-    Dimmer("KNX.Light.Dimmer"),
-    Lamp("Switch.Lamp"),
-    Pump("Switch.Pump"),
-    PowerOutlet("Switch.PowerOutlet"),
-    Awning("Covering.Awning"),
-    RoofWindow("Covering.RoofWindow"),
-    VenetianBlind("Covering.VenetianBlind"),
-    Scene("FunctionScene.Scene"),
-    Button("Trigger.Button"),
-    HueLight("Hue.Light"),
-    Unknown("Unknown");
+  Temperature("NumericFloatStatus.Temperatur"),
+  Humidity("NumericFloatStatus.Humidity"),
+  Underfloor("KNX.HeatingCooling.HeatingUnderfloorHeatingWaterBased"),
+  Light("KNX.Light.Light"),
+  Dimmer("KNX.Light.Dimmer"),
+  Lamp("Switch.Lamp"),
+  Pump("Switch.Pump"),
+  PowerOutlet("Switch.PowerOutlet"),
+  Awning("Covering.Awning"),
+  RoofWindow("Covering.RoofWindow"),
+  VenetianBlind("Covering.VenetianBlind"),
+  Scene("FunctionScene.Scene"),
+  Button("Trigger.Button"),
+  HueLight("Hue.Light"),
+  Unknown("Unknown");
 
-    private final String name;
+  private final String name;
 
-    GiraOneChannelTypeId(final String name) {
-        this.name = name;
-    }
+  GiraOneChannelTypeId(final String name) {
+    this.name = name;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public static GiraOneChannelTypeId fromName(String value) throws IllegalArgumentException {
-        return Arrays.stream(GiraOneChannelTypeId.values()).filter(f -> value.equals(f.name)).findFirst()
-                .orElseThrow(IllegalArgumentException::new);
-    }
+  public static GiraOneChannelTypeId fromName(String value) throws IllegalArgumentException {
+    return Arrays.stream(GiraOneChannelTypeId.values())
+        .filter(f -> value.equals(f.name))
+        .findFirst()
+        .orElseThrow(IllegalArgumentException::new);
+  }
 }

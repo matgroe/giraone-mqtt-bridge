@@ -25,13 +25,13 @@ package de.matgroe.giraone.client.websocket;
  */
 public class GiraOneWebsocketSequence {
 
-    private static int counter = 1;
+  private static int counter = 1;
 
-    public static synchronized void reset() {
-        counter = 1;
-    }
+  public static synchronized void reset() {
+    counter = 1;
+  }
 
-    public static synchronized int next() {
-        return ++counter;
-    }
+  public static synchronized int next() {
+    return ++counter;
+  }
 }

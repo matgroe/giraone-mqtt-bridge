@@ -18,44 +18,44 @@
 package de.matgroe.hassio.types;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class DiscoveryMessage {
-    @SerializedName("dev")
-    private Device device;
+  @SerializedName("dev")
+  private Device device;
 
-    @SerializedName("o")
-    private Origin origin;
+  @SerializedName("o")
+  private Origin origin;
 
-    @SerializedName("cmps")
-    private Map<String, Component> components = new HashMap<>();
+  @SerializedName("cmps")
+  private Map<String, Component> components = new HashMap<>();
 
-    public Device getDevice() {
-        return device;
-    }
+  public Device getDevice() {
+    return device;
+  }
 
-    public void setDevice(Device device) {
-        this.device = device;
-    }
+  public void setDevice(Device device) {
+    this.device = device;
+  }
 
-    public Origin getOrigin() {
-        return origin;
-    }
+  public Origin getOrigin() {
+    return origin;
+  }
 
-    public void setOrigin(Origin origin) {
-        this.origin = origin;
-    }
+  public void setOrigin(Origin origin) {
+    this.origin = origin;
+  }
 
-    public void addComponent(Component component) {
-        this.components.put(component.getUniqueId(), component);
-    }
-    public Map<String, Component> getComponents() {
-        return components;
-    }
+  public void addComponent(Component component) {
+    this.components.put(component.getUniqueId(), component);
+  }
 
-    public void setComponents(Map<String, Component> components) {
-        this.components = components;
-    }
+  public Map<String, Component> getComponents() {
+    return components;
+  }
+
+  public void setComponents(Map<String, Component> components) {
+    this.components = components;
+  }
 }

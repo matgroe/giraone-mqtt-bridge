@@ -22,7 +22,6 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import de.matgroe.giraone.client.websocket.GiraOneWebsocketResponse;
-
 import java.lang.reflect.Type;
 
 /**
@@ -31,14 +30,15 @@ import java.lang.reflect.Type;
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneWebsocketResponseDeserializer extends GiraOneMessageJsonTypeAdapter
-        implements JsonDeserializer<GiraOneWebsocketResponse> {
+    implements JsonDeserializer<GiraOneWebsocketResponse> {
 
-    @Override
-    public GiraOneWebsocketResponse deserialize(JsonElement jsonElement, Type type,
-            JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-        if (jsonElement != null && isResponse(jsonElement)) {
-            return new GiraOneWebsocketResponse(getResponse(jsonElement));
-        }
-        throw new JsonParseException("The JsonElement is not parseable as GiraOneCommandResponse.");
+  @Override
+  public GiraOneWebsocketResponse deserialize(
+      JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
+      throws JsonParseException {
+    if (jsonElement != null && isResponse(jsonElement)) {
+      return new GiraOneWebsocketResponse(getResponse(jsonElement));
     }
+    throw new JsonParseException("The JsonElement is not parseable as GiraOneCommandResponse.");
+  }
 }

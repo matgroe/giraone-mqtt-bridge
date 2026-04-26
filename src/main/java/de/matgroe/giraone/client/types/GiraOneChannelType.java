@@ -25,29 +25,31 @@ import java.util.Arrays;
  * @author Matthias Gröger - Initial contribution
  */
 public enum GiraOneChannelType {
-    Shutter("de.gira.schema.channels.BlindWithPos"),
-    Dimmer("de.gira.schema.channels.KNX.Dimmer"),
-    Status("de.gira.schema.channels.Float"),
-    Switch("de.gira.schema.channels.Switch"),
-    Function("de.gira.schema.channels.FunctionScene"),
-    Heating("de.gira.schema.channels.KNX.HeatingCoolingSwitchable"),
-    Trigger("de.gira.schema.channels.Trigger"),
-    HueLight("de.gira.schema.channels.Hue.Light"),
+  Shutter("de.gira.schema.channels.BlindWithPos"),
+  Dimmer("de.gira.schema.channels.KNX.Dimmer"),
+  Status("de.gira.schema.channels.Float"),
+  Switch("de.gira.schema.channels.Switch"),
+  Function("de.gira.schema.channels.FunctionScene"),
+  Heating("de.gira.schema.channels.KNX.HeatingCoolingSwitchable"),
+  Trigger("de.gira.schema.channels.Trigger"),
+  HueLight("de.gira.schema.channels.Hue.Light"),
 
-    Unknown("Unknown");
+  Unknown("Unknown");
 
-    private final String name;
+  private final String name;
 
-    GiraOneChannelType(final String name) {
-        this.name = name;
-    }
+  GiraOneChannelType(final String name) {
+    this.name = name;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public static GiraOneChannelType fromName(String value) throws IllegalArgumentException {
-        return Arrays.stream(GiraOneChannelType.values()).filter(f -> value.equals(f.name)).findFirst()
-                .orElseThrow(IllegalArgumentException::new);
-    }
+  public static GiraOneChannelType fromName(String value) throws IllegalArgumentException {
+    return Arrays.stream(GiraOneChannelType.values())
+        .filter(f -> value.equals(f.name))
+        .findFirst()
+        .orElseThrow(IllegalArgumentException::new);
+  }
 }

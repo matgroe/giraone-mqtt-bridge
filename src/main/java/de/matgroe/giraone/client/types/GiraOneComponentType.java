@@ -17,29 +17,28 @@
  */
 package de.matgroe.giraone.client.types;
 
-
 /**
  * Enumeration describes type of {@link GiraOneComponent}
  *
  * @author Matthias Gröger - Initial contribution
  */
 public enum GiraOneComponentType {
-    KnxDimmingActuator,
-    KnxHvacActuator,
-    KnxSwitchingActuator,
-    KnxButton,
-    Unknown;
+  KnxDimmingActuator,
+  KnxHvacActuator,
+  KnxSwitchingActuator,
+  KnxButton,
+  Unknown;
 
-    public static GiraOneComponentType fromName(String name) {
-        if (name.matches("urn:gds:cmp:.*:KnxDimmingActuator.*")) {
-            return KnxDimmingActuator;
-        } else if (name.matches("urn:gds:cmp:.*:KnxHvacActuator.*")) {
-            return KnxHvacActuator;
-        } else if (name.matches("urn:gds:cmp:.*:KnxSwitchingActuator.*")) {
-            return KnxSwitchingActuator;
-        } else if (name.matches("urn:gds:cmp:.*:KnxButton.*")) {
-            return KnxButton;
-        }
-        return Unknown;
+  public static GiraOneComponentType fromName(String name) {
+    if (name.matches("urn:gds:cmp:.*:KnxDimmingActuator.*")) {
+      return KnxDimmingActuator;
+    } else if (name.matches("urn:gds:cmp:.*:KnxHvacActuator.*")) {
+      return KnxHvacActuator;
+    } else if (name.matches("urn:gds:cmp:.*:KnxSwitchingActuator.*")) {
+      return KnxSwitchingActuator;
+    } else if (name.matches("urn:gds:cmp:.*:KnxButton.*")) {
+      return KnxButton;
     }
+    return Unknown;
+  }
 }

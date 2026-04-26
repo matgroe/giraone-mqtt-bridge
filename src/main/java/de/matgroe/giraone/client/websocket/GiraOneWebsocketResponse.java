@@ -19,52 +19,54 @@ package de.matgroe.giraone.client.websocket;
 
 import com.google.gson.JsonObject;
 import de.matgroe.giraone.client.GiraOneCommandResponse;
-import de.matgroe.giraone.client.types.GiraOneMessageError;
 import de.matgroe.giraone.client.GiraOneTypeMapperFactory;
-
+import de.matgroe.giraone.client.types.GiraOneMessageError;
 import java.util.Objects;
 
 /**
- * This class represents a command response as received from the Gira One Sever
- * as to an received {@link GiraOneWebsocketRequest}.
+ * This class represents a command response as received from the Gira One Sever as to an received
+ * {@link GiraOneWebsocketRequest}.
  *
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneWebsocketResponse implements GiraOneCommandResponse {
-    static final String PROPERTY_ERROR = "error";
+  static final String PROPERTY_ERROR = "error";
 
-    public final JsonObject responseBody;
+  public final JsonObject responseBody;
 
-    public GiraOneWebsocketResponse(final JsonObject responseBody) {
-        this.responseBody = responseBody;
+  public GiraOneWebsocketResponse(final JsonObject responseBody) {
+    this.responseBody = responseBody;
+  }
+
+  @Override
+  public JsonObject getResponseBody() {
+    return this.responseBody.deepCopy();
+  }
+
+  public GiraOneWebsocketRequest getRequestServerCommand() {
+    return Objects.requireNonNull(
+        GiraOneTypeMapperFactory.createGson()
+            .fromJson(responseBody, GiraOneWebsocketRequest.class));
+  }
+
+  public boolean isInitiatedBy(GiraOneWebsocketRequest other) {
+    return getRequestServerCommand().equals(other);
+  }
+
+  public GiraOneMessageError getGiraMessageError() {
+    return Objects.requireNonNullElse(
+        GiraOneTypeMapperFactory.createGson()
+            .fromJson(responseBody.get(PROPERTY_ERROR), GiraOneMessageError.class),
+        new GiraOneMessageError());
+  }
+
+  public <T> T getReply(Class<T> classOfT) {
+    String responseProperty = getRequestServerCommand().getCommand().getResponsePropertyName();
+    if (responseProperty.isEmpty()) {
+      return GiraOneTypeMapperFactory.createGson().fromJson(responseBody, classOfT);
+    } else {
+      return GiraOneTypeMapperFactory.createGson()
+          .fromJson(responseBody.get(responseProperty), classOfT);
     }
-
-    @Override
-    public JsonObject getResponseBody() {
-        return this.responseBody.deepCopy();
-    }
-
-    public GiraOneWebsocketRequest getRequestServerCommand() {
-        return Objects
-                .requireNonNull(GiraOneTypeMapperFactory.createGson().fromJson(responseBody, GiraOneWebsocketRequest.class));
-    }
-
-    public boolean isInitiatedBy(GiraOneWebsocketRequest other) {
-        return getRequestServerCommand().equals(other);
-    }
-
-    public GiraOneMessageError getGiraMessageError() {
-        return Objects.requireNonNullElse(
-                GiraOneTypeMapperFactory.createGson().fromJson(responseBody.get(PROPERTY_ERROR), GiraOneMessageError.class),
-                new GiraOneMessageError());
-    }
-
-    public <T> T getReply(Class<T> classOfT) {
-        String responseProperty = getRequestServerCommand().getCommand().getResponsePropertyName();
-        if (responseProperty.isEmpty()) {
-            return GiraOneTypeMapperFactory.createGson().fromJson(responseBody, classOfT);
-        } else {
-            return GiraOneTypeMapperFactory.createGson().fromJson(responseBody.get(responseProperty), classOfT);
-        }
-    }
+  }
 }

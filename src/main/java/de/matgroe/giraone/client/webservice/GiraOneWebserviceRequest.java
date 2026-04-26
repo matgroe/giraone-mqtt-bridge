@@ -29,16 +29,17 @@ import de.matgroe.giraone.client.GiraOneTypeMapperFactory;
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneWebserviceRequest {
-    @SerializedName(value = "data")
-    private final JsonObject data;
-    private final transient GiraOneCommand command;
+  @SerializedName(value = "data")
+  private final JsonObject data;
 
-    protected GiraOneWebserviceRequest(GiraOneCommand command) {
-        data = (JsonObject) GiraOneTypeMapperFactory.createGson().toJsonTree(command);
-        this.command = command;
-    }
+  private final transient GiraOneCommand command;
 
-    public GiraOneCommand getCommand() {
-        return this.command;
-    }
+  protected GiraOneWebserviceRequest(GiraOneCommand command) {
+    data = (JsonObject) GiraOneTypeMapperFactory.createGson().toJsonTree(command);
+    this.command = command;
+  }
+
+  public GiraOneCommand getCommand() {
+    return this.command;
+  }
 }

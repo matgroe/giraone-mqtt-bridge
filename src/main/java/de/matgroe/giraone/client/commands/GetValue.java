@@ -29,43 +29,42 @@ import de.matgroe.util.GenericBuilder;
  */
 @GiraOneServerCommand(name = "GetValue")
 public class GetValue extends GiraOneCommand {
-    public static GenericBuilder<GetValue> builder() {
-        return GenericBuilder.of(GetValue::new);
-    }
+  public static GenericBuilder<GetValue> builder() {
+    return GenericBuilder.of(GetValue::new);
+  }
 
-    private Integer id;
-    private String urn;
+  private Integer id;
+  private String urn;
 
-    private String internal = "true";
+  private String internal = "true";
 
-    protected GetValue() {
-    }
+  protected GetValue() {}
 
-    public Integer getId() {
-        return id;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public String getUrn() {
-        return urn;
-    }
+  public String getUrn() {
+    return urn;
+  }
 
-    public void setUrn(String urn) {
-        this.urn = urn;
-    }
+  public void setUrn(String urn) {
+    this.urn = urn;
+  }
 
-    public void setUrn(GiraOneURN urn) {
-        this.urn = urn.toString();
-    }
+  public void setUrn(GiraOneURN urn) {
+    this.urn = urn.toString();
+  }
 
-    public String getInternal() {
-        return internal;
-    }
+  public String getInternal() {
+    return internal;
+  }
 
-    public void setInternal(String internal) {
-        this.internal = internal;
-    }
+  public void setInternal(String internal) {
+    this.internal = internal;
+  }
 }

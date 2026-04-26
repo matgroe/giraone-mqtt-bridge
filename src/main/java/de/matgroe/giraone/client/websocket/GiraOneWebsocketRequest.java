@@ -21,58 +21,58 @@ import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import de.matgroe.giraone.client.GiraOneCommand;
 import de.matgroe.giraone.client.GiraOneTypeMapperFactory;
-
 import java.util.Objects;
 
 /**
- * Defines the command message to be sent out to Gira One Server.
- * It contains the {@link GiraOneCommand}, which defines the command
- * name and the property name within the command response json.
- * The unique commandId is built from command.name and some timestamp
- * information to map the received response to the requested server command.
+ * Defines the command message to be sent out to Gira One Server. It contains the {@link
+ * GiraOneCommand}, which defines the command name and the property name within the command response
+ * json. The unique commandId is built from command.name and some timestamp information to map the
+ * received response to the requested server command.
  *
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneWebsocketRequest {
-    private static final String PROPERTY_COMMAND_ID = "_gdsqueryId";
-    private static final String PROPERTY_COMMAND_NAME = "command";
+  private static final String PROPERTY_COMMAND_ID = "_gdsqueryId";
+  private static final String PROPERTY_COMMAND_NAME = "command";
 
-    @SerializedName(value = "request")
-    private final JsonObject request;
+  @SerializedName(value = "request")
+  private final JsonObject request;
 
-    public GiraOneWebsocketRequest(GiraOneCommand command) {
-        request = (JsonObject) GiraOneTypeMapperFactory.createGson().toJsonTree(command);
-        request.addProperty(PROPERTY_COMMAND_ID, GiraOneWebsocketSequence.next());
-        request.addProperty(PROPERTY_COMMAND_NAME, command.getCommand());
+  public GiraOneWebsocketRequest(GiraOneCommand command) {
+    request = (JsonObject) GiraOneTypeMapperFactory.createGson().toJsonTree(command);
+    request.addProperty(PROPERTY_COMMAND_ID, GiraOneWebsocketSequence.next());
+    request.addProperty(PROPERTY_COMMAND_NAME, command.getCommand());
+  }
+
+  public GiraOneCommand getCommand() {
+    return Objects.requireNonNullElse(
+        GiraOneTypeMapperFactory.createGson().fromJson(request, GiraOneCommand.class),
+        new GiraOneCommand());
+  }
+
+  public Integer getCommandId() {
+    return request.getAsJsonPrimitive(PROPERTY_COMMAND_ID).getAsInt();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == null) {
+      return false;
     }
 
-    public GiraOneCommand getCommand() {
-        return Objects.requireNonNullElse(GiraOneTypeMapperFactory.createGson().fromJson(request, GiraOneCommand.class),
-                new GiraOneCommand());
+    if (this == o) {
+      return true;
     }
 
-    public Integer getCommandId() {
-        return request.getAsJsonPrimitive(PROPERTY_COMMAND_ID).getAsInt();
+    if (!(o instanceof GiraOneWebsocketRequest that)) {
+      return false;
     }
+    return Objects.equals(getCommandId(), that.getCommandId())
+        && Objects.equals(getCommand(), that.getCommand());
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-
-        if (this == o) {
-            return true;
-        }
-
-        if (!(o instanceof GiraOneWebsocketRequest that)) {
-            return false;
-        }
-        return Objects.equals(getCommandId(), that.getCommandId()) && Objects.equals(getCommand(), that.getCommand());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(request);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(request);
+  }
 }

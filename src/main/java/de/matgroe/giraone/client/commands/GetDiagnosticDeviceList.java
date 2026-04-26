@@ -29,10 +29,9 @@ import de.matgroe.util.GenericBuilder;
 @GiraOneServerCommand(name = "GetDiagnosticDeviceList", responsePayload = "data")
 public class GetDiagnosticDeviceList extends GiraOneCommand {
 
-    public static GenericBuilder<GetDiagnosticDeviceList> builder() {
-        return GenericBuilder.of(GetDiagnosticDeviceList::new);
-    }
+  public static GenericBuilder<GetDiagnosticDeviceList> builder() {
+    return GenericBuilder.of(GetDiagnosticDeviceList::new);
+  }
 
-    protected GetDiagnosticDeviceList() {
-    }
+  protected GetDiagnosticDeviceList() {}
 }

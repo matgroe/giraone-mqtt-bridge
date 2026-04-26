@@ -18,14 +18,13 @@
 package de.matgroe.giraone.client;
 
 /**
- * This enumeration defines the types of messages which may be
- * received from the Gira One Sever.
+ * This enumeration defines the types of messages which may be received from the Gira One Sever.
  *
  * @author Matthias Gröger - Initial contribution
  */
 public enum GiraOneMessageType {
-    Invalid,
-    Error,
-    Event,
-    Response
+  Invalid,
+  Error,
+  Event,
+  Response
 }

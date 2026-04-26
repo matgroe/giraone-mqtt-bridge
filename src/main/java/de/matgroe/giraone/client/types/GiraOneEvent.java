@@ -25,53 +25,53 @@ import com.google.gson.annotations.SerializedName;
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneEvent {
-    private int id;
+  private int id;
 
-    private String urn;
+  private String urn;
 
-    @SerializedName(value = "new")
-    private String newValue;
+  @SerializedName(value = "new")
+  private String newValue;
 
-    @SerializedName(value = "old")
-    private String oldValue;
+  @SerializedName(value = "old")
+  private String oldValue;
 
-    private String newInternal;
+  private String newInternal;
 
-    private String oldInternal;
+  private String oldInternal;
 
-    private String state;
+  private String state;
 
-    private String source;
+  private String source;
 
-    public int getId() {
-        return id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public String getUrn() {
-        return urn;
-    }
+  public String getUrn() {
+    return urn;
+  }
 
-    public String getNewValue() {
-        return newValue;
-    }
+  public String getNewValue() {
+    return newValue;
+  }
 
-    public String getOldValue() {
-        return oldValue;
-    }
+  public String getOldValue() {
+    return oldValue;
+  }
 
-    public String getNewInternal() {
-        return newInternal;
-    }
+  public String getNewInternal() {
+    return newInternal;
+  }
 
-    public String getOldInternal() {
-        return oldInternal;
-    }
+  public String getOldInternal() {
+    return oldInternal;
+  }
 
-    public String getState() {
-        return state;
-    }
+  public String getState() {
+    return state;
+  }
 
-    public String getSource() {
-        return source;
-    }
+  public String getSource() {
+    return source;
+  }
 }

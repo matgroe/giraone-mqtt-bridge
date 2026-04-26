@@ -25,45 +25,44 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
-@ConfigurationProperties(prefix="mqtt")
+@ConfigurationProperties(prefix = "mqtt")
 public class MqttClientProperties {
 
-    @Value("${mqtt.user}")
-    @NotEmpty
-    String username;
+  @Value("${mqtt.user}")
+  @NotEmpty
+  String username;
 
-    @Value("${mqtt.password}")
-    @NotEmpty(message = "provide a value for")
-    String password;
+  @Value("${mqtt.password}")
+  @NotEmpty(message = "provide a value for")
+  String password;
 
-    @Value("${mqtt.broker}")
-    @NotEmpty
-    String mqttBroker;
+  @Value("${mqtt.broker}")
+  @NotEmpty
+  String mqttBroker;
 
-    @Value("${mqtt.port}")
-    @Min(1000)
-    @Max(65655)
-    int mqttPort;
+  @Value("${mqtt.port}")
+  @Min(1000)
+  @Max(65655)
+  int mqttPort;
 
-    @Value("${mqtt.keepalive:60}")
-    @Min(60)
-    @Max(3600)
-    int keepAlive;
+  @Value("${mqtt.keepalive:60}")
+  @Min(60)
+  @Max(3600)
+  int keepAlive;
 
-    public String getUsername() {
-        return username;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public String getMqttBroker() {
-        return mqttBroker;
-    }
+  public String getMqttBroker() {
+    return mqttBroker;
+  }
 
-    public int getMqttPort() {
-        return mqttPort;
-    }
-
+  public int getMqttPort() {
+    return mqttPort;
+  }
 }

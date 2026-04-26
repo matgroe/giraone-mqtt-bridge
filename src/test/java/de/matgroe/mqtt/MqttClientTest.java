@@ -18,19 +18,17 @@
 
 package de.matgroe.mqtt;
 
-import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
-import com.hivemq.client.mqtt.mqtt5.message.connect.Mqtt5ConnectBuilderBase;
-import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAck;
-import de.matgroe.giraone.client.GiraOneClient;
 import static org.awaitility.Awaitility.await;
 import static org.awaitility.Duration.ONE_MINUTE;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
+
+import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link MqttClient}
@@ -40,26 +38,25 @@ import static org.mockito.Mockito.when;
 @Disabled
 class MqttClientTest {
 
-    MqttClient mqttClient;
-    Mqtt5AsyncClient mqtt5ClientMock = mock(Mqtt5AsyncClient.class);
+  MqttClient mqttClient;
+  Mqtt5AsyncClient mqtt5ClientMock = mock(Mqtt5AsyncClient.class);
 
-    @BeforeEach
-    void setUp() {
-        MqttClientProperties mqttClientProperties = new MqttClientProperties();
-        mqttClientProperties.mqttBroker = "192.168.178.69";
-        mqttClientProperties.mqttPort = 1883;
-        mqttClientProperties.username = "mqtt-dev";
-        mqttClientProperties.password = "mqtt-pass";
+  @BeforeEach
+  void setUp() {
+    MqttClientProperties mqttClientProperties = new MqttClientProperties();
+    mqttClientProperties.mqttBroker = "192.168.178.69";
+    mqttClientProperties.mqttPort = 1883;
+    mqttClientProperties.username = "mqtt-dev";
+    mqttClientProperties.password = "mqtt-pass";
 
-        mqttClient = spy(new MqttClient(mqttClientProperties));
-        when(mqttClient.buildMqtt5Client()).thenReturn(mqtt5ClientMock);
-    }
+    mqttClient = spy(new MqttClient(mqttClientProperties));
+    when(mqttClient.buildMqtt5Client()).thenReturn(mqtt5ClientMock);
+  }
 
-    @Test
-    void createRegistrationMessage(){
-        mqttClient.connect("junit");
-        await().atMost(ONE_MINUTE).untilAsserted(() -> assertTrue(true));
-       // mqttBridge.register();
-    }
-
+  @Test
+  void createRegistrationMessage() {
+    mqttClient.connect("junit");
+    await().atMost(ONE_MINUTE).untilAsserted(() -> assertTrue(true));
+    // mqttBridge.register();
+  }
 }

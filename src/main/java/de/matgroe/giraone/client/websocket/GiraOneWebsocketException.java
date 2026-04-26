@@ -26,18 +26,17 @@ import java.io.Serial;
  */
 public class GiraOneWebsocketException extends RuntimeException {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+  @Serial private static final long serialVersionUID = 1L;
 
-    public GiraOneWebsocketException(String message) {
-        this(message, (Throwable) null);
-    }
+  public GiraOneWebsocketException(String message) {
+    this(message, (Throwable) null);
+  }
 
-    public GiraOneWebsocketException(String message, Throwable t) {
-        super(message, t);
-    }
+  public GiraOneWebsocketException(String message, Throwable t) {
+    super(message, t);
+  }
 
-    public GiraOneWebsocketException(Throwable cause) {
-        super(cause.getMessage(), cause);
-    }
+  public GiraOneWebsocketException(Throwable cause) {
+    super(cause.getMessage(), cause);
+  }
 }

@@ -18,15 +18,14 @@
 package de.matgroe.giraone.client;
 
 /**
- * The enumeration {@link GiraOneClientConnectionState} is responsible for describing
- * the current connection state between GiraOneMqttBridge and the physical
- * GiraOne Server within your network.
+ * The enumeration {@link GiraOneClientConnectionState} is responsible for describing the current
+ * connection state between GiraOneMqttBridge and the physical GiraOne Server within your network.
  *
  * @author Matthias Groeger - Initial contribution
  */
 public enum GiraOneClientConnectionState {
-    Disconnected,
-    Connecting,
-    Connected,
-    Error
+  Disconnected,
+  Connecting,
+  Connected,
+  Error
 }

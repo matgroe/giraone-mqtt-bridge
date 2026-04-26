@@ -19,28 +19,27 @@ package de.matgroe.mqtt;
 
 import com.hivemq.client.mqtt.datatypes.MqttTopic;
 import de.matgroe.GiraOneMqttBridge;
-
 import java.util.UUID;
 
 /**
- * This record decribes the intemediate message format between {@link GiraOneMqttBridge}
- * and {@link MqttClient}
+ * This record decribes the intemediate message format between {@link GiraOneMqttBridge} and {@link
+ * MqttClient}
  */
 public record MqttMessage(String topic, String payload, String messageId) {
 
-    public MqttMessage(String topic, String payload) {
-        this(topic, payload, UUID.randomUUID().toString());
-    }
+  public MqttMessage(String topic, String payload) {
+    this(topic, payload, UUID.randomUUID().toString());
+  }
 
-    public MqttMessage(MqttTopic topic, String payload, String messageId) {
-        this(topic.toString(), payload, messageId);
-    }
+  public MqttMessage(MqttTopic topic, String payload, String messageId) {
+    this(topic.toString(), payload, messageId);
+  }
 
-    @Override
-    public String toString() {
-        if (payload == null) {
-            return String.format("MqttMessage{%s@%s : '-> NO_PAYLOAD <-' }", messageId, topic);
-        }
-        return String.format("MqttMessage{%s@%s : '%s' }", messageId, topic, payload);
+  @Override
+  public String toString() {
+    if (payload == null) {
+      return String.format("MqttMessage{%s@%s : '-> NO_PAYLOAD <-' }", messageId, topic);
     }
+    return String.format("MqttMessage{%s@%s : '%s' }", messageId, topic, payload);
+  }
 }
