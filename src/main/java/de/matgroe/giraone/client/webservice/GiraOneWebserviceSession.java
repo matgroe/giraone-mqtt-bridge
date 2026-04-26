@@ -24,25 +24,25 @@ package de.matgroe.giraone.client.webservice;
  * @author Matthias Gröger - Initial contribution
  */
 class GiraOneWebserviceSession {
-    private final String salt;
-    private final String sessionSalt;
-    private final String version;
+  private final String salt;
+  private final String sessionSalt;
+  private final String version;
 
-    public GiraOneWebserviceSession(String salt, String sessionSalt, String version) {
-        this.salt = salt;
-        this.sessionSalt = sessionSalt;
-        this.version = version;
-    }
+  public GiraOneWebserviceSession(String salt, String sessionSalt, String version) {
+    this.salt = salt;
+    this.sessionSalt = sessionSalt;
+    this.version = version;
+  }
 
-    public String getSalt() {
-        return salt;
-    }
+  public String getSalt() {
+    return salt;
+  }
 
-    public String getSessionSalt() {
-        return sessionSalt;
-    }
+  public String getSessionSalt() {
+    return sessionSalt;
+  }
 
-    public String getVersion() {
-        return version;
-    }
+  public String getVersion() {
+    return version;
+  }
 }

@@ -22,21 +22,21 @@ import com.google.gson.annotations.SerializedName;
 import de.matgroe.giraone.client.GiraOneCommandResponse;
 
 /**
- * {@link GiraOneCommandResponse} implementation for responses as received from the
- * Gira One Webservice interface.
+ * {@link GiraOneCommandResponse} implementation for responses as received from the Gira One
+ * Webservice interface.
  *
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneWebserviceResponse implements GiraOneCommandResponse {
-    @SerializedName(value = "data")
-    public final JsonObject responseBody;
+  @SerializedName(value = "data")
+  public final JsonObject responseBody;
 
-    public GiraOneWebserviceResponse(final JsonObject responseBody) {
-        this.responseBody = responseBody;
-    }
+  public GiraOneWebserviceResponse(final JsonObject responseBody) {
+    this.responseBody = responseBody;
+  }
 
-    @Override
-    public JsonObject getResponseBody() {
-        return responseBody;
-    }
+  @Override
+  public JsonObject getResponseBody() {
+    return responseBody;
+  }
 }

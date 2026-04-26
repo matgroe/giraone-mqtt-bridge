@@ -24,7 +24,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import de.matgroe.giraone.client.GiraOneCommand;
 import de.matgroe.giraone.client.GiraOneServerCommand;
-
 import java.lang.reflect.Type;
 import java.util.Objects;
 import java.util.Optional;
@@ -36,24 +35,27 @@ import java.util.Set;
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneCommandDeserializer implements JsonDeserializer<GiraOneCommand> {
-    private final Set<Class<?>> giraOneCommandClasses;
+  private final Set<Class<?>> giraOneCommandClasses;
 
-    public GiraOneCommandDeserializer(Set<Class<?>> commandClasses) {
-        this.giraOneCommandClasses = commandClasses;
-    }
+  public GiraOneCommandDeserializer(Set<Class<?>> commandClasses) {
+    this.giraOneCommandClasses = commandClasses;
+  }
 
-    @Override
-    public GiraOneCommand deserialize(JsonElement jsonElement,  Type type,
-            JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-        if (jsonDeserializationContext != null && jsonElement != null && jsonElement.isJsonObject()) {
-            String command = ((JsonObject) jsonElement).getAsJsonPrimitive("command").getAsString();
-            Optional<Class<?>> commandClassOptional = giraOneCommandClasses.stream()
-                    .filter(f -> command.equals(f.getAnnotation(GiraOneServerCommand.class).name())).findFirst();
-            if (commandClassOptional.isPresent()) {
-                return Objects.requireNonNull(jsonDeserializationContext).deserialize(jsonElement,
-                        commandClassOptional.get());
-            }
-        }
-        return new GiraOneCommand();
+  @Override
+  public GiraOneCommand deserialize(
+      JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
+      throws JsonParseException {
+    if (jsonDeserializationContext != null && jsonElement != null && jsonElement.isJsonObject()) {
+      String command = ((JsonObject) jsonElement).getAsJsonPrimitive("command").getAsString();
+      Optional<Class<?>> commandClassOptional =
+          giraOneCommandClasses.stream()
+              .filter(f -> command.equals(f.getAnnotation(GiraOneServerCommand.class).name()))
+              .findFirst();
+      if (commandClassOptional.isPresent()) {
+        return Objects.requireNonNull(jsonDeserializationContext)
+            .deserialize(jsonElement, commandClassOptional.get());
+      }
     }
+    return new GiraOneCommand();
+  }
 }

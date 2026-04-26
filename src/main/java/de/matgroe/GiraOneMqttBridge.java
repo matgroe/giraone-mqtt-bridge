@@ -27,245 +27,264 @@ import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
 import de.matgroe.giraone.client.types.GiraOneProject;
 import de.matgroe.giraone.client.types.GiraOneValue;
-import de.matgroe.hassio.HassioDiscoveryMessageFactory;
-import de.matgroe.mqtt.MqttClient;
-import de.matgroe.mqtt.MqttClientConnectionState;
 import de.matgroe.hassio.HassioComponentFactory;
-import de.matgroe.mqtt.MqttMessage;
+import de.matgroe.hassio.HassioDiscoveryMessageFactory;
 import de.matgroe.hassio.HassioTopicNameMapper;
 import de.matgroe.hassio.types.DiscoveryMessage;
+import de.matgroe.mqtt.MqttClient;
+import de.matgroe.mqtt.MqttClientConnectionState;
+import de.matgroe.mqtt.MqttMessage;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.ReplaySubject;
+import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.function.Consumer;
-
-/**
- * This class is responsible for dispatching ..
- */
+/** This class is responsible for dispatching .. */
 @Component
 public class GiraOneMqttBridge {
-    private final static String GDS_DEVICE_CHANNEL_URN = "urn:gds:dp:GiraOneServer.GIOSRVKX03:GDS-Device-Channel";
-    private final static String GDS_DEVICE_DATAPOINT_READY = "Ready";
-    private final static String GDS_DEVICE_DATAPOINT_LOCAL_TIME = "Local-Time";
+  private static final String GDS_DEVICE_CHANNEL_URN =
+      "urn:gds:dp:GiraOneServer.GIOSRVKX03:GDS-Device-Channel";
+  private static final String GDS_DEVICE_DATAPOINT_READY = "Ready";
+  private static final String GDS_DEVICE_DATAPOINT_LOCAL_TIME = "Local-Time";
 
-    private final ReplaySubject<GiraOneMqttBridgeState> bridgeState = ReplaySubject.createWithSize(1);
-    private final Logger logger = LoggerFactory.getLogger(GiraOneMqttBridge.class);
-    private final CompositeDisposable giraOneClientDisposables = new CompositeDisposable();
-    private final CompositeDisposable  mqttClientDiposables = new CompositeDisposable();
+  private final ReplaySubject<GiraOneMqttBridgeState> bridgeState = ReplaySubject.createWithSize(1);
+  private final Logger logger = LoggerFactory.getLogger(GiraOneMqttBridge.class);
+  private final CompositeDisposable giraOneClientDisposables = new CompositeDisposable();
+  private final CompositeDisposable mqttClientDiposables = new CompositeDisposable();
 
-    private final GiraOneMqttApplicationProperties applicationProperties;
-    private final GiraOneClient giraOneClient;
-    private final MqttClient mqttClient;
+  private final GiraOneMqttApplicationProperties applicationProperties;
+  private final GiraOneClient giraOneClient;
+  private final MqttClient mqttClient;
 
-    private Disposable giraoneValueDiposable = Disposable.empty();
-    private Disposable bridgeStateDiposable = Disposable.empty();
+  private Disposable giraoneValueDiposable = Disposable.empty();
+  private Disposable bridgeStateDiposable = Disposable.empty();
 
+  private HassioDiscoveryMessageFactory hassioDiscoveryMessageFactory;
 
-    private HassioDiscoveryMessageFactory hassioDiscoveryMessageFactory;
+  private HassioComponentFactory hassioComponentFactory;
 
-    private HassioComponentFactory hassioComponentFactory;
+  private HassioTopicNameMapper hassioTopicNameMapper;
 
-    private HassioTopicNameMapper hassioTopicNameMapper;
+  public GiraOneMqttBridge(
+      GiraOneMqttApplicationProperties applicationProperties,
+      GiraOneClient giraOneClient,
+      MqttClient mqttClient) {
+    this.giraOneClient = giraOneClient;
+    this.mqttClient = mqttClient;
+    this.applicationProperties = applicationProperties;
+    bridgeState.onNext(GiraOneMqttBridgeState.Stopped);
+  }
 
-    public GiraOneMqttBridge(GiraOneMqttApplicationProperties applicationProperties, GiraOneClient giraOneClient, MqttClient mqttClient) {
-        this.giraOneClient = giraOneClient;
-        this.mqttClient = mqttClient;
-        this.applicationProperties = applicationProperties;
-        bridgeState.onNext(GiraOneMqttBridgeState.Stopped);
+  public boolean isExecuteable() {
+    return (this.bridgeState.getValue() != GiraOneMqttBridgeState.Error);
+  }
+
+  public void run(String... args) throws Exception {
+    // Register for own state changes
+    bridgeStateDiposable = bridgeState.subscribe(this::onGiraOneMqttBridgeStateChanged);
+
+    // register for MqttClient state changes
+    mqttClientDiposables.add(
+        mqttClient.observeMqttConnectionState(this::onMqttClientConnectionStateChanged));
+
+    // register for MqttClient messages
+    mqttClientDiposables.add(mqttClient.observeInboundQueue(this::onMqttMessage));
+
+    // Register at GiraOneClient for all Exceptions
+    giraOneClientDisposables.add(
+        giraOneClient.observeOnGiraOneClientExceptions(this::onGiraOneClientException));
+
+    // Register for ConnectionState changes
+    giraOneClientDisposables.add(
+        this.giraOneClient.observeGiraOneConnectionState(
+            this::onGiraOneClientConnectionStateChanged));
+
+    // Register for GiraServer State Updates like time
+    giraOneClientDisposables.add(
+        subscribeOnGiraOneDataPointValues(
+            String.format("%s:.*", GDS_DEVICE_CHANNEL_URN), this::onDeviceChannelEvent));
+
+    bridgeState.onNext(GiraOneMqttBridgeState.ConnectingGiraOneClient);
+  }
+
+  /**
+   * Observing function for {@link GiraOneMqttBridgeState} changes
+   *
+   * @param bridgeState The {@link GiraOneMqttBridge}'s connection state.
+   */
+  void onGiraOneMqttBridgeStateChanged(GiraOneMqttBridgeState bridgeState) {
+    logger.info("GiraOneMqttBridgeState changed to '{}'", bridgeState);
+    switch (bridgeState) {
+      case Stopped -> handleBridgeStateStopped();
+      case ConnectingGiraOneClient -> handleBridgeStateConnectingGiraOneClient();
+      case ConnectingMqttClient -> handleBridgeStateConnectingMqttClient();
+      case Connected -> handleBridgeStateConnected();
+      case Disconnected -> handleBridgeStateDisconnected();
+      case Error -> handleBridgeStateError();
     }
+  }
 
-    public boolean isExecuteable() {
-        return (this.bridgeState.getValue() != GiraOneMqttBridgeState.Error);
+  /** Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#Stopped} */
+  void handleBridgeStateStopped() {
+    giraOneClient.disconnect();
+    mqttClient.disconnect();
+  }
+
+  /**
+   * Handler for GiraOneMqttBridgeState changed to {@link
+   * GiraOneMqttBridgeState#ConnectingGiraOneClient}
+   */
+  void handleBridgeStateConnectingGiraOneClient() {
+    try {
+      this.giraOneClient.connect();
+    } catch (GiraOneClientException exp) {
+      logger.error("Failed connect to GiraOneClient.", exp);
+      this.bridgeState.onNext(GiraOneMqttBridgeState.Error);
     }
+  }
 
-    public void run(String... args) throws Exception {
-        // Register for own state changes
-        bridgeStateDiposable = bridgeState.subscribe(this::onGiraOneMqttBridgeStateChanged);
+  /**
+   * Handler for GiraOneMqttBridgeState changed to {@link
+   * GiraOneMqttBridgeState#ConnectingMqttClient}
+   */
+  void handleBridgeStateConnectingMqttClient() {
+    GiraOneDeviceConfiguration cfg = giraOneClient.lookupGiraOneDeviceConfiguration();
+    String topicNamePrefix =
+        String.format(
+            "%s/%s",
+            cfg.get(GiraOneDeviceConfiguration.DEVICE_NAME),
+            cfg.get(GiraOneDeviceConfiguration.DEVICE_ID));
+    mqttClient.connect(topicNamePrefix);
 
-        // register for MqttClient state changes
-        mqttClientDiposables.add(mqttClient.observeMqttConnectionState(this::onMqttClientConnectionStateChanged));
+    this.hassioDiscoveryMessageFactory =
+        new HassioDiscoveryMessageFactory(
+            applicationProperties, giraOneClient.lookupGiraOneDeviceConfiguration());
+    this.hassioTopicNameMapper =
+        new HassioTopicNameMapper(topicNamePrefix, giraOneClient.getGiraOneProject());
+    this.hassioComponentFactory = new HassioComponentFactory(this.hassioTopicNameMapper);
+  }
 
-        // register for MqttClient messages
-        mqttClientDiposables.add(mqttClient.observeInboundQueue(this::onMqttMessage));
-
-        // Register at GiraOneClient for all Exceptions
-        giraOneClientDisposables.add(giraOneClient.observeOnGiraOneClientExceptions(this::onGiraOneClientException));
-
-        // Register for ConnectionState changes
-        giraOneClientDisposables.add(this.giraOneClient.observeGiraOneConnectionState(this::onGiraOneClientConnectionStateChanged));
-
-        // Register for GiraServer State Updates like time
-        giraOneClientDisposables.add(subscribeOnGiraOneDataPointValues(String.format("%s:.*", GDS_DEVICE_CHANNEL_URN), this::onDeviceChannelEvent));
-
-        bridgeState.onNext(GiraOneMqttBridgeState.ConnectingGiraOneClient);
-    }
-
-    /**
-     * Observing function for {@link GiraOneMqttBridgeState} changes
-     * @param bridgeState The {@link GiraOneMqttBridge}'s connection state.
-     */
-    void onGiraOneMqttBridgeStateChanged(GiraOneMqttBridgeState bridgeState) {
-        logger.info("GiraOneMqttBridgeState changed to '{}'", bridgeState);
-        switch (bridgeState) {
-            case Stopped -> handleBridgeStateStopped();
-            case ConnectingGiraOneClient -> handleBridgeStateConnectingGiraOneClient();
-            case ConnectingMqttClient -> handleBridgeStateConnectingMqttClient();
-            case Connected -> handleBridgeStateConnected();
-            case Disconnected -> handleBridgeStateDisconnected();
-            case Error -> handleBridgeStateError();
-        }
-    }
-
-    /**
-     * Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#Stopped}
-     */
-    void handleBridgeStateStopped(){
-        giraOneClient.disconnect();
-        mqttClient.disconnect();
-    }
-
-    /**
-     * Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#ConnectingGiraOneClient}
-     */
-    void handleBridgeStateConnectingGiraOneClient(){
-        try {
-            this.giraOneClient.connect();
-        } catch (GiraOneClientException exp) {
-            logger.error("Failed connect to GiraOneClient.", exp);
-            this.bridgeState.onNext(GiraOneMqttBridgeState.Error);
-        }
-    }
-
-    /**
-     * Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#ConnectingMqttClient}
-     */
-    void handleBridgeStateConnectingMqttClient(){
-        GiraOneDeviceConfiguration cfg = giraOneClient.lookupGiraOneDeviceConfiguration();
-        String topicNamePrefix = String.format("%s/%s", cfg.get(GiraOneDeviceConfiguration.DEVICE_NAME), cfg.get(GiraOneDeviceConfiguration.DEVICE_ID));
-        mqttClient.connect(topicNamePrefix);
-
-        this.hassioDiscoveryMessageFactory = new HassioDiscoveryMessageFactory(applicationProperties, giraOneClient.lookupGiraOneDeviceConfiguration());
-        this.hassioTopicNameMapper = new HassioTopicNameMapper(topicNamePrefix, giraOneClient.getGiraOneProject());
-        this.hassioComponentFactory = new HassioComponentFactory(this.hassioTopicNameMapper);
-    }
-
-    /**
-     * Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#Connected}
-     */
-    void handleBridgeStateConnected() {
-        sendDiscoveryMessage();
-        giraoneValueDiposable = giraOneClient.observeGiraOneValues(this::onGiraOneValue);
-        Thread.ofVirtual().start(() -> {
-            giraOneClient.getGiraOneProject().lookupGiraOneDataPoints().forEach(
-                    (GiraOneDataPoint dataPoint) -> {
+  /** Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#Connected} */
+  void handleBridgeStateConnected() {
+    sendDiscoveryMessage();
+    giraoneValueDiposable = giraOneClient.observeGiraOneValues(this::onGiraOneValue);
+    Thread.ofVirtual()
+        .start(
+            () -> {
+              giraOneClient
+                  .getGiraOneProject()
+                  .lookupGiraOneDataPoints()
+                  .forEach(
+                      (GiraOneDataPoint dataPoint) -> {
                         giraOneClient.lookupGiraOneDatapointValue(dataPoint);
                         try {
-                            Thread.sleep(300);
+                          Thread.sleep(300);
                         } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
+                          throw new RuntimeException(e);
                         }
-                    });
-        });
+                      });
+            });
+  }
 
+  /** Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#Disconnected} */
+  void handleBridgeStateDisconnected() {}
+
+  /** Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#Error} */
+  void handleBridgeStateError() {
+    try {
+      this.mqttClient.disconnect();
+      this.giraOneClient.disconnect();
+    } finally {
+      giraOneClientDisposables.dispose();
+      bridgeStateDiposable.dispose();
     }
+  }
 
-    /**
-     * Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#Disconnected}
-     */
-    void handleBridgeStateDisconnected() {}
+  /**
+   * This callback handles the received messages from the GiraOneServer.
+   *
+   * @param value The Received {@link GiraOneValue}
+   */
+  private void onDeviceChannelEvent(GiraOneValue value) {
+    logger.info("onDeviceChannelEvent:: {}", value);
+  }
 
-    /**
-     * Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#Error}
-     */
-    void handleBridgeStateError() {
-        try {
-            this.mqttClient.disconnect();
-            this.giraOneClient.disconnect();
-        } finally {
-            giraOneClientDisposables.dispose();
-            bridgeStateDiposable.dispose();
-        }
+  private void onGiraOneClientException(GiraOneClientException clientException) {
+    logger.error("GiraOneClientException {}", clientException.getMessage(), clientException);
+  }
+
+  /**
+   * Observing function for {@link GiraOneClientConnectionState} changes
+   *
+   * @param connectionState The {@link GiraOneClient}'s connection state.
+   */
+  void onGiraOneClientConnectionStateChanged(GiraOneClientConnectionState connectionState) {
+    logger.info("GiraOneClientConnectionState changed to {}", connectionState);
+    switch (connectionState) {
+      case Connected -> bridgeState.onNext(GiraOneMqttBridgeState.ConnectingMqttClient);
+      case Disconnected -> bridgeState.onNext(GiraOneMqttBridgeState.Disconnected);
+      case Error -> bridgeState.onNext(GiraOneMqttBridgeState.Error);
     }
+  }
 
-
-    /**
-     * This callback handles the received messages from the GiraOneServer.
-     *
-     * @param value The Received {@link GiraOneValue}
-     */
-    private void onDeviceChannelEvent(GiraOneValue value) {
-        logger.info("onDeviceChannelEvent:: {}", value);
+  /**
+   * Observing function for {@link GiraOneClientConnectionState} changes
+   *
+   * @param connectionState The {@link GiraOneClient}'s connection state.
+   */
+  void onMqttClientConnectionStateChanged(MqttClientConnectionState connectionState) {
+    logger.info("onMqttClientConnectionStateChanged changed to {}", connectionState);
+    switch (connectionState) {
+      case Connected -> bridgeState.onNext(GiraOneMqttBridgeState.Connected);
+      case Disconnected -> bridgeState.onNext(GiraOneMqttBridgeState.Disconnected);
+      case Error -> bridgeState.onNext(GiraOneMqttBridgeState.Error);
     }
+  }
 
-    private void onGiraOneClientException(GiraOneClientException clientException) {
-        logger.error("GiraOneClientException {}", clientException.getMessage(), clientException);
-    }
+  /**
+   * This method handles incoming mqtt messages and forwards them to the {@link GiraOneClient}
+   *
+   * @param mqttMessage
+   */
+  private void onMqttMessage(MqttMessage mqttMessage) {
+    logger.info("Received MqttMessage:: {}", mqttMessage);
+  }
 
+  /**
+   * This method handles incoming {@link GiraOneValue } messages and forwards them to the {@link
+   * MqttClient}
+   *
+   * @param giraOneValue
+   */
+  void onGiraOneValue(GiraOneValue giraOneValue) {
+    String topic = hassioTopicNameMapper.topicNameOf(giraOneValue.getGiraOneDataPoint());
+    MqttMessage mqttMessage = new MqttMessage(topic, giraOneValue.getValue());
+    logger.info("Publishing MqttMessage:: {}", mqttMessage);
+    mqttClient.publish(mqttMessage);
+  }
 
-    /**
-     * Observing function for {@link GiraOneClientConnectionState} changes
-     *
-     * @param connectionState The {@link GiraOneClient}'s connection state.
-     */
-    void onGiraOneClientConnectionStateChanged(GiraOneClientConnectionState connectionState) {
-       logger.info("GiraOneClientConnectionState changed to {}", connectionState);
-        switch (connectionState) {
-            case Connected -> bridgeState.onNext(GiraOneMqttBridgeState.ConnectingMqttClient);
-            case Disconnected -> bridgeState.onNext(GiraOneMqttBridgeState.Disconnected);
-            case Error -> bridgeState.onNext(GiraOneMqttBridgeState.Error);
-        }
-    }
+  public Disposable subscribeOnGiraOneDataPointValues(
+      final String deviceUrnPattern, Consumer<GiraOneValue> consumer) {
+    // return this.datapointValues.filter(f ->
+    // f.getDatapointUrn().matches(deviceUrnPattern)).subscribe(consumer);
+    return Disposable.empty();
+  }
 
-    /**
-     * Observing function for {@link GiraOneClientConnectionState} changes
-     *
-     * @param connectionState The {@link GiraOneClient}'s connection state.
-     */
-    void onMqttClientConnectionStateChanged(MqttClientConnectionState connectionState) {
-        logger.info("onMqttClientConnectionStateChanged changed to {}", connectionState);
-        switch (connectionState) {
-            case Connected -> bridgeState.onNext(GiraOneMqttBridgeState.Connected);
-            case Disconnected -> bridgeState.onNext(GiraOneMqttBridgeState.Disconnected);
-            case Error -> bridgeState.onNext(GiraOneMqttBridgeState.Error);
-        }
-    }
-
-    /**
-     * This method handles incoming mqtt messages and forwards them to the {@link GiraOneClient}
-     * @param mqttMessage
-     */
-    private void onMqttMessage(MqttMessage mqttMessage) {
-        logger.info("onMqttMessage : {}", mqttMessage);
-    }
-
-    /**
-     * This method handles incoming {@link GiraOneValue } messages and forwards them to the {@link MqttClient}
-     * @param giraOneValue
-     */
-    void onGiraOneValue(GiraOneValue giraOneValue) {
-        logger.info("onGiraOneValue :: {}", giraOneValue);
-        String topic = hassioTopicNameMapper.topicNameOf(giraOneValue.getGiraOneDataPoint());
-        mqttClient.publish(new MqttMessage(topic, giraOneValue.getValue()));
-    }
-
-    public Disposable subscribeOnGiraOneDataPointValues(final String deviceUrnPattern, Consumer<GiraOneValue> consumer) {
-        //return this.datapointValues.filter(f -> f.getDatapointUrn().matches(deviceUrnPattern)).subscribe(consumer);
-        return Disposable.empty();
-    }
-
-    private void sendDiscoveryMessage() {
-        logger.info("Create and send DiscoveryMessage");
-        DiscoveryMessage dm = hassioDiscoveryMessageFactory.createDiscoveryMessage();
-        GiraOneProject project = this.giraOneClient.getGiraOneProject();
-        project.lookupChannels().stream().filter(ch -> ch.getChannelType() == GiraOneChannelType.Status).forEach(channel -> {
-            dm.addComponent(hassioComponentFactory.from(channel));
-        });
-        Gson gson = new GsonBuilder().create();
-        this.mqttClient.publish(new MqttMessage(hassioDiscoveryMessageFactory.createDiscoveryTopic(), gson.toJson(dm)));
-    }
-
+  private void sendDiscoveryMessage() {
+    logger.info("Create and send DiscoveryMessage");
+    DiscoveryMessage dm = hassioDiscoveryMessageFactory.createDiscoveryMessage();
+    GiraOneProject project = this.giraOneClient.getGiraOneProject();
+    project.lookupChannels().stream()
+        .filter(ch -> ch.getChannelType() == GiraOneChannelType.Status)
+        .forEach(
+            channel -> {
+              dm.addComponent(hassioComponentFactory.from(channel));
+            });
+    Gson gson = new GsonBuilder().create();
+    this.mqttClient.publish(
+        new MqttMessage(hassioDiscoveryMessageFactory.createDiscoveryTopic(), gson.toJson(dm)));
+  }
 }

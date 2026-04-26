@@ -24,7 +24,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneURN;
-
 import java.lang.reflect.Type;
 
 /**
@@ -33,22 +32,24 @@ import java.lang.reflect.Type;
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneDataPointDeserializer extends GiraOneMessageJsonTypeAdapter
-        implements JsonDeserializer<GiraOneDataPoint> {
+    implements JsonDeserializer<GiraOneDataPoint> {
 
-    @Override
-    public GiraOneDataPoint deserialize(JsonElement jsonElement, Type type,
-             JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-        if (jsonElement != null && jsonElement.isJsonObject()) {
-            try {
-                JsonObject jsonObject = jsonElement.getAsJsonObject();
-                if (jsonObject.has(GiraOneJsonPropertyNames.PROPERTY_URN)) {
-                    return new GiraOneDataPoint(jsonObject.get(GiraOneJsonPropertyNames.PROPERTY_URN).getAsString());
-                }
-                return new GiraOneDataPoint(GiraOneURN.INVALID);
-            } catch (IllegalArgumentException e) {
-                throw new JsonParseException("Cannot parse JsonElement as GiraOneDataPoint.", e);
-            }
+  @Override
+  public GiraOneDataPoint deserialize(
+      JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
+      throws JsonParseException {
+    if (jsonElement != null && jsonElement.isJsonObject()) {
+      try {
+        JsonObject jsonObject = jsonElement.getAsJsonObject();
+        if (jsonObject.has(GiraOneJsonPropertyNames.PROPERTY_URN)) {
+          return new GiraOneDataPoint(
+              jsonObject.get(GiraOneJsonPropertyNames.PROPERTY_URN).getAsString());
         }
-        throw new JsonParseException("Cannot parse empty JsonElement as GiraOneDataPoint.");
+        return new GiraOneDataPoint(GiraOneURN.INVALID);
+      } catch (IllegalArgumentException e) {
+        throw new JsonParseException("Cannot parse JsonElement as GiraOneDataPoint.", e);
+      }
     }
+    throw new JsonParseException("Cannot parse empty JsonElement as GiraOneDataPoint.");
+  }
 }

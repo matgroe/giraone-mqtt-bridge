@@ -22,7 +22,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import de.matgroe.giraone.client.websocket.GiraOneWebsocketRequest;
-
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,16 +32,18 @@ import java.util.Map;
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneWebsocketRequestSerializer implements JsonSerializer<GiraOneWebsocketRequest> {
-    static final String PROPERTY_REQUEST = "request";
+  static final String PROPERTY_REQUEST = "request";
 
-    @Override
-    public JsonElement serialize(GiraOneWebsocketRequest serverCommand, Type type,
-            JsonSerializationContext jsonSerializationContext) {
-        Gson gson = new Gson();
-        Map<String, GiraOneWebsocketRequest> wrapper = new HashMap<>();
-        if (serverCommand != null) {
-            wrapper.put(PROPERTY_REQUEST, serverCommand);
-        }
-        return gson.toJsonTree(serverCommand);
+  @Override
+  public JsonElement serialize(
+      GiraOneWebsocketRequest serverCommand,
+      Type type,
+      JsonSerializationContext jsonSerializationContext) {
+    Gson gson = new Gson();
+    Map<String, GiraOneWebsocketRequest> wrapper = new HashMap<>();
+    if (serverCommand != null) {
+      wrapper.put(PROPERTY_REQUEST, serverCommand);
     }
+    return gson.toJsonTree(serverCommand);
+  }
 }

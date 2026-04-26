@@ -20,51 +20,50 @@ package de.matgroe.giraone.client.commands;
 import de.matgroe.giraone.client.GiraOneCommand;
 import de.matgroe.giraone.client.GiraOneServerCommand;
 import de.matgroe.util.GenericBuilder;
-
 import java.util.UUID;
 
 /**
- * {@link GiraOneCommand} for registering the giraone bridge as
- * client application at Gira One Server.
+ * {@link GiraOneCommand} for registering the giraone bridge as client application at Gira One
+ * Server.
  *
  * @author Matthias Gröger - Initial contribution
  */
 @GiraOneServerCommand(name = "RegisterApplication")
 public class RegisterApplication extends GiraOneCommand {
 
-    private String applicationId = "Gira.UniversalApp";
-    private String applicationType = "ui";
-    private String instanceId;
+  private String applicationId = "Gira.UniversalApp";
+  private String applicationType = "ui";
+  private String instanceId;
 
-    public static GenericBuilder<RegisterApplication> builder() {
-        return GenericBuilder.of(RegisterApplication::new);
-    }
+  public static GenericBuilder<RegisterApplication> builder() {
+    return GenericBuilder.of(RegisterApplication::new);
+  }
 
-    protected RegisterApplication() {
-        this.instanceId = UUID.randomUUID().toString();
-    }
+  protected RegisterApplication() {
+    this.instanceId = UUID.randomUUID().toString();
+  }
 
-    public String getApplicationId() {
-        return applicationId;
-    }
+  public String getApplicationId() {
+    return applicationId;
+  }
 
-    public void setApplicationId(String applicationId) {
-        this.applicationId = applicationId;
-    }
+  public void setApplicationId(String applicationId) {
+    this.applicationId = applicationId;
+  }
 
-    public String getApplicationType() {
-        return applicationType;
-    }
+  public String getApplicationType() {
+    return applicationType;
+  }
 
-    public void setApplicationType(String applicationType) {
-        this.applicationType = applicationType;
-    }
+  public void setApplicationType(String applicationType) {
+    this.applicationType = applicationType;
+  }
 
-    public String getInstanceId() {
-        return instanceId;
-    }
+  public String getInstanceId() {
+    return instanceId;
+  }
 
-    public void setInstanceId(String instanceId) {
-        this.instanceId = instanceId;
-    }
+  public void setInstanceId(String instanceId) {
+    this.instanceId = instanceId;
+  }
 }

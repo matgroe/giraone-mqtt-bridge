@@ -19,37 +19,27 @@ package de.matgroe.mqtt;
 
 import com.hivemq.client.mqtt.datatypes.MqttTopic;
 import de.matgroe.GiraOneMqttBridge;
-
 import java.util.UUID;
 
 /**
- * This class decribes the intemediate message format between {@link GiraOneMqttBridge}
- * and {@link de.matgroe.mqtt.MqttClient}
+ * This record decribes the intemediate message format between {@link GiraOneMqttBridge} and {@link
+ * MqttClient}
  */
-public class MqttMessage {
-    private final String topic;
-    private final String payload;
-    private final String messageId;
+public record MqttMessage(String topic, String payload, String messageId) {
 
-    public MqttMessage(String topic, String payload) {
-        this.topic = topic;
-        this.payload = payload;
-        this.messageId = UUID.randomUUID().toString();
-    }
+  public MqttMessage(String topic, String payload) {
+    this(topic, payload, UUID.randomUUID().toString());
+  }
 
-    public MqttMessage(MqttTopic topic, String payload) {
-        this(topic.toString(), payload);
-    }
+  public MqttMessage(MqttTopic topic, String payload, String messageId) {
+    this(topic.toString(), payload, messageId);
+  }
 
-    public String getTopic() {
-        return topic;
+  @Override
+  public String toString() {
+    if (payload == null) {
+      return String.format("MqttMessage{%s@%s : '-> NO_PAYLOAD <-' }", messageId, topic);
     }
-
-    public String getPayload() {
-        return payload;
-    }
-
-    public String getMessageId() {
-        return messageId;
-    }
+    return String.format("MqttMessage{%s@%s : '%s' }", messageId, topic, payload);
+  }
 }

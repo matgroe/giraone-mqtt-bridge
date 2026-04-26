@@ -17,6 +17,12 @@
  */
 package de.matgroe.giraone.client.webservice;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import com.google.gson.JsonParser;
 import de.matgroe.giraone.GiraOneClientProperties;
 import de.matgroe.giraone.client.GiraOneCommunicationException;
@@ -24,16 +30,11 @@ import de.matgroe.giraone.client.types.GiraOneComponentCollection;
 import de.matgroe.giraone.client.types.GiraOneComponentType;
 import de.matgroe.giraone.client.websocket.GiraOneWebsocketSequence;
 import de.matgroe.util.ResourceLoader;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 /**
  * Unit Tests for {@link GiraOneWebserviceClient}.
@@ -41,68 +42,85 @@ import static org.mockito.Mockito.verify;
  * @author Matthias Gröger - Initial contribution
  */
 class GiraOneWebserviceClientTest {
-    private GiraOneWebserviceClient giraOneWebserviceClient;
-    private GiraOneClientProperties configuration;
+  private GiraOneWebserviceClient giraOneWebserviceClient;
+  private GiraOneClientProperties configuration;
 
-    @BeforeEach
-    void setUp() {
-        GiraOneWebsocketSequence.reset();
+  @BeforeEach
+  void setUp() {
+    GiraOneWebsocketSequence.reset();
 
-        configuration = new GiraOneClientProperties();
-        configuration.username = "User";
-        configuration.password = "passowrd";
-        configuration.hostname = "localhost";
-        configuration.maxTextMessageSize = 350000;
-        configuration.defaultTimeoutSeconds = 45;
+    configuration = new GiraOneClientProperties();
+    configuration.username = "User";
+    configuration.password = "passowrd";
+    configuration.hostname = "localhost";
+    configuration.maxTextMessageSize = 350000;
+    configuration.defaultTimeoutSeconds = 45;
 
-        giraOneWebserviceClient = Mockito.spy(new GiraOneWebserviceClient(configuration));
-    }
+    giraOneWebserviceClient = Mockito.spy(new GiraOneWebserviceClient(configuration));
+  }
 
-    @DisplayName("Should authenticate against gira one server")
-    @Test
-    void testWebserviceAuthentication() throws Exception {
-        String response = ResourceLoader.loadStringResource("/giraone/7.GetPasswordSalt/001-resp.json");
+  @DisplayName("Should authenticate against gira one server")
+  @Test
+  void testWebserviceAuthentication() throws Exception {
+    String response = ResourceLoader.loadStringResource("/giraone/7.GetPasswordSalt/001-resp.json");
 
-        Mockito.doReturn(response).when(giraOneWebserviceClient).doPost(Mockito.any());
-        giraOneWebserviceClient.connect();
+    Mockito.doReturn(response).when(giraOneWebserviceClient).doPost(Mockito.any());
+    giraOneWebserviceClient.connect();
 
-        ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+    ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
 
-        verify(giraOneWebserviceClient, times(2)).doPost(argumentCaptor.capture());
-        String[] args = argumentCaptor.getAllValues().toArray(new String[0]);
+    verify(giraOneWebserviceClient, times(2)).doPost(argumentCaptor.capture());
+    String[] args = argumentCaptor.getAllValues().toArray(new String[0]);
 
-        assertEquals("getPasswordSalt", JsonParser.parseString(args[0]).getAsJsonObject().get("command").getAsString());
-        assertEquals(configuration.username, JsonParser.parseString(args[0]).getAsJsonObject().getAsJsonObject("data")
-                .get("username").getAsString());
+    assertEquals(
+        "getPasswordSalt",
+        JsonParser.parseString(args[0]).getAsJsonObject().get("command").getAsString());
+    assertEquals(
+        configuration.username,
+        JsonParser.parseString(args[0])
+            .getAsJsonObject()
+            .getAsJsonObject("data")
+            .get("username")
+            .getAsString());
 
-        assertEquals("doAuthenticateSession",
-                JsonParser.parseString(args[1]).getAsJsonObject().get("command").getAsString());
-        assertEquals("CADCD53C53A6BF8D3DECB15BEC310EA1C98614A5960E156C922D707FBDF7E84E",
-                JsonParser.parseString(args[1]).getAsJsonObject().getAsJsonObject("data").get("token").getAsString());
-    }
+    assertEquals(
+        "doAuthenticateSession",
+        JsonParser.parseString(args[1]).getAsJsonObject().get("command").getAsString());
+    assertEquals(
+        "CADCD53C53A6BF8D3DECB15BEC310EA1C98614A5960E156C922D707FBDF7E84E",
+        JsonParser.parseString(args[1])
+            .getAsJsonObject()
+            .getAsJsonObject("data")
+            .get("token")
+            .getAsString());
+  }
 
-    @DisplayName("Should fail with GiraOneCommunicationException")
-    @Test
-    void testWebserviceAuthenticationFails() throws Exception {
-        String response = ResourceLoader.loadStringResource("/giraone/7.GetPasswordSalt/002-resp.json");
+  @DisplayName("Should fail with GiraOneCommunicationException")
+  @Test
+  void testWebserviceAuthenticationFails() throws Exception {
+    String response = ResourceLoader.loadStringResource("/giraone/7.GetPasswordSalt/002-resp.json");
 
-        Mockito.doReturn(response).when(giraOneWebserviceClient).doPost(Mockito.any());
-        GiraOneCommunicationException thrown = assertThrows(GiraOneCommunicationException.class,
-                () -> giraOneWebserviceClient.connect(),
-                "Expected giraOneWebserviceClient.connect() to throw GiraOneCommunicationException, but it didn't");
-        assertEquals("getPasswordSalt", thrown.getCausingCommand().getCommand());
-        assertEquals("ERR_COMMUNICATION.235", thrown.getMessage());
-    }
+    Mockito.doReturn(response).when(giraOneWebserviceClient).doPost(Mockito.any());
+    GiraOneCommunicationException thrown =
+        assertThrows(
+            GiraOneCommunicationException.class,
+            () -> giraOneWebserviceClient.connect(),
+            "Expected giraOneWebserviceClient.connect() to throw GiraOneCommunicationException, but it didn't");
+    assertEquals("getPasswordSalt", thrown.getCausingCommand().getCommand());
+    assertEquals("ERR_COMMUNICATION.235", thrown.getMessage());
+  }
 
-    @DisplayName("Should provide GiraOneComponentCollection")
-    @Test
-    void testLookupGiraOneComponentCollection() throws Exception {
-        String response = ResourceLoader.loadStringResource("/giraone/9.GetDiagnosticDeviceList/001-resp.json");
-        Mockito.doReturn(response).when(giraOneWebserviceClient).doPost(Mockito.any());
+  @DisplayName("Should provide GiraOneComponentCollection")
+  @Test
+  void testLookupGiraOneComponentCollection() throws Exception {
+    String response =
+        ResourceLoader.loadStringResource("/giraone/9.GetDiagnosticDeviceList/001-resp.json");
+    Mockito.doReturn(response).when(giraOneWebserviceClient).doPost(Mockito.any());
 
-        GiraOneComponentCollection components = giraOneWebserviceClient.lookupGiraOneComponentCollection();
-        assertNotNull(components);
+    GiraOneComponentCollection components =
+        giraOneWebserviceClient.lookupGiraOneComponentCollection();
+    assertNotNull(components);
 
-        components.getAllChannels(GiraOneComponentType.KnxButton);
-    }
+    components.getAllChannels(GiraOneComponentType.KnxButton);
+  }
 }

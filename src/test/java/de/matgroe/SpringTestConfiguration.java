@@ -17,34 +17,38 @@
  */
 package de.matgroe;
 
+import static org.mockito.Mockito.when;
+
 import de.matgroe.giraone.GiraOneTestDataProvider;
 import de.matgroe.giraone.client.GiraOneClient;
 import de.matgroe.giraone.client.types.GiraOneValue;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import io.reactivex.rxjava3.subjects.Subject;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.when;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- *  Configuration Bean for Spring Tests
- */
+/** Configuration Bean for Spring Tests */
 @Configuration
 public class SpringTestConfiguration {
 
-    @Bean("giraInboundMessages")
-    Subject<GiraOneValue> giraInbound() { return PublishSubject.create(); }
+  @Bean("giraInboundMessages")
+  Subject<GiraOneValue> giraInbound() {
+    return PublishSubject.create();
+  }
 
-    @Bean("giraOutboundMessages")
-    Subject<GiraOneValue> giraOutbound() { return PublishSubject.create(); }
+  @Bean("giraOutboundMessages")
+  Subject<GiraOneValue> giraOutbound() {
+    return PublishSubject.create();
+  }
 
-    @Bean
-    GiraOneClient mockGiraOneClient() {
-        GiraOneClient giraOneClient = Mockito.mock(GiraOneClient.class);
-        when(giraOneClient.getGiraOneProject()).thenReturn(GiraOneTestDataProvider.createGiraOneProject());
-        when(giraOneClient.lookupGiraOneDeviceConfiguration()).thenReturn(GiraOneTestDataProvider.createGiraOneDeviceConfiguration());
-        return giraOneClient;
-    }
-
+  @Bean
+  GiraOneClient mockGiraOneClient() {
+    GiraOneClient giraOneClient = Mockito.mock(GiraOneClient.class);
+    when(giraOneClient.getGiraOneProject())
+        .thenReturn(GiraOneTestDataProvider.createGiraOneProject());
+    when(giraOneClient.lookupGiraOneDeviceConfiguration())
+        .thenReturn(GiraOneTestDataProvider.createGiraOneDeviceConfiguration());
+    return giraOneClient;
+  }
 }

@@ -22,10 +22,9 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import de.matgroe.giraone.client.types.GiraOneChannelTypeId;
+import java.lang.reflect.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.Type;
 
 /**
  * Deserializes a Json Element to {@link GiraOneChannelTypeId} within context of Gson parsing.
@@ -33,19 +32,22 @@ import java.lang.reflect.Type;
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneChannelTypeIdDeserializer implements JsonDeserializer<GiraOneChannelTypeId> {
-    private final Logger logger = LoggerFactory.getLogger(GiraOneChannelTypeIdDeserializer.class);
+  private final Logger logger = LoggerFactory.getLogger(GiraOneChannelTypeIdDeserializer.class);
 
-    @Override
-    public GiraOneChannelTypeId deserialize(JsonElement jsonElement, Type type,
-            JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-        if (jsonElement != null) {
-            try {
-                return GiraOneChannelTypeId.fromName(jsonElement.getAsString());
-            } catch (IllegalArgumentException exp) {
-                logger.warn("Cannot map '{}' into enum of {}", jsonElement.getAsString(),
-                        GiraOneChannelTypeId.class.getName());
-            }
-        }
-        return GiraOneChannelTypeId.Unknown;
+  @Override
+  public GiraOneChannelTypeId deserialize(
+      JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
+      throws JsonParseException {
+    if (jsonElement != null) {
+      try {
+        return GiraOneChannelTypeId.fromName(jsonElement.getAsString());
+      } catch (IllegalArgumentException exp) {
+        logger.warn(
+            "Cannot map '{}' into enum of {}",
+            jsonElement.getAsString(),
+            GiraOneChannelTypeId.class.getName());
+      }
     }
+    return GiraOneChannelTypeId.Unknown;
+  }
 }

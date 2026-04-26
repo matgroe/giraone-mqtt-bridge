@@ -23,28 +23,27 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
-@ConfigurationProperties(prefix="giraone")
+@ConfigurationProperties(prefix = "giraone")
 public class GiraOneClientProperties {
 
-    @Value("${giraone.server}")
-    @NotEmpty
-    public String hostname;
+  @Value("${giraone.server}")
+  @NotEmpty
+  public String hostname;
 
-    @Value("${giraone.user}")
-    @NotEmpty
-    public String username;
+  @Value("${giraone.user}")
+  @NotEmpty
+  public String username;
 
-    @Value("${giraone.password:}")
-    @NotEmpty
-    public String password;
+  @Value("${giraone.password:}")
+  @NotEmpty
+  public String password;
 
-    @Value("${giraone.defaultTimeoutSeconds:10}")
-    public int defaultTimeoutSeconds;
+  @Value("${giraone.defaultTimeoutSeconds:10}")
+  public int defaultTimeoutSeconds;
 
-    @Value("${giraone.maxTextMessageSize:100}")
-    public int maxTextMessageSize; // 100kB
+  @Value("${giraone.maxTextMessageSize:100}")
+  public int maxTextMessageSize; // 100kB
 
-    @Value("${giraone.discoverButtons:true}")
-    public boolean discoverButtons;
-
+  @Value("${giraone.discoverButtons:true}")
+  public boolean discoverButtons;
 }

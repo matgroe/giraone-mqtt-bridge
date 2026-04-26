@@ -18,16 +18,14 @@
 package de.matgroe.mqtt;
 
 /**
- * The enumeration {@link MqttClientConnectionState} is responsible for describing
- * the current connection state between GiraOneMqttBridge and the physical
- * Mqtt-Broker within your network.
+ * The enumeration {@link MqttClientConnectionState} is responsible for describing the current
+ * connection state between GiraOneMqttBridge and the physical Mqtt-Broker within your network.
  *
  * @author Matthias Groeger - Initial contribution
  */
 public enum MqttClientConnectionState {
-    Disconnected,
-    Connecting,
-    Connected,
-    Error
+  Disconnected,
+  Connecting,
+  Connected,
+  Error
 }
-

@@ -23,7 +23,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import de.matgroe.giraone.client.types.GiraOneValue;
-
 import java.lang.reflect.Type;
 
 /**
@@ -31,25 +30,29 @@ import java.lang.reflect.Type;
  *
  * @author Matthias Gröger - Initial contribution
  */
-public class GiraOneValueDeserializer extends GiraOneMessageJsonTypeAdapter implements JsonDeserializer<GiraOneValue> {
+public class GiraOneValueDeserializer extends GiraOneMessageJsonTypeAdapter
+    implements JsonDeserializer<GiraOneValue> {
 
-    private JsonObject getValueAsJsonObject(JsonElement jsonElement) {
-        if (jsonElement != null && jsonElement.isJsonObject()) {
-            JsonObject jsonObject = jsonElement.getAsJsonObject();
-            if (jsonObject.has("valueState") && "Value".equals(jsonObject.get("valueState").getAsString())) {
-                return jsonObject;
-            }
-        }
-        return null;
+  private JsonObject getValueAsJsonObject(JsonElement jsonElement) {
+    if (jsonElement != null && jsonElement.isJsonObject()) {
+      JsonObject jsonObject = jsonElement.getAsJsonObject();
+      if (jsonObject.has("valueState")
+          && "Value".equals(jsonObject.get("valueState").getAsString())) {
+        return jsonObject;
+      }
     }
+    return null;
+  }
 
-    @Override
-    public GiraOneValue deserialize(JsonElement jsonElement, Type type,
-            JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-        JsonObject jsonObject = getValueAsJsonObject(jsonElement);
-        if (jsonObject != null) {
-            return new GiraOneValue(jsonObject.get("urn").getAsString(), jsonObject.get("value").getAsString());
-        }
-        throw new JsonParseException("Cannot parse JsonElement as GiraOneValue.");
+  @Override
+  public GiraOneValue deserialize(
+      JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
+      throws JsonParseException {
+    JsonObject jsonObject = getValueAsJsonObject(jsonElement);
+    if (jsonObject != null) {
+      return new GiraOneValue(
+          jsonObject.get("urn").getAsString(), jsonObject.get("value").getAsString());
     }
+    throw new JsonParseException("Cannot parse JsonElement as GiraOneValue.");
+  }
 }

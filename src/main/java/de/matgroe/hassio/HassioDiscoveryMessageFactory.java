@@ -24,54 +24,53 @@ import de.matgroe.hassio.types.Device;
 import de.matgroe.hassio.types.DiscoveryMessage;
 import de.matgroe.hassio.types.Origin;
 
-/**
- * This class is responsible to create the
- */
+/** This class is responsible to create the */
 public class HassioDiscoveryMessageFactory {
-    private GiraOneDeviceConfiguration giraOneDeviceConfiguration;
-    private GiraOneMqttApplicationProperties applicationProperties;
+  private GiraOneDeviceConfiguration giraOneDeviceConfiguration;
+  private GiraOneMqttApplicationProperties applicationProperties;
 
-    public HassioDiscoveryMessageFactory(GiraOneMqttApplicationProperties applicationProperties, GiraOneDeviceConfiguration giraOneDeviceConfiguration) {
-        this.giraOneDeviceConfiguration = giraOneDeviceConfiguration;
-        this.applicationProperties = applicationProperties;
-    }
+  public HassioDiscoveryMessageFactory(
+      GiraOneMqttApplicationProperties applicationProperties,
+      GiraOneDeviceConfiguration giraOneDeviceConfiguration) {
+    this.giraOneDeviceConfiguration = giraOneDeviceConfiguration;
+    this.applicationProperties = applicationProperties;
+  }
 
-    public String createDiscoveryTopic() {
-        return String.format("homeassistant/device/%s/config",
-                giraOneDeviceConfiguration.get(GiraOneDeviceConfiguration.SERIAL_NUMBER)
-        );
-    }
+  public String createDiscoveryTopic() {
+    return String.format(
+        "homeassistant/device/%s/config",
+        giraOneDeviceConfiguration.get(GiraOneDeviceConfiguration.SERIAL_NUMBER));
+  }
 
-    public DiscoveryMessage createDiscoveryMessage() {
-        DiscoveryMessage ddm = new DiscoveryMessage();
-        ddm.setOrigin(createOrigin(applicationProperties));
-        ddm.setDevice(createDevice(giraOneDeviceConfiguration));
-        return ddm;
-    }
+  public DiscoveryMessage createDiscoveryMessage() {
+    DiscoveryMessage ddm = new DiscoveryMessage();
+    ddm.setOrigin(createOrigin(applicationProperties));
+    ddm.setDevice(createDevice(giraOneDeviceConfiguration));
+    return ddm;
+  }
 
-    Origin createOrigin(GiraOneMqttApplicationProperties mqttClientProperties) {
-        Origin origin = new Origin();
-        origin.setName(mqttClientProperties.getName());
-        origin.setSwVersion("123454");
-        origin.setSupportUrl(mqttClientProperties.getUrl());
-        return origin;
-    }
+  Origin createOrigin(GiraOneMqttApplicationProperties mqttClientProperties) {
+    Origin origin = new Origin();
+    origin.setName(mqttClientProperties.getName());
+    origin.setSwVersion("123454");
+    origin.setSupportUrl(mqttClientProperties.getUrl());
+    return origin;
+  }
 
-    Device createDevice(GiraOneDeviceConfiguration deviceCfg) {
-        Device d = new Device();
-        d.addIdentifier(deviceCfg.get(GiraOneDeviceConfiguration.SERIAL_NUMBER));
-        d.setName(deviceCfg.get(GiraOneDeviceConfiguration.DEVICE_NAME));
-        d.setSerialNumber(deviceCfg.get(GiraOneDeviceConfiguration.SERIAL_NUMBER));
-        d.setModel(deviceCfg.get(GiraOneDeviceConfiguration.APP_DEVICE_NAME));
-        d.setManufacturer("Gira");
-        d.setSwVersion(deviceCfg.get(GiraOneDeviceConfiguration.CURRENT_FIRMWARE_VERSION));
-        d.setHwVersion(
-                String.format("%s.%s.%s",
-                        deviceCfg.get(GiraOneDeviceConfiguration.MODULE_ID),
-                        deviceCfg.get(GiraOneDeviceConfiguration.MODULE_REVISION),
-                        deviceCfg.get(GiraOneDeviceConfiguration.MODULE_VERSION))
-        );
-        return d;
-    }
-
+  Device createDevice(GiraOneDeviceConfiguration deviceCfg) {
+    Device d = new Device();
+    d.addIdentifier(deviceCfg.get(GiraOneDeviceConfiguration.SERIAL_NUMBER));
+    d.setName(deviceCfg.get(GiraOneDeviceConfiguration.DEVICE_NAME));
+    d.setSerialNumber(deviceCfg.get(GiraOneDeviceConfiguration.SERIAL_NUMBER));
+    d.setModel(deviceCfg.get(GiraOneDeviceConfiguration.APP_DEVICE_NAME));
+    d.setManufacturer("Gira");
+    d.setSwVersion(deviceCfg.get(GiraOneDeviceConfiguration.CURRENT_FIRMWARE_VERSION));
+    d.setHwVersion(
+        String.format(
+            "%s.%s.%s",
+            deviceCfg.get(GiraOneDeviceConfiguration.MODULE_ID),
+            deviceCfg.get(GiraOneDeviceConfiguration.MODULE_REVISION),
+            deviceCfg.get(GiraOneDeviceConfiguration.MODULE_VERSION)));
+    return d;
+  }
 }

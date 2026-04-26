@@ -17,6 +17,9 @@
  */
 package de.matgroe.giraone;
 
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import com.google.gson.Gson;
 import de.matgroe.giraone.client.GiraOneTypeMapperFactory;
 import de.matgroe.giraone.client.commands.GetUIConfiguration;
@@ -34,8 +37,6 @@ import de.matgroe.giraone.client.webservice.GiraOneWebserviceResponse;
 import de.matgroe.giraone.client.websocket.GiraOneWebsocketResponse;
 import de.matgroe.util.GenericBuilder;
 import de.matgroe.util.ResourceLoader;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Utility provides test data for various unit tests.
@@ -44,64 +45,71 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 public class GiraOneTestDataProvider {
 
-    public static GiraOneProject createGiraOneProject() {
-        Gson gson = GiraOneTypeMapperFactory.createGson();
+  public static GiraOneProject createGiraOneProject() {
+    Gson gson = GiraOneTypeMapperFactory.createGson();
 
-        String message = ResourceLoader.loadStringResource("/giraone/2.GetUIConfiguration/001-resp.json");
-        GiraOneWebsocketResponse response = gson.fromJson(message, GiraOneWebsocketResponse.class);
-        assertNotNull(response);
-        assertInstanceOf(GetUIConfiguration.class, response.getRequestServerCommand().getCommand());
-        GiraOneChannelCollection uiChannels = response.getReply(GiraOneChannelCollection.class);
+    String message =
+        ResourceLoader.loadStringResource("/giraone/2.GetUIConfiguration/001-resp.json");
+    GiraOneWebsocketResponse response = gson.fromJson(message, GiraOneWebsocketResponse.class);
+    assertNotNull(response);
+    assertInstanceOf(GetUIConfiguration.class, response.getRequestServerCommand().getCommand());
+    GiraOneChannelCollection uiChannels = response.getReply(GiraOneChannelCollection.class);
 
-        GiraOneProject project = new GiraOneProject();
-        uiChannels.getChannels().forEach(project::addChannel);
+    GiraOneProject project = new GiraOneProject();
+    uiChannels.getChannels().forEach(project::addChannel);
 
-        GiraOneWebserviceResponse wsresponse = gson.fromJson(
-                ResourceLoader.loadStringResource("/giraone/9.GetDiagnosticDeviceList/001-resp.json"),
-                GiraOneWebserviceResponse.class);
-        assertNotNull(wsresponse);
-        GiraOneComponentCollection componentCollection = wsresponse.getReply(GiraOneComponentCollection.class);
-        assertNotNull(componentCollection);
-        componentCollection.getAllChannels(GiraOneComponentType.KnxButton).forEach(project::addChannel);
+    GiraOneWebserviceResponse wsresponse =
+        gson.fromJson(
+            ResourceLoader.loadStringResource("/giraone/9.GetDiagnosticDeviceList/001-resp.json"),
+            GiraOneWebserviceResponse.class);
+    assertNotNull(wsresponse);
+    GiraOneComponentCollection componentCollection =
+        wsresponse.getReply(GiraOneComponentCollection.class);
+    assertNotNull(componentCollection);
+    componentCollection.getAllChannels(GiraOneComponentType.KnxButton).forEach(project::addChannel);
 
-        return project;
-    }
+    return project;
+  }
 
-    public static GiraOneDeviceConfiguration createGiraOneDeviceConfiguration() {
-        Gson g1GsonMapper = GiraOneTypeMapperFactory.createGson();
-        return g1GsonMapper.fromJson(
-                ResourceLoader.loadStringResource("/giraone/4.GetDeviceConfig/001-resp.json"),
-                GiraOneWebsocketResponse.class).getReply(GiraOneDeviceConfiguration.class);
-    }
+  public static GiraOneDeviceConfiguration createGiraOneDeviceConfiguration() {
+    Gson g1GsonMapper = GiraOneTypeMapperFactory.createGson();
+    return g1GsonMapper
+        .fromJson(
+            ResourceLoader.loadStringResource("/giraone/4.GetDeviceConfig/001-resp.json"),
+            GiraOneWebsocketResponse.class)
+        .getReply(GiraOneDeviceConfiguration.class);
+  }
 
-    public static GiraOneDataPoint dataPointStepUpDown() {
-        return new GiraOneDataPoint(
-                "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-5:Step-Up-Down");
-    }
+  public static GiraOneDataPoint dataPointStepUpDown() {
+    return new GiraOneDataPoint(
+        "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-5:Step-Up-Down");
+  }
 
-    public static GiraOneDataPoint dataPointUpDown() {
-        return new GiraOneDataPoint(
-                "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-5:Up-Down");
-    }
+  public static GiraOneDataPoint dataPointUpDown() {
+    return new GiraOneDataPoint(
+        "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-5:Up-Down");
+  }
 
-    public static GiraOneDataPoint dataPointMovement() {
-        return new GiraOneDataPoint(
-                "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-5:Movement");
-    }
+  public static GiraOneDataPoint dataPointMovement() {
+    return new GiraOneDataPoint(
+        "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-5:Movement");
+  }
 
-    public static GiraOneDataPoint dataPointPosition() {
-        return new GiraOneDataPoint(
-                "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-5:Position");
-    }
+  public static GiraOneDataPoint dataPointPosition() {
+    return new GiraOneDataPoint(
+        "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-5:Position");
+  }
 
-    public static GiraOneChannel createGiraOneChannel(final String urn) {
-        return GenericBuilder.of(GiraOneChannel::new).with(GiraOneChannel::setUrn, urn)
-                .with(GiraOneChannel::setChannelType, GiraOneChannelType.Shutter)
-                .with(GiraOneChannel::setChannelTypeId, GiraOneChannelTypeId.VenetianBlind)
-                .with(GiraOneChannel::setFunctionType, GiraOneFunctionType.Covering)
-                .with(GiraOneChannel::addDataPoint, dataPointUpDown())
-                .with(GiraOneChannel::addDataPoint, dataPointMovement())
-                .with(GiraOneChannel::addDataPoint, dataPointMovement())
-                .with(GiraOneChannel::addDataPoint, dataPointStepUpDown()).build();
-    }
+  public static GiraOneChannel createGiraOneChannel(final String urn) {
+    return GenericBuilder.of(GiraOneChannel::new)
+        .with(GiraOneChannel::setUrn, urn)
+        .with(GiraOneChannel::setChannelType, GiraOneChannelType.Shutter)
+        .with(GiraOneChannel::setChannelTypeId, GiraOneChannelTypeId.VenetianBlind)
+        .with(GiraOneChannel::setFunctionType, GiraOneFunctionType.Covering)
+        .with(GiraOneChannel::addDataPoint, dataPointUpDown())
+        .with(GiraOneChannel::addDataPoint, dataPointMovement())
+        .with(GiraOneChannel::addDataPoint, dataPointMovement())
+        .with(GiraOneChannel::addDataPoint, dataPointStepUpDown())
+        .build();
+  }
 }

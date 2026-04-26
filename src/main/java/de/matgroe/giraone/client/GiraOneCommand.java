@@ -18,34 +18,33 @@
 package de.matgroe.giraone.client;
 
 /**
- * Defines a command to be sent out via websocket or
- * webservice api to Gira One Server.
+ * Defines a command to be sent out via websocket or webservice api to Gira One Server.
  *
  * @author Matthias Groeger - Initial contribution
  */
 public class GiraOneCommand {
-    private static final String MISSING_ANNOTATION = "";
+  private static final String MISSING_ANNOTATION = "";
 
-    private GiraOneServerCommand getAnnotation() {
-        if (getClass().isAnnotationPresent(GiraOneServerCommand.class)) {
-            return getClass().getAnnotation(GiraOneServerCommand.class);
-        }
-        throw new IllegalArgumentException(MISSING_ANNOTATION);
+  private GiraOneServerCommand getAnnotation() {
+    if (getClass().isAnnotationPresent(GiraOneServerCommand.class)) {
+      return getClass().getAnnotation(GiraOneServerCommand.class);
     }
+    throw new IllegalArgumentException(MISSING_ANNOTATION);
+  }
 
-    public String getCommand() {
-        return getAnnotation().name();
-    }
+  public String getCommand() {
+    return getAnnotation().name();
+  }
 
-    public String getResponsePropertyName() {
-        return getAnnotation().responsePayload();
-    }
+  public String getResponsePropertyName() {
+    return getAnnotation().responsePayload();
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof GiraOneCommand) {
-            return getCommand().equals(((GiraOneCommand) o).getCommand());
-        }
-        return false;
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof GiraOneCommand) {
+      return getCommand().equals(((GiraOneCommand) o).getCommand());
     }
+    return false;
+  }
 }

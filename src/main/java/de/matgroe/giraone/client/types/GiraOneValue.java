@@ -20,80 +20,76 @@ package de.matgroe.giraone.client.types;
 import java.util.Objects;
 
 /**
- * The {@link GiraOneValue} represents a value for a single source of data
- * within the Gira One project. The GiraOneWebsocketClient emits
- * a {@link GiraOneValue} as result of sending GetValue command.
+ * The {@link GiraOneValue} represents a value for a single source of data within the Gira One
+ * project. The GiraOneWebsocketClient emits a {@link GiraOneValue} as result of sending GetValue
+ * command.
  *
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneValue {
 
-    /**
-     * The value as received from Gira One Server.
-     */
-    private final String value;
+  /** The value as received from Gira One Server. */
+  private final String value;
 
-    /**
-     * The datapoint urn this value belongs to.
-     */
-    private final GiraOneURN datapointUrn;
+  /** The datapoint urn this value belongs to. */
+  private final GiraOneURN datapointUrn;
 
-    public GiraOneValue(String datapointUrn, String value) {
-        this(GiraOneURN.of(datapointUrn), value);
+  public GiraOneValue(String datapointUrn, String value) {
+    this(GiraOneURN.of(datapointUrn), value);
+  }
+
+  public GiraOneValue(GiraOneURN datapointUrn, String value) {
+    this.datapointUrn = datapointUrn;
+    this.value = value;
+  }
+
+  public String getDatapointUrn() {
+    return datapointUrn.toString();
+  }
+
+  public GiraOneDataPoint getGiraOneDataPoint() {
+    return new GiraOneDataPoint(datapointUrn.toString());
+  }
+
+  public String getValue() {
+    return value;
+  }
+
+  public boolean getValueAsBoolean() {
+    return "1".equals(getValue());
+  }
+
+  public Number getValueAsNumber() {
+    return Float.parseFloat(getValue());
+  }
+
+  public float getValueAsFloat() {
+    return getValueAsNumber().floatValue();
+  }
+
+  public int getValueAsInt() {
+    return getValueAsNumber().intValue();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    public GiraOneValue(GiraOneURN datapointUrn, String value) {
-        this.datapointUrn = datapointUrn;
-        this.value = value;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    GiraOneValue that = (GiraOneValue) o;
+    return Objects.equals(value, that.value) && Objects.equals(datapointUrn, that.datapointUrn);
+  }
 
-    public String getDatapointUrn() {
-        return datapointUrn.toString();
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(value, datapointUrn);
+  }
 
-    public GiraOneDataPoint getGiraOneDataPoint() {
-        return new GiraOneDataPoint(datapointUrn.toString());
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public boolean getValueAsBoolean() {
-        return "1".equals(getValue());
-    }
-
-    public Number getValueAsNumber() {
-        return Float.parseFloat(getValue());
-    }
-
-    public float getValueAsFloat() {
-        return getValueAsNumber().floatValue();
-    }
-
-    public int getValueAsInt() {
-        return getValueAsNumber().intValue();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        GiraOneValue that = (GiraOneValue) o;
-        return Objects.equals(value, that.value) && Objects.equals(datapointUrn, that.datapointUrn);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value, datapointUrn);
-    }
-
-    @Override
-    public String toString() {
-        return String.format("{urn=%s, value=%s}", datapointUrn, value);
-    }
+  @Override
+  public String toString() {
+    return String.format("{urn=%s, value=%s}", datapointUrn, value);
+  }
 }

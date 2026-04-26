@@ -30,102 +30,110 @@ import java.util.Set;
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneChannel {
-    private GiraOneURN urn;
-    private String name;
-    private String location;
+  private GiraOneURN urn;
+  private String name;
+  private String location;
 
-    private GiraOneFunctionType functionType;
-    private GiraOneChannelType channelType;
+  private GiraOneFunctionType functionType;
+  private GiraOneChannelType channelType;
 
-    private GiraOneChannelTypeId channelTypeId;
+  private GiraOneChannelTypeId channelTypeId;
 
-    private Set<GiraOneDataPoint> dataPoints = Collections.synchronizedSet(new HashSet<>());
+  private Set<GiraOneDataPoint> dataPoints = Collections.synchronizedSet(new HashSet<>());
 
-    public String getLocation() {
-        return location;
+  public String getLocation() {
+    return location;
+  }
+
+  public void setLocation(String location) {
+    this.location = location;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setUrn(String urn) {
+    this.urn = GiraOneURN.of(urn);
+  }
+
+  public String getUrn() {
+    return urn.toString();
+  }
+
+  public void setFunctionType(GiraOneFunctionType functionType) {
+    this.functionType = functionType;
+  }
+
+  public GiraOneFunctionType getFunctionType() {
+    return functionType;
+  }
+
+  public void setChannelType(GiraOneChannelType channelType) {
+    this.channelType = channelType;
+  }
+
+  public GiraOneChannelType getChannelType() {
+    return channelType;
+  }
+
+  public void setChannelTypeId(GiraOneChannelTypeId channelTypeId) {
+    this.channelTypeId = channelTypeId;
+  }
+
+  public GiraOneChannelTypeId getChannelTypeId() {
+    return channelTypeId;
+  }
+
+  public boolean containsGiraOneDataPoint(GiraOneURN datapointUrn) {
+    return this.dataPoints.stream().anyMatch(f -> datapointUrn.equals(f.getUrn()));
+  }
+
+  public Collection<GiraOneDataPoint> getDataPoints() {
+    return dataPoints;
+  }
+
+  public void addDataPoint(GiraOneDataPoint dataPoints) {
+    this.getDataPoints().add(dataPoints);
+  }
+
+  public Optional<GiraOneDataPoint> getDatapoint(String resource) {
+    return this.getDataPoints().stream()
+        .filter(dp -> dp.getUrn().getResourceName().equals(resource))
+        .findFirst();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    public void setLocation(String location) {
-        this.location = location;
+    if (o instanceof GiraOneChannel that) {
+      return Objects.equals(urn, that.urn);
     }
+    return false;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(urn);
+  }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setUrn(String urn) {
-        this.urn = GiraOneURN.of(urn);
-    }
-
-    public String getUrn() {
-        return urn.toString();
-    }
-
-    public void setFunctionType(GiraOneFunctionType functionType) {
-        this.functionType = functionType;
-    }
-
-    public GiraOneFunctionType getFunctionType() {
-        return functionType;
-    }
-
-    public void setChannelType(GiraOneChannelType channelType) {
-        this.channelType = channelType;
-    }
-
-    public GiraOneChannelType getChannelType() {
-        return channelType;
-    }
-
-    public void setChannelTypeId(GiraOneChannelTypeId channelTypeId) {
-        this.channelTypeId = channelTypeId;
-    }
-
-    public GiraOneChannelTypeId getChannelTypeId() {
-        return channelTypeId;
-    }
-
-    public boolean containsGiraOneDataPoint(GiraOneURN datapointUrn) {
-        return this.dataPoints.stream().anyMatch(f -> datapointUrn.equals(f.getUrn()));
-    }
-
-    public Collection<GiraOneDataPoint> getDataPoints() {
-        return dataPoints;
-    }
-
-    public void addDataPoint(GiraOneDataPoint dataPoints) {
-        this.getDataPoints().add(dataPoints);
-    }
-
-    public Optional<GiraOneDataPoint> getDatapoint(String resource) {
-        return this.getDataPoints().stream().filter(dp -> dp.getUrn().getResourceName().equals(resource)).findFirst();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o instanceof GiraOneChannel that) {
-            return Objects.equals(urn, that.urn);
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(urn);
-    }
-
-    @Override
-    public String toString() {
-        return String.format(
-                "%s{urn='%s', name='%s', location='%s', functionType=%s, channelType=%s, channelTypeId=%s, dataPoints=%s}",
-                getClass().getSimpleName(), urn, name, location, functionType, channelType, channelTypeId,
-                dataPoints.stream().map(GiraOneDataPoint::toString).toList());
-    }
+  @Override
+  public String toString() {
+    return String.format(
+        "%s{urn='%s', name='%s', location='%s', functionType=%s, channelType=%s, channelTypeId=%s, dataPoints=%s}",
+        getClass().getSimpleName(),
+        urn,
+        name,
+        location,
+        functionType,
+        channelType,
+        channelTypeId,
+        dataPoints.stream().map(GiraOneDataPoint::toString).toList());
+  }
 }

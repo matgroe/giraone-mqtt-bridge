@@ -30,10 +30,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class GiraOneClientTest {
 
-
-    @Test
-    void testBlah() {
-        System.out.println("Blah");
-    }
-
+  @Test
+  void testBlah() {
+    System.out.println("Blah");
+  }
 }

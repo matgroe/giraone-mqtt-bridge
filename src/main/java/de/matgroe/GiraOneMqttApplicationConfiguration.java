@@ -26,16 +26,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableConfigurationProperties({GiraOneMqttApplicationProperties.class, GiraOneClientProperties.class, MqttClientProperties.class})
+@EnableConfigurationProperties({
+  GiraOneMqttApplicationProperties.class,
+  GiraOneClientProperties.class,
+  MqttClientProperties.class
+})
 public class GiraOneMqttApplicationConfiguration {
 
-    @Bean
-    GiraOneClient createGiraOneClient(GiraOneClientProperties giraOneClientProperties) {
-        return new GiraOneClient(giraOneClientProperties);
-    }
+  @Bean
+  GiraOneClient createGiraOneClient(GiraOneClientProperties giraOneClientProperties) {
+    return new GiraOneClient(giraOneClientProperties);
+  }
 
-    @Bean
-    MqttClient createGiraOneMqttBridge(MqttClientProperties mqttClientProperties) {
-        return new MqttClient(mqttClientProperties);
-    }
+  @Bean
+  MqttClient createGiraOneMqttBridge(MqttClientProperties mqttClientProperties) {
+    return new MqttClient(mqttClientProperties);
+  }
 }

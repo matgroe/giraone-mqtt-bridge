@@ -17,7 +17,6 @@
  */
 package de.matgroe.giraone.client;
 
-
 import java.io.IOException;
 import java.io.Serial;
 
@@ -27,20 +26,19 @@ import java.io.Serial;
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneCommunicationException extends IOException {
-    @Serial
-    private static final long serialVersionUID = 1L;
-    private GiraOneCommand causingCommand = null;
+  @Serial private static final long serialVersionUID = 1L;
+  private GiraOneCommand causingCommand = null;
 
-    public GiraOneCommunicationException(GiraOneCommand causingCommand, String message, int code) {
-        this(causingCommand, String.format("%s.%d", message, code), null);
-    }
+  public GiraOneCommunicationException(GiraOneCommand causingCommand, String message, int code) {
+    this(causingCommand, String.format("%s.%d", message, code), null);
+  }
 
-    public GiraOneCommunicationException(GiraOneCommand causingCommand, String message, Throwable t) {
-        super(message, t);
-        this.causingCommand = causingCommand;
-    }
+  public GiraOneCommunicationException(GiraOneCommand causingCommand, String message, Throwable t) {
+    super(message, t);
+    this.causingCommand = causingCommand;
+  }
 
-    public GiraOneCommand getCausingCommand() {
-        return causingCommand;
-    }
+  public GiraOneCommand getCausingCommand() {
+    return causingCommand;
+  }
 }

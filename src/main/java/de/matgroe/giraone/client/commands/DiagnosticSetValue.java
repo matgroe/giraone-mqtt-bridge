@@ -30,33 +30,32 @@ import de.matgroe.util.GenericBuilder;
 @GiraOneServerCommand(name = "DiagnosticSetValue", responsePayload = "")
 public class DiagnosticSetValue extends GiraOneCommand {
 
-    public static GenericBuilder<DiagnosticSetValue> builder() {
-        return GenericBuilder.of(DiagnosticSetValue::new);
-    }
+  public static GenericBuilder<DiagnosticSetValue> builder() {
+    return GenericBuilder.of(DiagnosticSetValue::new);
+  }
 
-    protected DiagnosticSetValue() {
-    }
+  protected DiagnosticSetValue() {}
 
-    private String urn;
-    private Object value;
+  private String urn;
+  private Object value;
 
-    public Object getValue() {
-        return value;
-    }
+  public Object getValue() {
+    return value;
+  }
 
-    public void setValue(Object value) {
-        this.value = value;
-    }
+  public void setValue(Object value) {
+    this.value = value;
+  }
 
-    public String getUrn() {
-        return urn;
-    }
+  public String getUrn() {
+    return urn;
+  }
 
-    public void setUrn(String urn) {
-        this.urn = urn;
-    }
+  public void setUrn(String urn) {
+    this.urn = urn;
+  }
 
-    public void setUrn(GiraOneURN urn) {
-        this.urn = urn.toString();
-    }
+  public void setUrn(GiraOneURN urn) {
+    this.urn = urn.toString();
+  }
 }

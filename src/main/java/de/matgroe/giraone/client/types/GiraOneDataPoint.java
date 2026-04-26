@@ -17,61 +17,59 @@
  */
 package de.matgroe.giraone.client.types;
 
-
 import java.util.Objects;
 
 /**
- * The GiraOneDataPoint defines a source of data which may have a
- * value.
+ * The GiraOneDataPoint defines a source of data which may have a value.
  *
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneDataPoint {
-    private GiraOneURN urn;
+  private GiraOneURN urn;
 
-    public GiraOneDataPoint(final String urn) {
-        this.urn = GiraOneURN.of(urn);
-    }
+  public GiraOneDataPoint(final String urn) {
+    this.urn = GiraOneURN.of(urn);
+  }
 
-    public GiraOneDataPoint(final GiraOneURN urn) {
-        this.urn = urn;
-    }
+  public GiraOneDataPoint(final GiraOneURN urn) {
+    this.urn = urn;
+  }
 
-    public String getName() {
-        return urn.getResourceName();
-    }
+  public String getName() {
+    return urn.getResourceName();
+  }
 
-    public GiraOneURN getDeviceUrn() {
-        return urn.getParent();
-    }
+  public GiraOneURN getDeviceUrn() {
+    return urn.getParent();
+  }
 
-    public GiraOneURN getUrn() {
-        return urn;
-    }
+  public GiraOneURN getUrn() {
+    return urn;
+  }
 
-    public void setUrn(String urn) {
-        this.urn = GiraOneURN.of(urn);
-    }
+  public void setUrn(String urn) {
+    this.urn = GiraOneURN.of(urn);
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        GiraOneDataPoint dataPoint = (GiraOneDataPoint) o;
-        return Objects.equals(getUrn(), dataPoint.getUrn());
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    GiraOneDataPoint dataPoint = (GiraOneDataPoint) o;
+    return Objects.equals(getUrn(), dataPoint.getUrn());
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(urn);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(urn);
+  }
 
-    @Override
-    public String toString() {
-        return urn.toString();
-    }
+  @Override
+  public String toString() {
+    return urn.toString();
+  }
 }

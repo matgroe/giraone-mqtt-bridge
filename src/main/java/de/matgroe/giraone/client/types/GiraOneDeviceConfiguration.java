@@ -19,34 +19,32 @@
 package de.matgroe.giraone.client.types;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.HashMap;
 
 /**
- * The {@link GiraOneDeviceConfiguration} class describes the gira one server
- * runtime configuration.
+ * The {@link GiraOneDeviceConfiguration} class describes the gira one server runtime configuration.
  *
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneDeviceConfiguration {
-    public static final String CURRENT_APPLICATION_VERSION = "CurrentApplicationVersion";
-    public static final String CURRENT_FIRMWARE_VERSION = "CurrentFirmwareVersion";
-    public static final String CURRENT_SYSTEM = "CurrentSystem";
-    public static final String DEVICE_NAME = "DeviceName";
-    public static final String DEVICE_ID = "DeviceId";
-    public static final String DEVICE_UID = "DeviceUid";
-    public static final String IP_ADDRESS = "IpAddress";
-    public static final String SERIAL_NUMBER = "SerialNumber";
-    public static final String APP_DEVICE_NAME = "AppDeviceName";
+  public static final String CURRENT_APPLICATION_VERSION = "CurrentApplicationVersion";
+  public static final String CURRENT_FIRMWARE_VERSION = "CurrentFirmwareVersion";
+  public static final String CURRENT_SYSTEM = "CurrentSystem";
+  public static final String DEVICE_NAME = "DeviceName";
+  public static final String DEVICE_ID = "DeviceId";
+  public static final String DEVICE_UID = "DeviceUid";
+  public static final String IP_ADDRESS = "IpAddress";
+  public static final String SERIAL_NUMBER = "SerialNumber";
+  public static final String APP_DEVICE_NAME = "AppDeviceName";
 
-    public static final String MODULE_ID = "ModuleId";
-    public static final String MODULE_REVISION = "ModuleRevision";
-    public static final String MODULE_VERSION = "ModuleVersion";
+  public static final String MODULE_ID = "ModuleId";
+  public static final String MODULE_REVISION = "ModuleRevision";
+  public static final String MODULE_VERSION = "ModuleVersion";
 
-    @SerializedName("ipc")
-    private final HashMap<String, String> configuration = new HashMap<>();
+  @SerializedName("ipc")
+  private final HashMap<String, String> configuration = new HashMap<>();
 
-    public String get(String name) {
-        return configuration.get(name);
-    }
+  public String get(String name) {
+    return configuration.get(name);
+  }
 }

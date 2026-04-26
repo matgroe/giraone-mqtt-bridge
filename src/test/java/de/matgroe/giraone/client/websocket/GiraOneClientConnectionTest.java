@@ -17,12 +17,13 @@
  */
 package de.matgroe.giraone.client.websocket;
 
-import de.matgroe.giraone.GiraOneClientProperties;
-import de.matgroe.giraone.client.GiraOneClientConnectionState;
-import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import static org.awaitility.Awaitility.await;
 import static org.awaitility.Duration.ONE_MINUTE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import de.matgroe.giraone.GiraOneClientProperties;
+import de.matgroe.giraone.client.GiraOneClientConnectionState;
+import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -35,61 +36,69 @@ import org.junit.jupiter.api.Test;
  */
 @Disabled
 public class GiraOneClientConnectionTest {
-    private GiraOneClientProperties configuration = new GiraOneClientProperties();
-    private GiraOneWebsocketClient giraClient = new GiraOneWebsocketClient(configuration);
+  private GiraOneClientProperties configuration = new GiraOneClientProperties();
+  private GiraOneWebsocketClient giraClient = new GiraOneWebsocketClient(configuration);
 
-    @BeforeEach
-    void setUp() {
-        configuration.username = "User";
-        configuration.password = "!Ncc1701D";
-        configuration.hostname = "192.168.178.38";
-        configuration.maxTextMessageSize = 350000;
-        configuration.defaultTimeoutSeconds = 45;
-    }
+  @BeforeEach
+  void setUp() {
+    configuration.username = "User";
+    configuration.password = "!Ncc1701D";
+    configuration.hostname = "192.168.178.38";
+    configuration.maxTextMessageSize = 350000;
+    configuration.defaultTimeoutSeconds = 45;
+  }
 
-    @Test
-    void testConnectWithInvalidCredentials() {
-        configuration.password = "_invalid_";
-        giraClient = new GiraOneWebsocketClient(configuration);
-        giraClient.connect();
-    }
+  @Test
+  void testConnectWithInvalidCredentials() {
+    configuration.password = "_invalid_";
+    giraClient = new GiraOneWebsocketClient(configuration);
+    giraClient.connect();
+  }
 
-    @Test
-    void testConnectWithInvalidHostname() {
-        configuration.hostname = "127.0.0.1";
-        giraClient = new GiraOneWebsocketClient(configuration);
-        giraClient.connect();
-    }
+  @Test
+  void testConnectWithInvalidHostname() {
+    configuration.hostname = "127.0.0.1";
+    giraClient = new GiraOneWebsocketClient(configuration);
+    giraClient.connect();
+  }
 
-    @Test
-    void testConnectWithInvalidTextMessageSize() {
-        configuration.maxTextMessageSize = 20;
-        giraClient = new GiraOneWebsocketClient(configuration);
-        giraClient.connect();
-    }
+  @Test
+  void testConnectWithInvalidTextMessageSize() {
+    configuration.maxTextMessageSize = 20;
+    giraClient = new GiraOneWebsocketClient(configuration);
+    giraClient.connect();
+  }
 
-    @DisplayName("Test Connect, Register and Disconnect against Gira One Server Websocket")
-    @Test
-    void testConnectRegisterAndDisconnect() throws Exception {
-        GiraOneWebsocketClient giraOneWebsocketClient = new GiraOneWebsocketClient(configuration);
+  @DisplayName("Test Connect, Register and Disconnect against Gira One Server Websocket")
+  @Test
+  void testConnectRegisterAndDisconnect() throws Exception {
+    GiraOneWebsocketClient giraOneWebsocketClient = new GiraOneWebsocketClient(configuration);
 
-        giraOneWebsocketClient.subscribeOnConnectionState(c -> {
-            if (c == GiraOneWebsocketConnectionState.Connected) {
-                // GiraOneDataPoint dp = GiraOneTestDataProvider.dataPointBuilder("slat-position", 0,
-                // "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-4:Slat-Position");
-                GiraOneDataPoint dp = new GiraOneDataPoint(
-                        "urn:gds:dp:GiraOneServer.GIOSRVKX03:GDS-Device-Channel:Ready");
-                // giraOneWebsocketClient.lookupGiraOneValue(dp);
-                giraOneWebsocketClient.lookupGiraOneDeviceConfiguration();
-                giraOneWebsocketClient.lookupGiraOneChannels();
-                giraOneWebsocketClient.lookupGiraOneDataPointValue(dp);
-            }
+    giraOneWebsocketClient.subscribeOnConnectionState(
+        c -> {
+          if (c == GiraOneWebsocketConnectionState.Connected) {
+            // GiraOneDataPoint dp = GiraOneTestDataProvider.dataPointBuilder("slat-position", 0,
+            // "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-4:Slat-Position");
+            GiraOneDataPoint dp =
+                new GiraOneDataPoint(
+                    "urn:gds:dp:GiraOneServer.GIOSRVKX03:GDS-Device-Channel:Ready");
+            // giraOneWebsocketClient.lookupGiraOneValue(dp);
+            giraOneWebsocketClient.lookupGiraOneDeviceConfiguration();
+            giraOneWebsocketClient.lookupGiraOneChannels();
+            giraOneWebsocketClient.lookupGiraOneDataPointValue(dp);
+          }
         });
 
-        giraOneWebsocketClient.connect();
-        for (int i = 0; i < 10; i++) {
-            Thread.sleep(500);
-        }
-        await().atMost(ONE_MINUTE).untilAsserted(() -> assertEquals(GiraOneClientConnectionState.Connected, giraOneWebsocketClient.connectionState.getValue()));
+    giraOneWebsocketClient.connect();
+    for (int i = 0; i < 10; i++) {
+      Thread.sleep(500);
     }
+    await()
+        .atMost(ONE_MINUTE)
+        .untilAsserted(
+            () ->
+                assertEquals(
+                    GiraOneClientConnectionState.Connected,
+                    giraOneWebsocketClient.connectionState.getValue()));
+  }
 }

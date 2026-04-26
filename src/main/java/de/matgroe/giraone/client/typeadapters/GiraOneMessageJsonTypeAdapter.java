@@ -21,38 +21,37 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 /**
- * Base class offers some functionalities for deserializing reseived messages
- * from Gira One Server.
+ * Base class offers some functionalities for deserializing reseived messages from Gira One Server.
  * *
- * 
+ *
  * @author Matthias Gröger - Initial contribution
  */
 class GiraOneMessageJsonTypeAdapter {
-    protected static final String PROPERTY_RESPONSE = "response";
-    protected static final String PROPERTY_EVENT = "event";
-    protected static final String PROPERTY_ERROR = "error";
+  protected static final String PROPERTY_RESPONSE = "response";
+  protected static final String PROPERTY_EVENT = "event";
+  protected static final String PROPERTY_ERROR = "error";
 
-    boolean isResponse(JsonElement jsonElement) {
-        return isResponse(jsonElement.getAsJsonObject());
-    }
+  boolean isResponse(JsonElement jsonElement) {
+    return isResponse(jsonElement.getAsJsonObject());
+  }
 
-    boolean isResponse(JsonObject jsonObject) {
-        return jsonObject.has(PROPERTY_RESPONSE);
-    }
+  boolean isResponse(JsonObject jsonObject) {
+    return jsonObject.has(PROPERTY_RESPONSE);
+  }
 
-    JsonObject getResponse(JsonElement jsonElement) {
-        return jsonElement.getAsJsonObject().get(PROPERTY_RESPONSE).getAsJsonObject();
-    }
+  JsonObject getResponse(JsonElement jsonElement) {
+    return jsonElement.getAsJsonObject().get(PROPERTY_RESPONSE).getAsJsonObject();
+  }
 
-    boolean isEvent(JsonElement jsonElement) {
-        return isEvent(jsonElement.getAsJsonObject());
-    }
+  boolean isEvent(JsonElement jsonElement) {
+    return isEvent(jsonElement.getAsJsonObject());
+  }
 
-    boolean isEvent(JsonObject jsonObject) {
-        return jsonObject.has(PROPERTY_EVENT);
-    }
+  boolean isEvent(JsonObject jsonObject) {
+    return jsonObject.has(PROPERTY_EVENT);
+  }
 
-    JsonObject getEvent(JsonElement jsonElement) {
-        return jsonElement.getAsJsonObject().get(PROPERTY_EVENT).getAsJsonObject();
-    }
+  JsonObject getEvent(JsonElement jsonElement) {
+    return jsonElement.getAsJsonObject().get(PROPERTY_EVENT).getAsJsonObject();
+  }
 }
