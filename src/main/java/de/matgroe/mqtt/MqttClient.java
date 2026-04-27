@@ -66,7 +66,7 @@ public class MqttClient {
 
   private void onConnectionStateChanged(MqttClientConnectionState mqttClientConnectionState) {
     logger.debug("MqttClientConnectionState changed to {}", mqttClientConnectionState);
-    String topicFilter = String.format("%s/#", topicNamePrefix);
+    String topicFilter = String.format("%s/command/#", topicNamePrefix);
     if (mqttClientConnectionState == MqttClientConnectionState.Connected && mqtt5Client != null) {
       mqtt5Client.subscribeWith().topicFilter(topicFilter).callback(this::onMessageReceived).send();
     } else {
@@ -185,17 +185,9 @@ public class MqttClient {
 
   void onMessageReceived(Mqtt5Publish mqtt5Publish) {
     try {
-      String clientId = getUserPropertyValue(mqtt5Publish.getUserProperties(), CLIENT_ID);
       MqttMessage mqttMessage = createMqttMessage(mqtt5Publish);
-      if (clientIdentifier.equals(clientId)) {
-        logger.debug(
-            "dropping self published message '{}' at '{}'",
-            mqttMessage.messageId(),
-            mqttMessage.topic());
-      } else {
-        logger.debug("received at topic: '{}'", mqttMessage);
-        this.inboundQueue.onNext(mqttMessage);
-      }
+      logger.debug("received at topic: '{}'", mqttMessage);
+      this.inboundQueue.onNext(mqttMessage);
     } catch (Throwable throwable) {
       logger.warn("Something went wrong on processing received payload.", throwable);
     }
@@ -224,6 +216,7 @@ public class MqttClient {
         .add(MESSAGE_ID, message.messageId())
         .applyUserProperties()
         .qos(MqttQos.AT_LEAST_ONCE)
+        .retain(true)
         .send()
         .whenComplete(
             (Mqtt5PublishResult mqttPublishResult, Throwable throwable) -> {
