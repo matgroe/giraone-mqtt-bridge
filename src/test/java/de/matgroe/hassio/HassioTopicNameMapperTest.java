@@ -63,7 +63,7 @@ public class HassioTopicNameMapperTest {
     giraOneProject = giraOneClient.getGiraOneProject();
   }
 
-  private static Stream<Arguments> providePairTopicNameOfChannelAndDataPoint() {
+  private static Stream<Arguments> providePairStateTopicNameOfChannelAndDataPoint() {
     return Stream.of(
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:Function-Scene-6:Teach",
@@ -1115,11 +1115,12 @@ public class HassioTopicNameMapperTest {
 
   @DisplayName("should generate topic name from GiraOneDataPoint")
   @ParameterizedTest
-  @MethodSource("providePairTopicNameOfChannelAndDataPoint")
+  @MethodSource("providePairStateTopicNameOfChannelAndDataPoint")
   void topicNameFromDatapoint(String dpUrn, String expectedTopicName) {
     Optional<GiraOneDataPoint> dp = giraOneProject.lookupGiraOneDataPoint(dpUrn);
     if (dp.isPresent()) {
-      assertEquals(expectedTopicName, creator.topicNameOf(dp.get()));
+      assertEquals(
+          String.format("%s/state", expectedTopicName), creator.stateTopicNameOf(dp.get()));
     } else {
       fail("Invaid combination of channelUrn and dataPointUrn given");
     }
@@ -1127,9 +1128,10 @@ public class HassioTopicNameMapperTest {
 
   @DisplayName("should generate GiraOneDataPoint from topic name")
   @ParameterizedTest
-  @MethodSource("providePairTopicNameOfChannelAndDataPoint")
+  @MethodSource("providePairStateTopicNameOfChannelAndDataPoint")
   void topicDatapointFromTopicName(String dpUrn, String topicName) {
-    Optional<GiraOneDataPoint> dp = creator.giraOneDataPointOf(topicName);
+    Optional<GiraOneDataPoint> dp =
+        creator.giraOneDataPointOf(String.format("%s/state", topicName));
     if (dp.isPresent()) {
       assertEquals(dpUrn, dp.get().toString());
     } else {

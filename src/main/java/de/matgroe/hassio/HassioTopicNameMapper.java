@@ -29,8 +29,10 @@ import java.util.Optional;
  * offers a mapping between the TopiocName and the concerning {@link GiraOneDataPoint}
  */
 public class HassioTopicNameMapper {
-  private final String prefix;
+  public static final String COMMAND = "command";
+  public static final String STATE = "state";
 
+  private final String prefix;
   private Map<String, GiraOneDataPoint> dataPointTopicMap;
 
   public HassioTopicNameMapper(String prefix, GiraOneProject giraOneProject) {
@@ -40,7 +42,8 @@ public class HassioTopicNameMapper {
         .lookupGiraOneDataPoints()
         .forEach(
             dp -> {
-              dataPointTopicMap.put(topicNameOf(dp), dp);
+              dataPointTopicMap.put(stateTopicNameOf(dp), dp);
+              dataPointTopicMap.put(commandTopicNameOf(dp), dp);
             });
   }
 
@@ -55,16 +58,27 @@ public class HassioTopicNameMapper {
   }
 
   /**
-   * Creates a topicname for the given {@link GiraOneDataPoint}. The
+   * Creates a state topicname for the given {@link GiraOneDataPoint}. The
    *
    * @param dataPoint The {@link GiraOneDataPoint}
    * @return returns a topicname in format of {prefix}/{channel}/{datapointId}
    */
-  public String topicNameOf(GiraOneDataPoint dataPoint) {
-    String topicName =
-        String.format(
-            "%s/%s/%s", prefix, formatDatapointChannel(dataPoint), generateDataPointId(dataPoint));
-    return topicName;
+  public String stateTopicNameOf(GiraOneDataPoint dataPoint) {
+    return String.format(
+        "%s/%s/%s/%s",
+        prefix, STATE, formatDatapointChannel(dataPoint), generateDataPointId(dataPoint));
+  }
+
+  /**
+   * Creates a state topicname for the given {@link GiraOneDataPoint}. The
+   *
+   * @param dataPoint The {@link GiraOneDataPoint}
+   * @return returns a topicname in format of {prefix}/{channel}/{datapointId}
+   */
+  public String commandTopicNameOf(GiraOneDataPoint dataPoint) {
+    return String.format(
+        "%s/%s/%s/%s",
+        prefix, COMMAND, formatDatapointChannel(dataPoint), generateDataPointId(dataPoint));
   }
 
   /**

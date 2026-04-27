@@ -19,37 +19,24 @@ package de.matgroe.hassio.types;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Origin {
-  @SerializedName("name")
-  private String name;
+public class Switch extends Component {
 
-  @SerializedName("sw")
-  private String swVersion;
+  @SerializedName("payload_on")
+  protected String payloadOn;
 
-  @SerializedName("url")
-  private String supportUrl;
+  @SerializedName("payload_off")
+  protected String payloadOff;
 
-  public String getName() {
-    return name;
+  public Switch() {
+    this.platform = "switch";
+    this.deviceClass = "switch";
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setPayloadOff(String payloadOff) {
+    this.payloadOff = payloadOff;
   }
 
-  public String getSwVersion() {
-    return swVersion;
-  }
-
-  public void setSwVersion(String swVersion) {
-    this.swVersion = swVersion;
-  }
-
-  public String getSupportUrl() {
-    return supportUrl;
-  }
-
-  public void setSupportUrl(String supportUrl) {
-    this.supportUrl = supportUrl;
+  public void setPayloadOn(String payloadOn) {
+    this.payloadOn = payloadOn;
   }
 }

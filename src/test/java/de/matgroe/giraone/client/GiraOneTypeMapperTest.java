@@ -164,11 +164,15 @@ public class GiraOneTypeMapperTest {
     assertNotNull(channels);
     GiraOneChannel g1ch =
         channels.getChannels().stream()
-            .filter(f -> "urn:gds:chv:KNXlight-KNX-Dimmer-2".equals(f.getUrn()))
+            .filter(f -> "urn:gds:chv:KNXlight-KNX-Dimmer-6".equals(f.getUrn()))
             .findFirst()
             .orElse(null);
     assertNotNull(g1ch);
   }
+
+  // GiraOneChannel{urn='urn:gds:chv:KNXlight-KNX-Dimmer-2', name='Wohnen / Essen 1',
+  // location='Essen / Wohnen', functionType=Light, channelType=Dimmer, channelTypeId=Light,
+  // dataPoints=[urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-2:Brightness, urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-2:Shift, urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-2:OnOff]}
 
   @DisplayName("message should deserialize to GiraOneCommandResponse of GiraOneChannelValue")
   @Test

@@ -27,6 +27,7 @@ import java.util.Arrays;
 public enum GiraOneChannelType {
   Shutter("de.gira.schema.channels.BlindWithPos"),
   Dimmer("de.gira.schema.channels.KNX.Dimmer"),
+  Light("de.gira.schema.channels.KNX.Light"),
   Status("de.gira.schema.channels.Float"),
   Switch("de.gira.schema.channels.Switch"),
   Function("de.gira.schema.channels.FunctionScene"),

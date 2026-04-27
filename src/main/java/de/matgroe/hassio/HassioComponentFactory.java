@@ -4,15 +4,34 @@ import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneChannelTypeId;
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.hassio.types.Component;
+import de.matgroe.hassio.types.Device;
+import de.matgroe.hassio.types.Light;
 import de.matgroe.hassio.types.Sensor;
+import de.matgroe.hassio.types.Switch;
+import de.matgroe.hassio.types.UnsupportedComponent;
 import java.util.Optional;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This factory provides {@link Component}s to be used within the MQTT DeviceDidcoveryMessage for
+ * Homeassistant.
+ *
+ * <p>https://www.home-assistant.io/integrations/mqtt/
+ * https://www.home-assistant.io/integrations/homeassistant/#device-class
+ */
 public class HassioComponentFactory {
   private static final String DATAPOINT_TEMPERATURE = "Temperature";
   private static final String DATAPOINT_HUMIDITY = "HumidityStatus";
+  private static final String DATAPOINT_ON_OFF = "OnOff";
+  private static final String DATAPOINT_SHIFT = "Shift";
+  private static final String DATAPOINT_BRIGHTNESS = "Brightness";
+  private static final String DATAPOINT_STEP_UP_DOWN = "Step-Up-Down";
+  private static final String DATAPOINT_UP_DOWN = "Up-Down";
+  private static final String DATAPOINT_MOVEMENT = "Movement";
+  private static final String DATAPOINT_POSITION = "Position";
+  private static final String DATAPOINT_SLAT_POSITION = "Slat-Position";
 
   private Logger logger = LoggerFactory.getLogger(HassioComponentFactory.class);
   private final HassioTopicNameMapper hassioTopicNameMapper;
@@ -27,18 +46,48 @@ public class HassioComponentFactory {
       case Status:
         component = createSensor(channel);
         break;
+      case Switch:
+        component = createSwitch(channel);
+        break;
+      case Dimmer:
+      case Light:
+        component = createLight(channel);
+        break;
       default:
-        logger.error("no factory implementation for {} ", channel);
-        return null;
+        logger.warn("no factory implementation for {} ", channel);
+        component = createUnsupportedComponent(channel);
     }
     component.setUniqueId(DigestUtils.sha1Hex(channel.getUrn()));
+    component.setName(channel.getName());
     return component;
   }
 
+  /**
+   * Create an {@link UnsupportedComponent} in case of getting an unkown {@link GiraOneChannel}
+   * within the {@link de.matgroe.giraone.client.types.GiraOneProject}. This {@link Component}
+   * exists only for not breaking the application in case of getting an new/unknown channel.
+   *
+   * @param channel The GiraOneChannel to be mapped to {@link UnsupportedComponent}
+   * @return The {@link UnsupportedComponent}
+   */
+  private UnsupportedComponent createUnsupportedComponent(GiraOneChannel channel) {
+    UnsupportedComponent u = new UnsupportedComponent();
+    u.setPlatform(channel.getChannelTypeId().toString());
+    return u;
+  }
+
+  /**
+   * Creates a Homeassistant MQTT Sensor Component.
+   *
+   * <p>https://www.home-assistant.io/integrations/sensor.mqtt/
+   * https://www.home-assistant.io/integrations/sensor#device-class
+   *
+   * @param channel The GiraOneChannel to be mapped to {@link Switch}
+   * @return The {@link Switch}
+   */
   private Sensor createSensor(GiraOneChannel channel) {
     Optional<GiraOneDataPoint> datapoint = Optional.empty();
     Sensor s = new Sensor();
-    s.setName(channel.getName());
     if (channel.getChannelTypeId() == GiraOneChannelTypeId.Humidity) {
       s.setDeviceClass("humidity");
       s.setUnitOfMeasurement("%");
@@ -48,7 +97,76 @@ public class HassioComponentFactory {
       s.setUnitOfMeasurement("°C");
       datapoint = channel.getDatapoint(DATAPOINT_TEMPERATURE);
     }
-    datapoint.ifPresent(dataPoint -> s.setStateTopic(hassioTopicNameMapper.topicNameOf(dataPoint)));
+    datapoint.ifPresent(
+        dataPoint -> s.setStateTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint)));
     return s;
+  }
+
+  /**
+   * Creates a Homeassistant MQTT Switch Component.
+   *
+   * <p>https://www.home-assistant.io/integrations/switch.mqtt/
+   * https://www.home-assistant.io/integrations/switch/#device-class
+   *
+   * @param channel The GiraOneChannel to be mapped to {@link Switch}
+   * @return The {@link Switch}
+   */
+  private Switch createSwitch(GiraOneChannel channel) {
+    if (channel.getChannelTypeId() == GiraOneChannelTypeId.Lamp) {
+      return createLight(channel);
+    }
+    Switch s = new Switch();
+    Optional<GiraOneDataPoint> datapoint = channel.getDatapoint(DATAPOINT_ON_OFF);
+    datapoint.ifPresent(
+        dataPoint -> {
+          s.setCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
+          s.setStateTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
+        });
+
+    if (channel.getChannelTypeId() == GiraOneChannelTypeId.PowerOutlet) {
+      s.setDeviceClass("outlet");
+    } else {
+      s.setDeviceClass("switch");
+    }
+
+    s.setPayloadOff("0");
+    s.setPayloadOn("1");
+    return s;
+  }
+
+  /**
+   * Creates a Homeassistant MQTT Switch Component.
+   *
+   * <p>https://www.home-assistant.io/integrations/light.mqtt/
+   * https://www.home-assistant.io/integrations/light/#device-class
+   *
+   * @param channel The GiraOneChannel to be mapped to {@link Switch}
+   * @return The {@link Switch}
+   */
+  private Light createLight(GiraOneChannel channel) {
+    Light l = new Light();
+    Device d = new Device();
+    d.setName(channel.getName());
+    d.setSuggestedArea(channel.getLocation());
+    l.setDevice(d);
+
+    Optional<GiraOneDataPoint> datapoint = channel.getDatapoint(DATAPOINT_ON_OFF);
+    datapoint.ifPresent(
+        dataPoint -> {
+          l.setCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
+          l.setStateTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
+          l.setPayloadOff("0");
+          l.setPayloadOn("1");
+        });
+
+    datapoint = channel.getDatapoint(DATAPOINT_BRIGHTNESS);
+    datapoint.ifPresent(
+        dataPoint -> {
+          l.setBrightnessCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
+          l.setBrightnessStateTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
+          l.setBrightnessScale(100);
+        });
+
+    return l;
   }
 }
