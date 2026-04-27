@@ -543,7 +543,8 @@ public class HassioTopicNameMapperTest {
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator6-gang2C16A2FBlindActuator3-gang-1.Switching-6:OnOff",
             "g1-junit/state/knxswitchingactuator6-gang2c16a2fblindactuator3-gang-1/switching-6/onoff"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-2:RGB", "g1-junit/state/hue-light-2/rgb"),
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-2:RGB",
+            "g1-junit/state/hue-light-2/rgb"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-2:Brightness",
             "g1-junit/state/hue-light-2/brightness"),
@@ -551,29 +552,35 @@ public class HassioTopicNameMapperTest {
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-2:ShiftColorTemperature",
             "g1-junit/state/hue-light-2/shiftcolortemperature"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-2:Shift", "g1-junit/state/hue-light-2/shift"),
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-2:Shift",
+            "g1-junit/state/hue-light-2/shift"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-2:ColorTemperature",
             "g1-junit/state/hue-light-2/colortemperature"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-2:OnOff", "g1-junit/state/hue-light-2/onoff"),
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-2:OnOff",
+            "g1-junit/state/hue-light-2/onoff"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-2:RelativeBrightnessRelativeColorTemperature",
             "g1-junit/state/hue-light-2/relativebrightnessrelativecolortemperature"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-2:xyY", "g1-junit/state/hue-light-2/xyy"),
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-2:xyY",
+            "g1-junit/state/hue-light-2/xyy"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-1:Brightness",
             "g1-junit/state/hue-light-1/brightness"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-1:RGB", "g1-junit/state/hue-light-1/rgb"),
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-1:RGB",
+            "g1-junit/state/hue-light-1/rgb"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-1:Shift", "g1-junit/state/hue-light-1/shift"),
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-1:Shift",
+            "g1-junit/state/hue-light-1/shift"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-1:ColorTemperature",
             "g1-junit/state/hue-light-1/colortemperature"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-1:OnOff", "g1-junit/state/hue-light-1/onoff"),
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-1:OnOff",
+            "g1-junit/state/hue-light-1/onoff"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-1:RelativeBrightnessRelativeColorTemperature",
             "g1-junit/state/hue-light-1/relativebrightnessrelativecolortemperature"),
@@ -581,7 +588,8 @@ public class HassioTopicNameMapperTest {
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-1:ShiftColorTemperature",
             "g1-junit/state/hue-light-1/shiftcolortemperature"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-1:xyY", "g1-junit/state/hue-light-1/xyy"),
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-1:xyY",
+            "g1-junit/state/hue-light-1/xyy"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Switching-14:OnOff",
             "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/switching-14/onoff"),
@@ -598,7 +606,8 @@ public class HassioTopicNameMapperTest {
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-4:ShiftColorTemperature",
             "g1-junit/state/hue-light-4/shiftcolortemperature"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-4:Shift", "g1-junit/state/hue-light-4/shift"),
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-4:Shift",
+            "g1-junit/state/hue-light-4/shift"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-4:Brightness",
             "g1-junit/state/hue-light-4/brightness"),
@@ -606,21 +615,26 @@ public class HassioTopicNameMapperTest {
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-4:RelativeBrightnessRelativeColorTemperature",
             "g1-junit/state/hue-light-4/relativebrightnessrelativecolortemperature"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-4:xyY", "g1-junit/state/hue-light-4/xyy"),
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-4:xyY",
+            "g1-junit/state/hue-light-4/xyy"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-4:OnOff", "g1-junit/state/hue-light-4/onoff"),
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-4:OnOff",
+            "g1-junit/state/hue-light-4/onoff"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-4:RGB", "g1-junit/state/hue-light-4/rgb"),
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-4:RGB",
+            "g1-junit/state/hue-light-4/rgb"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-3:Brightness",
             "g1-junit/state/hue-light-3/brightness"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-3:RGB", "g1-junit/state/hue-light-3/rgb"),
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-3:RGB",
+            "g1-junit/state/hue-light-3/rgb"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-3:ShiftColorTemperature",
             "g1-junit/state/hue-light-3/shiftcolortemperature"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-3:Shift", "g1-junit/state/hue-light-3/shift"),
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-3:Shift",
+            "g1-junit/state/hue-light-3/shift"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-3:ColorTemperature",
             "g1-junit/state/hue-light-3/colortemperature"),
@@ -628,9 +642,11 @@ public class HassioTopicNameMapperTest {
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-3:RelativeBrightnessRelativeColorTemperature",
             "g1-junit/state/hue-light-3/relativebrightnessrelativecolortemperature"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-3:xyY", "g1-junit/state/hue-light-3/xyy"),
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-3:xyY",
+            "g1-junit/state/hue-light-3/xyy"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-3:OnOff", "g1-junit/state/hue-light-3/onoff"),
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Hue-Light-3:OnOff",
+            "g1-junit/state/hue-light-3/onoff"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-5.Dimming-1:OnOff",
             "g1-junit/state/knxbutton4comfort2csystem55rocker3-gang-5/dimming-1/onoff"),
@@ -1119,8 +1135,7 @@ public class HassioTopicNameMapperTest {
   void topicNameFromDatapoint(String dpUrn, String expectedTopicName) {
     Optional<GiraOneDataPoint> dp = giraOneProject.lookupGiraOneDataPoint(dpUrn);
     if (dp.isPresent()) {
-      assertEquals(
-          String.format("%s", expectedTopicName), creator.stateTopicNameOf(dp.get()));
+      assertEquals(String.format("%s", expectedTopicName), creator.stateTopicNameOf(dp.get()));
     } else {
       fail("Invaid combination of channelUrn and dataPointUrn given");
     }
@@ -1130,8 +1145,7 @@ public class HassioTopicNameMapperTest {
   @ParameterizedTest
   @MethodSource("providePairStateTopicNameOfChannelAndDataPoint")
   void topicDatapointFromTopicName(String dpUrn, String topicName) {
-    Optional<GiraOneDataPoint> dp =
-        creator.giraOneDataPointOf(String.format("%s", topicName));
+    Optional<GiraOneDataPoint> dp = creator.giraOneDataPointOf(String.format("%s", topicName));
     if (dp.isPresent()) {
       assertEquals(dpUrn, dp.get().toString());
     } else {
