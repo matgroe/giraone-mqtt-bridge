@@ -21,6 +21,11 @@ import com.google.gson.annotations.SerializedName;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents the Homeassistant Integration DiscoveryMessage.
+ *
+ * <p>https://www.home-assistant.io/integrations/cover.mqtt/
+ */
 public class DiscoveryMessage {
   @SerializedName("dev")
   private Device device;

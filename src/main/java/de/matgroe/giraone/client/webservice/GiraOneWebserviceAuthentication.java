@@ -49,7 +49,7 @@ class GiraOneWebserviceAuthentication {
     if ("GDS_1".equals(session.getVersion())) {
       return createHashSaltedPasswordGDS1(session, password);
     }
-    throw new IllegalArgumentException("Unsupported version: " + session.getVersion());
+    throw new IllegalArgumentException("UnsupportedComponent version: " + session.getVersion());
   }
 
   /**

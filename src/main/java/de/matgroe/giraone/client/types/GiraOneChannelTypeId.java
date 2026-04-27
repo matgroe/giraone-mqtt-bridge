@@ -29,7 +29,7 @@ public enum GiraOneChannelTypeId {
   Humidity("NumericFloatStatus.Humidity"),
   Underfloor("KNX.HeatingCooling.HeatingUnderfloorHeatingWaterBased"),
   Light("KNX.Light.Light"),
-  Dimmer("KNX.Light.Dimmer"),
+  Dimmer("KNX.Light.Light"),
   Lamp("Switch.Lamp"),
   Pump("Switch.Pump"),
   PowerOutlet("Switch.PowerOutlet"),

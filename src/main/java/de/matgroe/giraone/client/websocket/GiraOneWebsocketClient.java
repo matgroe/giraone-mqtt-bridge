@@ -48,7 +48,6 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -390,7 +389,8 @@ public class GiraOneWebsocketClient {
           logger.debug("Registering GiraOneMqttBridge");
           execute(
               RegisterApplication.builder()
-                  .with(RegisterApplication::setApplicationId, UUID.randomUUID().toString())
+                  // .with(RegisterApplication::setApplicationId, UUID.randomUUID().toString())
+                  .with(RegisterApplication::setApplicationId, "homeassistant")
                   .with(RegisterApplication::setApplicationType, "api")
                   .build());
         });

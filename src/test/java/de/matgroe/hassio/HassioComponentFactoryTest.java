@@ -20,15 +20,20 @@ package de.matgroe.hassio;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import de.matgroe.giraone.GiraOneTestDataProvider;
 import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneProject;
 import de.matgroe.hassio.types.Component;
+import de.matgroe.hassio.types.Light;
 import de.matgroe.hassio.types.Sensor;
+import de.matgroe.hassio.types.Switch;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -51,7 +56,7 @@ public class HassioComponentFactoryTest {
   }
 
   @Test
-  @DisplayName("Should generate mqtt.Sensor for Temperature")
+  @DisplayName("Should generate de.matgroe.hassio.types.Sensor for Temperature")
   void testTemperatureStatusChannel() {
     Optional<GiraOneChannel> channel =
         project.lookupChannelByUrn("urn:gds:chv:NumericFloatingPointStatus-Float-16");
@@ -59,13 +64,14 @@ public class HassioComponentFactoryTest {
         (ch) -> {
           Component component = hassioComponentFactory.from(ch);
           assertInstanceOf(Sensor.class, component);
+          assertEquals("sensor", component.getPlatform());
           assertEquals("temperature", component.getDeviceClass());
         },
         () -> fail("Channel not found in project"));
   }
 
   @Test
-  @DisplayName("Should generate mqtt.Sensor for Humidity")
+  @DisplayName("Should generate de.matgroe.hassio.types.Sensor for Humidity")
   void testHumidityStatusChannel() {
     Optional<GiraOneChannel> channel =
         project.lookupChannelByUrn("urn:gds:chv:NumericFloatingPointStatus-Float-1");
@@ -73,8 +79,87 @@ public class HassioComponentFactoryTest {
         ch -> {
           Component component = hassioComponentFactory.from(ch);
           assertInstanceOf(Sensor.class, component);
+          assertEquals("sensor", component.getPlatform());
           assertEquals("humidity", component.getDeviceClass());
+          assertEquals(ch.getName(), component.getName());
+          assertNotNull(component.getUniqueId());
         },
         () -> fail("Channel not found in project"));
+  }
+
+  @Test
+  @DisplayName("Should generate de.matgroe.hassio.types.Switch(switch)")
+  void testSwitchChannel() {
+    Optional<GiraOneChannel> channel = project.lookupChannelByUrn("urn:gds:chv:Switch-Switch-1");
+    channel.ifPresentOrElse(
+        ch -> {
+          Component component = hassioComponentFactory.from(ch);
+          assertInstanceOf(Light.class, component);
+          assertEquals("light", component.getPlatform());
+          assertNull(component.getDeviceClass());
+          assertEquals(ch.getName(), component.getName());
+          assertNotNull(component.getUniqueId());
+        },
+        () -> fail("Channel not found in project"));
+  }
+
+  @Test
+  @DisplayName("Should generate de.matgroe.hassio.types.Switch(outlet)")
+  void testPowerOutletChannel() {
+    Optional<GiraOneChannel> channel = project.lookupChannelByUrn("urn:gds:chv:Switch-Switch-4");
+    channel.ifPresentOrElse(
+        ch -> {
+          Component component = hassioComponentFactory.from(ch);
+          assertInstanceOf(Switch.class, component);
+          assertEquals("switch", component.getPlatform());
+          assertEquals("outlet", component.getDeviceClass());
+          assertEquals(ch.getName(), component.getName());
+          assertNotNull(component.getUniqueId());
+        },
+        () -> fail("Channel not found in project"));
+  }
+
+  @Test
+  @DisplayName("Should generate de.matgroe.hassio.types.Light")
+  void testDimmerChannel() {
+    Optional<GiraOneChannel> channel =
+        project.lookupChannelByUrn("urn:gds:chv:KNXlight-KNX-Dimmer-8");
+    channel.ifPresentOrElse(
+        ch -> {
+          Component component = hassioComponentFactory.from(ch);
+          assertInstanceOf(Light.class, component);
+          assertEquals("light", component.getPlatform());
+          assertNull(component.getDeviceClass());
+          assertEquals(ch.getName(), component.getName());
+          assertNotNull(component.getUniqueId());
+        },
+        () -> fail("Channel not found in project"));
+  }
+
+  @Disabled
+  @Test
+  @DisplayName("Should generate de.matgroe.hassio.types.Cover(Covering.VenetianBlind)")
+  void testCoveringVenetianBlind() {
+    Optional<GiraOneChannel> channel =
+        project.lookupChannelByUrn("urn:gds:chv:Covering-Blind-With-Position-10");
+    fail("not implemented yet");
+  }
+
+  @Disabled
+  @Test
+  @DisplayName("Should generate de.matgroe.hassio.types.Cover(Covering.RoofWindow)")
+  void testCoveringRoofWindow() {
+    Optional<GiraOneChannel> channel =
+        project.lookupChannelByUrn("urn:gds:chv:Covering-Blind-With-Position-16");
+    fail("not implemented yet");
+  }
+
+  @Disabled
+  @Test
+  @DisplayName("Should generate de.matgroe.hassio.types.ClimateHVAC")
+  void testHeatingCoolingSwitchable() {
+    Optional<GiraOneChannel> channel =
+        project.lookupChannelByUrn("urn:gds:chv:KNXheating2Fcooling-Heating-Cooling-Switchable-5");
+    fail("not implemented yet");
   }
 }

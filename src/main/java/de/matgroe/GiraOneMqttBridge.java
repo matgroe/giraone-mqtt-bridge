@@ -22,7 +22,6 @@ import com.google.gson.GsonBuilder;
 import de.matgroe.giraone.client.GiraOneClient;
 import de.matgroe.giraone.client.GiraOneClientConnectionState;
 import de.matgroe.giraone.client.GiraOneClientException;
-import de.matgroe.giraone.client.types.GiraOneChannelType;
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
 import de.matgroe.giraone.client.types.GiraOneProject;
@@ -31,12 +30,14 @@ import de.matgroe.hassio.HassioComponentFactory;
 import de.matgroe.hassio.HassioDiscoveryMessageFactory;
 import de.matgroe.hassio.HassioTopicNameMapper;
 import de.matgroe.hassio.types.DiscoveryMessage;
+import de.matgroe.hassio.types.UnsupportedComponent;
 import de.matgroe.mqtt.MqttClient;
 import de.matgroe.mqtt.MqttClientConnectionState;
 import de.matgroe.mqtt.MqttMessage;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.ReplaySubject;
+import java.util.Optional;
 import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -171,6 +172,10 @@ public class GiraOneMqttBridge {
   void handleBridgeStateConnected() {
     sendDiscoveryMessage();
     giraoneValueDiposable = giraOneClient.observeGiraOneValues(this::onGiraOneValue);
+    // this.lookupGiraOneDataPoints();
+  }
+
+  void lookupGiraOneDataPoints() {
     Thread.ofVirtual()
         .start(
             () -> {
@@ -251,6 +256,13 @@ public class GiraOneMqttBridge {
    */
   private void onMqttMessage(MqttMessage mqttMessage) {
     logger.info("Received MqttMessage:: {}", mqttMessage);
+
+    Optional<GiraOneDataPoint> dp = hassioTopicNameMapper.giraOneDataPointOf(mqttMessage.topic());
+    if (dp.isPresent()) {
+      giraOneClient.changeGiraOneDataPointValue(dp.get(), mqttMessage.payload());
+      // giraOneClient.lookupGiraOneDatapointValue(dp.get());
+      onGiraOneValue(new GiraOneValue(dp.get().getUrn(), mqttMessage.payload()));
+    }
   }
 
   /**
@@ -260,7 +272,7 @@ public class GiraOneMqttBridge {
    * @param giraOneValue
    */
   void onGiraOneValue(GiraOneValue giraOneValue) {
-    String topic = hassioTopicNameMapper.topicNameOf(giraOneValue.getGiraOneDataPoint());
+    String topic = hassioTopicNameMapper.stateTopicNameOf(giraOneValue.getGiraOneDataPoint());
     MqttMessage mqttMessage = new MqttMessage(topic, giraOneValue.getValue());
     logger.info("Publishing MqttMessage:: {}", mqttMessage);
     mqttClient.publish(mqttMessage);
@@ -277,14 +289,17 @@ public class GiraOneMqttBridge {
     logger.info("Create and send DiscoveryMessage");
     DiscoveryMessage dm = hassioDiscoveryMessageFactory.createDiscoveryMessage();
     GiraOneProject project = this.giraOneClient.getGiraOneProject();
+
     project.lookupChannels().stream()
-        .filter(ch -> ch.getChannelType() == GiraOneChannelType.Status)
-        .forEach(
-            channel -> {
-              dm.addComponent(hassioComponentFactory.from(channel));
-            });
+        .map(hassioComponentFactory::from)
+        .filter(u -> u.getClass() != UnsupportedComponent.class)
+        .toList()
+        .forEach(dm::addComponent);
+
     Gson gson = new GsonBuilder().create();
-    this.mqttClient.publish(
-        new MqttMessage(hassioDiscoveryMessageFactory.createDiscoveryTopic(), gson.toJson(dm)));
+    MqttMessage discoveryMessage =
+        new MqttMessage(hassioDiscoveryMessageFactory.createDiscoveryTopic(), gson.toJson(dm));
+    logger.info("Publishing MqttDiscoveryMessage:: {}", discoveryMessage);
+    this.mqttClient.publish(discoveryMessage);
   }
 }

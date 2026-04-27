@@ -71,6 +71,7 @@
                 <configuration>
                     <java>
                         <googleJavaFormat/>
+                        <removeUnusedImports/>
                     </java>
                 </configuration>
             </plugin>
