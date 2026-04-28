@@ -48,7 +48,7 @@ class GiraOneProjectTest {
 
   @DisplayName("should find a channel by it's name")
   @ParameterizedTest
-  @ValueSource(strings = {"WC Deckenlicht", "Eckfenster Bad Links"})
+  @ValueSource(strings = {"WC - Deckenlicht", "Büro Raffstore Eckfenster Strasse"})
   void testLookupChannelByName(String name) {
     GiraOneProject project = GiraOneTestDataProvider.createGiraOneProject();
     Optional<GiraOneChannel> channel = project.lookupChannelByName(name.toLowerCase());
