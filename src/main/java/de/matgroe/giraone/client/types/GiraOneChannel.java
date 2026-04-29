@@ -17,9 +17,11 @@
  */
 package de.matgroe.giraone.client.types;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -30,16 +32,27 @@ import java.util.Set;
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneChannel {
-  private GiraOneURN urn;
   private String name;
   private String location;
+  private GiraOneURN urn = GiraOneURN.INVALID;
 
   private GiraOneFunctionType functionType;
   private GiraOneChannelType channelType;
-
   private GiraOneChannelTypeId channelTypeId;
+  private final Set<GiraOneDataPoint> dataPoints = Collections.synchronizedSet(new HashSet<>());
+  private final List<GiraOneChannelParameter> channelParameter = new ArrayList<>();
 
-  private Set<GiraOneDataPoint> dataPoints = Collections.synchronizedSet(new HashSet<>());
+  public Collection<GiraOneChannelParameter> getChannelParameter() {
+    return channelParameter;
+  }
+
+  public void addParameter(GiraOneChannelParameter channelParameter) {
+      this.channelParameter.add(channelParameter);
+  }
+
+  public Optional<String> getParameterValue(String parameter) {
+    return this.channelParameter.stream().filter(p -> p.getKey().equals(parameter)).map(GiraOneChannelParameter::getValue).findFirst();
+  }
 
   public String getLocation() {
     return location;
@@ -126,7 +139,7 @@ public class GiraOneChannel {
   @Override
   public String toString() {
     return String.format(
-        "%s{urn='%s', name='%s', location='%s', functionType=%s, channelType=%s, channelTypeId=%s, dataPoints=%s}",
+        "%s{urn='%s', name='%s', location='%s', functionType=%s, channelType=%s, channelTypeId=%s, dataPoints=%s, channelParameter=%s}",
         getClass().getSimpleName(),
         urn,
         name,
@@ -134,6 +147,7 @@ public class GiraOneChannel {
         functionType,
         channelType,
         channelTypeId,
-        dataPoints.stream().map(GiraOneDataPoint::toString).toList());
+        dataPoints.stream().map(GiraOneDataPoint::toString).toList(),
+        channelParameter.stream().map(GiraOneChannelParameter::toString).toList());
   }
 }

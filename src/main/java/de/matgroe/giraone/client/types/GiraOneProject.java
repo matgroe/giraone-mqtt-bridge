@@ -51,8 +51,8 @@ public class GiraOneProject {
   }
 
   /**
-   * Performs a lookup within the internal {@link Collection} of {@link GiraOneChannel} by the given
-   * channelUrn.
+   * Performs a lookup within the internal {@link Collection} of {@link GiraOneChannel}
+   * by the given urn.
    *
    * @param urn The channelUrn
    * @return The optional {@link GiraOneChannel}, if there is any

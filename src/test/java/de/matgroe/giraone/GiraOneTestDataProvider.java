@@ -103,7 +103,7 @@ public class GiraOneTestDataProvider {
   public static GiraOneChannel createGiraOneChannel(final String urn) {
     return GenericBuilder.of(GiraOneChannel::new)
         .with(GiraOneChannel::setUrn, urn)
-        .with(GiraOneChannel::setChannelType, GiraOneChannelType.Shutter)
+        .with(GiraOneChannel::setChannelType, GiraOneChannelType.Covering)
         .with(GiraOneChannel::setChannelTypeId, GiraOneChannelTypeId.VenetianBlind)
         .with(GiraOneChannel::setFunctionType, GiraOneFunctionType.Covering)
         .with(GiraOneChannel::addDataPoint, dataPointUpDown())

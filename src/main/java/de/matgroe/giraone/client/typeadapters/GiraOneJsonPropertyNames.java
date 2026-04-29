@@ -28,6 +28,7 @@ abstract class GiraOneJsonPropertyNames {
 
   static final String PROPERTY_CHANNEL_VIEW_ID = "channelViewID";
   static final String PROPERTY_URN = "urn";
+  static final String PROPERTY_CHANNEL_URN = "channelUrn";
   static final String PROPERTY_TYPE = "type";
   static final String PROPERTY_CHANNEL_VIEW_URN = "channelViewUrn";
   static final String PROPERTY_CHANNELS = "channels";
@@ -42,4 +43,5 @@ abstract class GiraOneJsonPropertyNames {
   static final String PROPERTY_MAINTYPE = "mainType";
   static final String PROPERTY_SUBLOCATIONS = "subLocations";
   static final String PROPERTY_COMPONENTS = "components";
+  static final String PROPERTY_PARAMETER = "parameters";
 }
