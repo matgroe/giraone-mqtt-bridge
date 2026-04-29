@@ -18,7 +18,11 @@
 package de.matgroe.hassio.types;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Sensor extends Component {
 
   @SerializedName("state_class")
@@ -35,27 +39,4 @@ public class Sensor extends Component {
     this.stateClass = "measurement";
   }
 
-  public String getStateClass() {
-    return stateClass;
-  }
-
-  public void setStateClass(String stateClass) {
-    this.stateClass = stateClass;
-  }
-
-  public String getUnitOfMeasurement() {
-    return unitOfMeasurement;
-  }
-
-  public void setUnitOfMeasurement(String unitOfMeasurement) {
-    this.unitOfMeasurement = unitOfMeasurement;
-  }
-
-  public String getSuggestedDisplayPrecision() {
-    return suggestedDisplayPrecision;
-  }
-
-  public void setSuggestedDisplayPrecision(String suggestedDisplayPrecision) {
-    this.suggestedDisplayPrecision = suggestedDisplayPrecision;
-  }
 }

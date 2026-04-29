@@ -18,8 +18,14 @@
 
 package de.matgroe.mqtt;
 
+import com.hivemq.client.mqtt.MqttClientState;
+import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5PublishBuilder;
+import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5PublishResult;
 import static org.awaitility.Awaitility.await;
 import static org.awaitility.Duration.TWO_SECONDS;
+import org.jetbrains.annotations.NotNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.RETURNS_SELF;
@@ -37,6 +43,7 @@ import java.util.concurrent.CompletableFuture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.stubbing.OngoingStubbing;
 
 /**
  * Test class for {@link MqttClient}
@@ -49,12 +56,18 @@ class MqttClientTest {
 
   MqttClient mqttClient;
   Mqtt5AsyncClient mqtt5ClientMock = mock(Mqtt5AsyncClient.class);
+
   Mqtt5ConnectBuilder.Send<CompletableFuture<Mqtt5ConnAck>> mqtt5ConnectBuilderSendMock =
       mock(Mqtt5ConnectBuilder.Send.class, RETURNS_SELF);
+
   Mqtt5SimpleAuthBuilder.Nested mqtt5SimpleAuthBuilderNestedMock =
       mock(Mqtt5SimpleAuthBuilder.Nested.class);
+
   Mqtt5SimpleAuthBuilder.Nested.Complete.Complete mqtt5SimpleAuthBuilderMock =
       mock(Mqtt5SimpleAuthBuilder.Nested.Complete.Complete.class, RETURNS_SELF);
+
+  Mqtt5PublishBuilder.Send<CompletableFuture<Mqtt5PublishResult>> mqtt5PublishBuilder =
+          mock(Mqtt5PublishBuilder.Send.class, RETURNS_SELF);
 
   @BeforeEach
   void setUp() {
@@ -74,9 +87,9 @@ class MqttClientTest {
         .thenReturn(mqtt5SimpleAuthBuilderMock);
     when(mqtt5SimpleAuthBuilderMock.applySimpleAuth()).thenReturn(mqtt5ConnectBuilderSendMock);
     when(mqtt5ClientMock.connectWith()).thenReturn(mqtt5ConnectBuilderSendMock);
-  }
+    when(mqtt5ClientMock.publishWith()).thenReturn(mqtt5PublishBuilder);
 
-  private void doConnect(CompletableFuture<Mqtt5ConnAck> connAckFuture) {}
+  }
 
   @Test
   @DisplayName("should connect and auth with given credentials")
@@ -121,5 +134,58 @@ class MqttClientTest {
     await()
         .atMost(TWO_SECONDS)
         .until(() -> mqttClient.connectionState.getValue() == MqttClientConnectionState.Error);
+  }
+
+  @Test
+  @DisplayName("should return false on empty message")
+  void testMqttPublishEmptyMessage() {
+    mqttClient.mqtt5Client = mock(Mqtt5AsyncClient.class);
+    MqttClientState stateMock = mock(MqttClientState.class);
+
+    when(stateMock.isConnected()).thenReturn(false);
+    when(mqttClient.mqtt5Client.getState()).thenReturn(stateMock);
+    assertFalse(mqttClient.publish(null));
+  }
+
+  @Test
+  @DisplayName("should return false on not connected")
+  void testMqttPublishOnNotConnected() {
+    mqttClient.mqtt5Client = mock(Mqtt5AsyncClient.class);
+    MqttClientState stateMock = mock(MqttClientState.class);
+
+    when(stateMock.isConnected()).thenReturn(false);
+    when(mqttClient.mqtt5Client.getState()).thenReturn(stateMock);
+    assertFalse(mqttClient.publish(new MqttMessage("topic", "payload")));
+  }
+
+  @Test
+  @DisplayName("should not publish on error state")
+  void testMqttPublishOnError() {
+    mqttClient.mqtt5Client = mock(Mqtt5AsyncClient.class);
+    MqttClientState stateMock = mock(MqttClientState.class);
+    mqttClient.connectionState.onNext(MqttClientConnectionState.Error);
+    when(stateMock.isConnected()).thenReturn(true);
+
+    when(mqttClient.mqtt5Client.getState()).thenReturn(stateMock);
+    assertFalse(mqttClient.publish(new MqttMessage("topic", "payload")));
+  }
+
+  @Test
+  @DisplayName("should return true on connected")
+  void testMqttPublishOnConnected() {
+    mqttClient.mqtt5Client = mqtt5ClientMock;
+
+    MqttClientState stateMock = mock(MqttClientState.class);
+    mqttClient.connectionState.onNext(MqttClientConnectionState.Connected);
+    when(stateMock.isConnected()).thenReturn(true);
+    when(mqttClient.mqtt5Client.getState()).thenReturn(stateMock);
+    when(mqtt5ClientMock.publishWith()).thenReturn(mqtt5PublishBuilder);
+
+    CompletableFuture<Mqtt5PublishResult> publishResultMock = mock(CompletableFuture.class);
+
+    Mqtt5PublishBuilder.Send.Complete<CompletableFuture<Mqtt5PublishResult>> publishBuilderComplete = mock(Mqtt5PublishBuilder.Send.Complete.class, RETURNS_SELF);
+    when(publishBuilderComplete.send()).thenReturn(publishResultMock);
+    when(mqtt5PublishBuilder.topic(anyString())).thenReturn(publishBuilderComplete);
+    assertTrue(mqttClient.publish(new MqttMessage("topic", "payload")));
   }
 }

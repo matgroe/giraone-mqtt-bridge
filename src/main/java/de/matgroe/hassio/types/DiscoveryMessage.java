@@ -26,6 +26,11 @@ import java.util.Map;
  *
  * <p>https://www.home-assistant.io/integrations/cover.mqtt/
  */
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class DiscoveryMessage {
   @SerializedName("dev")
   private Device device;
@@ -36,31 +41,7 @@ public class DiscoveryMessage {
   @SerializedName("cmps")
   private Map<String, Component> components = new HashMap<>();
 
-  public Device getDevice() {
-    return device;
-  }
-
-  public void setDevice(Device device) {
-    this.device = device;
-  }
-
-  public Origin getOrigin() {
-    return origin;
-  }
-
-  public void setOrigin(Origin origin) {
-    this.origin = origin;
-  }
-
   public void addComponent(Component component) {
     this.components.put(component.getUniqueId(), component);
-  }
-
-  public Map<String, Component> getComponents() {
-    return components;
-  }
-
-  public void setComponents(Map<String, Component> components) {
-    this.components = components;
   }
 }

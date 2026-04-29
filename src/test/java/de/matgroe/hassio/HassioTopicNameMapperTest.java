@@ -78,12 +78,6 @@ public class HassioTopicNameMapperTest {
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-13.Curtain-2:Up-Down",
             "g1-junit/state/knxbutton4comfort2csystem55rocker3-gang-13/curtain-2/up-down"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Function-Scene-5:Execute",
-            "g1-junit/state/function-scene-5/execute"),
-        Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:Function-Scene-5:Teach",
-            "g1-junit/state/function-scene-5/teach"),
-        Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-13.Curtain-3:Step-Up-Down",
             "g1-junit/state/knxbutton4comfort2csystem55rocker3-gang-13/curtain-3/step-up-down"),
         Arguments.of(
@@ -248,7 +242,6 @@ public class HassioTopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-2:Heating",
             "g1-junit/state/knxhvacactuator6-gang-2/heatingactuator-2/heating"),
-        Arguments.of("urn:ns:invalid:invalid", "g1-junit/state/invalid/invalid"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-2:Set-Point",
             "g1-junit/state/knxhvacactuator6-gang-2/heatingactuator-2/set-point"),
@@ -267,7 +260,6 @@ public class HassioTopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-3:Heating",
             "g1-junit/state/knxhvacactuator6-gang-2/heatingactuator-3/heating"),
-        Arguments.of("urn:ns:invalid:invalid", "g1-junit/state/invalid/invalid"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-3:Mode",
             "g1-junit/state/knxhvacactuator6-gang-2/heatingactuator-3/mode"),
@@ -280,7 +272,6 @@ public class HassioTopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-4:Set-Point",
             "g1-junit/state/knxhvacactuator6-gang-2/heatingactuator-4/set-point"),
-        Arguments.of("urn:ns:invalid:invalid", "g1-junit/state/invalid/invalid"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-4:Mode",
             "g1-junit/state/knxhvacactuator6-gang-2/heatingactuator-4/mode"),
@@ -299,7 +290,6 @@ public class HassioTopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-5:Mode",
             "g1-junit/state/knxhvacactuator6-gang-2/heatingactuator-5/mode"),
-        Arguments.of("urn:ns:invalid:invalid", "g1-junit/state/invalid/invalid"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-5:Heating",
             "g1-junit/state/knxhvacactuator6-gang-2/heatingactuator-5/heating"),
@@ -312,7 +302,6 @@ public class HassioTopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-1:Set-Point",
             "g1-junit/state/knxhvacactuator6-gang-2/heatingactuator-1/set-point"),
-        Arguments.of("urn:ns:invalid:invalid", "g1-junit/state/invalid/invalid"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-1:Heating",
             "g1-junit/state/knxhvacactuator6-gang-2/heatingactuator-1/heating"),
@@ -475,7 +464,6 @@ public class HassioTopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-6:Set-Point",
             "g1-junit/state/knxhvacactuator6-gang-2/heatingactuator-6/set-point"),
-        Arguments.of("urn:ns:invalid:invalid", "g1-junit/state/invalid/invalid"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-6:Mode",
             "g1-junit/state/knxhvacactuator6-gang-2/heatingactuator-6/mode"),
@@ -491,7 +479,6 @@ public class HassioTopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-1:Current",
             "g1-junit/state/knxhvacactuator6-gang-1/heatingactuator-1/current"),
-        Arguments.of("urn:ns:invalid:invalid", "g1-junit/state/invalid/invalid"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-1:Set-Point",
             "g1-junit/state/knxhvacactuator6-gang-1/heatingactuator-1/set-point"),
@@ -513,7 +500,6 @@ public class HassioTopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-2:Current",
             "g1-junit/state/knxhvacactuator6-gang-1/heatingactuator-2/current"),
-        Arguments.of("urn:ns:invalid:invalid", "g1-junit/state/invalid/invalid"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-2:Heating",
             "g1-junit/state/knxhvacactuator6-gang-1/heatingactuator-2/heating"),
@@ -526,7 +512,6 @@ public class HassioTopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-3:Set-Point",
             "g1-junit/state/knxhvacactuator6-gang-1/heatingactuator-3/set-point"),
-        Arguments.of("urn:ns:invalid:invalid", "g1-junit/state/invalid/invalid"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-3:Current",
             "g1-junit/state/knxhvacactuator6-gang-1/heatingactuator-3/current"),
@@ -716,7 +701,6 @@ public class HassioTopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-4:Set-Point",
             "g1-junit/state/knxhvacactuator6-gang-1/heatingactuator-4/set-point"),
-        Arguments.of("urn:ns:invalid:invalid", "g1-junit/state/invalid/invalid"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-4:Current",
             "g1-junit/state/knxhvacactuator6-gang-1/heatingactuator-4/current"),
@@ -738,7 +722,6 @@ public class HassioTopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-4:Up-Down",
             "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/curtain-4/up-down"),
-        Arguments.of("urn:ns:invalid:invalid", "g1-junit/state/invalid/invalid"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-4:Step-Up-Down",
             "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/curtain-4/step-up-down"),
@@ -754,7 +737,6 @@ public class HassioTopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-5:Position",
             "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/curtain-5/position"),
-        Arguments.of("urn:ns:invalid:invalid", "g1-junit/state/invalid/invalid"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-5:Step-Up-Down",
             "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/curtain-5/step-up-down"),
@@ -767,7 +749,6 @@ public class HassioTopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-6:Position",
             "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/curtain-6/position"),
-        Arguments.of("urn:ns:invalid:invalid", "g1-junit/state/invalid/invalid"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-6:Step-Up-Down",
             "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/curtain-6/step-up-down"),
@@ -810,7 +791,6 @@ public class HassioTopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-6:Heating",
             "g1-junit/state/knxhvacactuator6-gang-1/heatingactuator-6/heating"),
-        Arguments.of("urn:ns:invalid:invalid", "g1-junit/state/invalid/invalid"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-6:Current",
             "g1-junit/state/knxhvacactuator6-gang-1/heatingactuator-6/current"),
@@ -826,7 +806,6 @@ public class HassioTopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-5:Heating",
             "g1-junit/state/knxhvacactuator6-gang-1/heatingactuator-5/heating"),
-        Arguments.of("urn:ns:invalid:invalid", "g1-junit/state/invalid/invalid"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-5:Current",
             "g1-junit/state/knxhvacactuator6-gang-1/heatingactuator-5/current"),

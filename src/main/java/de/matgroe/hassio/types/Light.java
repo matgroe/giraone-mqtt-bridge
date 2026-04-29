@@ -19,7 +19,11 @@
 package de.matgroe.hassio.types;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Light extends Switch {
 
   @SerializedName("brightness_command_topic")
@@ -34,45 +38,10 @@ public class Light extends Switch {
   @SerializedName("on_command_type")
   protected String onCommandType;
 
-  @SerializedName("device")
-  protected Device device;
-
   public Light() {
     brightnessScale = 100;
     this.platform = "light";
     this.onCommandType = "brightness";
     this.deviceClass = null;
-  }
-
-  public String getBrightnessCommandTopic() {
-    return brightnessCommandTopic;
-  }
-
-  public void setBrightnessCommandTopic(String brightnessCommandTopic) {
-    this.brightnessCommandTopic = brightnessCommandTopic;
-  }
-
-  public String getBrightnessStateTopic() {
-    return brightnessStateTopic;
-  }
-
-  public void setBrightnessStateTopic(String brightnessStateTopic) {
-    this.brightnessStateTopic = brightnessStateTopic;
-  }
-
-  public int getBrightnessScale() {
-    return brightnessScale;
-  }
-
-  public void setBrightnessScale(int brightnessScale) {
-    this.brightnessScale = brightnessScale;
-  }
-
-  public Device getDevice() {
-    return device;
-  }
-
-  public void setDevice(Device device) {
-    this.device = device;
   }
 }

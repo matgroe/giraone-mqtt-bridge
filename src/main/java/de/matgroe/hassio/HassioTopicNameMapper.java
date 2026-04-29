@@ -26,7 +26,7 @@ import java.util.Optional;
 
 /**
  * This class offers functionality to derive a MQTT Topicname from a {@link GiraOneDataPoint} and
- * offers a mapping between the TopiocName and the concerning {@link GiraOneDataPoint}
+ * offers a mapping between the TopicName and the concerning {@link GiraOneDataPoint}
  */
 public class HassioTopicNameMapper {
   public static final String COMMAND = "command";
@@ -90,4 +90,5 @@ public class HassioTopicNameMapper {
     GiraOneDataPoint dp = this.dataPointTopicMap.get(topic);
     return dp != null ? Optional.of(dp) : Optional.empty();
   }
+
 }

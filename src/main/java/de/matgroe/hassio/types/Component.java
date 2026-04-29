@@ -18,7 +18,11 @@
 package de.matgroe.hassio.types;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public abstract class Component {
 
   @SerializedName("platform")
@@ -26,6 +30,9 @@ public abstract class Component {
 
   @SerializedName("name")
   protected String name;
+
+  @SerializedName("device")
+  protected Device device;
 
   @SerializedName("entity_category")
   protected String entityCategory;
@@ -45,68 +52,12 @@ public abstract class Component {
   @SerializedName("qos")
   protected int qos;
 
+  @SerializedName("retain")
+  protected boolean retain;
+
   public Component() {
     this.entityCategory = "diagnostic";
     this.qos = 0;
-  }
-
-  public String getPlatform() {
-    return platform;
-  }
-
-  public void setPlatform(String platform) {
-    this.platform = platform;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getEntityCategory() {
-    return entityCategory;
-  }
-
-  public void setEntityCategory(String entityCategory) {
-    this.entityCategory = entityCategory;
-  }
-
-  public String getDeviceClass() {
-    return deviceClass;
-  }
-
-  public void setDeviceClass(String deviceClass) {
-    this.deviceClass = deviceClass;
-  }
-
-  public String getStateTopic() {
-    return stateTopic;
-  }
-
-  public void setStateTopic(String stateTopic) {
-    this.stateTopic = stateTopic;
-  }
-
-  public void setCommandTopic(String commandTopic) {
-    this.commandTopic = commandTopic;
-  }
-
-  public String getUniqueId() {
-    return uniqueId;
-  }
-
-  public void setUniqueId(String uniqueId) {
-    this.uniqueId = uniqueId;
-  }
-
-  public int getQos() {
-    return qos;
-  }
-
-  public void setQos(int qos) {
-    this.qos = qos;
+    this.retain = false;
   }
 }

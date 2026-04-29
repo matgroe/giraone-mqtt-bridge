@@ -31,8 +31,8 @@ public record MqttMessage(String topic, String payload, String messageId) {
     this(topic, payload, UUID.randomUUID().toString());
   }
 
-  public MqttMessage(MqttTopic topic, String payload, String messageId) {
-    this(topic.toString(), payload, messageId);
+  public MqttMessage(MqttTopic topic, String payload) {
+    this(topic.toString(), payload);
   }
 
   @Override

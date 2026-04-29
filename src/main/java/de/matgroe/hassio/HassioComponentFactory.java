@@ -4,6 +4,7 @@ import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneChannelTypeId;
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.hassio.types.Component;
+import de.matgroe.hassio.types.Cover;
 import de.matgroe.hassio.types.Device;
 import de.matgroe.hassio.types.Light;
 import de.matgroe.hassio.types.Sensor;
@@ -33,7 +34,6 @@ public class HassioComponentFactory {
   private static final String DATAPOINT_POSITION = "Position";
   private static final String DATAPOINT_SLAT_POSITION = "Slat-Position";
 
-  private Logger logger = LoggerFactory.getLogger(HassioComponentFactory.class);
   private final HassioTopicNameMapper hassioTopicNameMapper;
 
   public HassioComponentFactory(HassioTopicNameMapper hassioTopicNameMapper) {
@@ -41,6 +41,7 @@ public class HassioComponentFactory {
   }
 
   public Component from(GiraOneChannel channel) {
+    Logger logger = LoggerFactory.getLogger(HassioComponentFactory.class);
     Component component;
     switch (channel.getChannelType()) {
       case Status:
@@ -52,6 +53,9 @@ public class HassioComponentFactory {
       case Dimmer:
       case Light:
         component = createLight(channel);
+        break;
+      case Covering:
+        component = createCover(channel);
         break;
       default:
         logger.warn("no factory implementation for {} ", channel);
@@ -146,7 +150,6 @@ public class HassioComponentFactory {
   private Light createLight(GiraOneChannel channel) {
     Light l = new Light();
     Device d = new Device();
-    d.setName(channel.getName());
     d.setSuggestedArea(channel.getLocation());
     l.setDevice(d);
 
@@ -168,5 +171,56 @@ public class HassioComponentFactory {
         });
 
     return l;
+  }
+
+  private Cover createCover(GiraOneChannel channel) {
+    Cover cover = new Cover();
+
+    Optional<GiraOneDataPoint> dpUpDown = channel.getDatapoint(DATAPOINT_UP_DOWN);
+    dpUpDown.ifPresent(
+      dataPoint -> {
+          cover.setCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
+          cover.setStateTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
+
+          cover.setPayloadClose("1");
+          //cover.setPayloadClose("1");
+          cover.setPayloadOpen("0");
+          //cover.setPayloadStop("0");
+          Optional<GiraOneDataPoint> dpStepUpDown = channel.getDatapoint(DATAPOINT_STEP_UP_DOWN);
+          if(dpStepUpDown.isPresent()) {
+            cover.setPayloadStop(String.format("#MAP-DATAPOINT#:%s:%s:0", DATAPOINT_UP_DOWN, DATAPOINT_STEP_UP_DOWN));
+          }
+          //cover.setPayloadOpen("0");
+        });
+
+    Optional<GiraOneDataPoint> dpMovement = channel.getDatapoint(DATAPOINT_MOVEMENT);
+    dpMovement.ifPresent(
+            dataPoint -> {
+
+            });
+
+    Optional<GiraOneDataPoint> dpPosition = channel.getDatapoint(DATAPOINT_POSITION);
+    dpPosition.ifPresent(
+            dataPoint -> {
+              cover.setPositionCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
+              cover.setPositionStateTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
+              cover.setPositionClosed(100);
+              cover.setPositionOpen(0);
+            });
+
+
+    Optional<GiraOneDataPoint> datapoint = channel.getDatapoint(DATAPOINT_SLAT_POSITION);
+    datapoint.ifPresent(
+            dataPoint -> {
+              cover.setTiltCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
+              cover.setTiltStatusTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
+              cover.setTiltMin(100);
+              cover.setTiltMax(0);
+              cover.setTiltClosedValue(100);
+              cover.setTiltOpenedValue(0);
+            });
+
+
+    return cover;
   }
 }

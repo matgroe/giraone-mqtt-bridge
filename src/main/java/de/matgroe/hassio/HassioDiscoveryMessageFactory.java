@@ -58,7 +58,7 @@ public class HassioDiscoveryMessageFactory {
   }
 
   Device createDevice(GiraOneDeviceConfiguration deviceCfg) {
-    Device d = new Device();
+        Device d = new Device();
     d.addIdentifier(deviceCfg.get(GiraOneDeviceConfiguration.SERIAL_NUMBER));
     d.setName(deviceCfg.get(GiraOneDeviceConfiguration.DEVICE_NAME));
     d.setSerialNumber(deviceCfg.get(GiraOneDeviceConfiguration.SERIAL_NUMBER));

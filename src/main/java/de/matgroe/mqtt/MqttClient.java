@@ -39,7 +39,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MqttClient {
-  private static final String CLIENT_ID = "client-id";
   private static final String MESSAGE_ID = "message-id";
 
   private final Logger logger = LoggerFactory.getLogger(MqttClient.class);
@@ -64,7 +63,7 @@ public class MqttClient {
     this.connectionState.subscribe(this::onConnectionStateChanged);
   }
 
-  private void onConnectionStateChanged(MqttClientConnectionState mqttClientConnectionState) {
+  void onConnectionStateChanged(MqttClientConnectionState mqttClientConnectionState) {
     logger.debug("MqttClientConnectionState changed to {}", mqttClientConnectionState);
     String topicFilter = String.format("%s/command/#", topicNamePrefix);
     if (mqttClientConnectionState == MqttClientConnectionState.Connected && mqtt5Client != null) {
@@ -91,6 +90,7 @@ public class MqttClient {
                 }
                 this.connectionState.onNext(MqttClientConnectionState.Disconnected);
               });
+
     }
   }
 
@@ -128,14 +128,6 @@ public class MqttClient {
         .buildAsync();
   }
 
-  /** Disconnects from MQTT Broker if connected. */
-  public void disonnect() {
-    if (this.mqtt5Client != null) {
-      this.mqtt5Client.disconnect();
-      this.mqtt5Client = null;
-    }
-  }
-
   /** Connects to the MQTT Broker as given within the {@link MqttClientProperties} object. */
   public void connect(String topicNamePrefix) {
     this.topicNamePrefix = topicNamePrefix;
@@ -166,21 +158,12 @@ public class MqttClient {
             });
   }
 
-  private String getUserPropertyValue(Mqtt5UserProperties userproperties, String propertyName) {
-    Optional<? extends Mqtt5UserProperty> mqttProp =
-        userproperties.asList().stream()
-            .filter(p -> MqttUtf8String.of(propertyName).equals(p.getName()))
-            .findFirst();
-    return mqttProp.map(mqtt5UserProperty -> mqtt5UserProperty.getValue().toString()).orElse(null);
-  }
-
   private MqttMessage createMqttMessage(Mqtt5Publish mqtt5Publish) {
-    String messageId = getUserPropertyValue(mqtt5Publish.getUserProperties(), MESSAGE_ID);
     String payload =
         StandardCharsets.UTF_8
             .decode(mqtt5Publish.getPayload().orElse(ByteBuffer.wrap(new byte[0])))
             .toString();
-    return new MqttMessage(mqtt5Publish.getTopic(), payload, messageId);
+    return new MqttMessage(mqtt5Publish.getTopic(), payload);
   }
 
   void onMessageReceived(Mqtt5Publish mqtt5Publish) {
@@ -193,17 +176,17 @@ public class MqttClient {
     }
   }
 
-  public void publish(MqttMessage message) {
+  public boolean publish(MqttMessage message) {
     if (message == null) {
       logger.warn("Cannot send empty message");
-      return;
+      return false;
     }
 
     if (mqtt5Client == null
         || !mqtt5Client.getState().isConnected()
         || this.connectionState.getValue() != MqttClientConnectionState.Connected) {
       logger.warn("MQTT is not fully connected, ignoring message {}", message);
-      return;
+      return false;
     }
 
     logger.debug("Publishing {}", message);
@@ -211,10 +194,6 @@ public class MqttClient {
         .publishWith()
         .topic(message.topic())
         .payload(message.payload().getBytes())
-        .userProperties()
-        .add(CLIENT_ID, clientIdentifier)
-        .add(MESSAGE_ID, message.messageId())
-        .applyUserProperties()
         .qos(MqttQos.AT_LEAST_ONCE)
         .retain(true)
         .send()
@@ -226,5 +205,6 @@ public class MqttClient {
                 logger.debug("publish {}", mqttPublishResult);
               }
             });
+    return true;
   }
 }

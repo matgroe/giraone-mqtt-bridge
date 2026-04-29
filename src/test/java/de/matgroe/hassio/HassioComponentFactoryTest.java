@@ -18,6 +18,7 @@
 
 package de.matgroe.hassio;
 
+import de.matgroe.hassio.types.Cover;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -64,6 +65,7 @@ public class HassioComponentFactoryTest {
         (ch) -> {
           Component component = hassioComponentFactory.from(ch);
           assertInstanceOf(Sensor.class, component);
+          assertNotNull(component.getUniqueId());
           assertEquals("sensor", component.getPlatform());
           assertEquals("temperature", component.getDeviceClass());
         },
@@ -79,10 +81,10 @@ public class HassioComponentFactoryTest {
         ch -> {
           Component component = hassioComponentFactory.from(ch);
           assertInstanceOf(Sensor.class, component);
+          assertNotNull(component.getUniqueId());
           assertEquals("sensor", component.getPlatform());
           assertEquals("humidity", component.getDeviceClass());
           assertEquals(ch.getName(), component.getName());
-          assertNotNull(component.getUniqueId());
         },
         () -> fail("Channel not found in project"));
   }
@@ -95,10 +97,10 @@ public class HassioComponentFactoryTest {
         ch -> {
           Component component = hassioComponentFactory.from(ch);
           assertInstanceOf(Light.class, component);
+          assertNotNull(component.getUniqueId());
           assertEquals("light", component.getPlatform());
           assertNull(component.getDeviceClass());
           assertEquals(ch.getName(), component.getName());
-          assertNotNull(component.getUniqueId());
         },
         () -> fail("Channel not found in project"));
   }
@@ -111,10 +113,10 @@ public class HassioComponentFactoryTest {
         ch -> {
           Component component = hassioComponentFactory.from(ch);
           assertInstanceOf(Switch.class, component);
+          assertNotNull(component.getUniqueId());
           assertEquals("switch", component.getPlatform());
           assertEquals("outlet", component.getDeviceClass());
           assertEquals(ch.getName(), component.getName());
-          assertNotNull(component.getUniqueId());
         },
         () -> fail("Channel not found in project"));
   }
@@ -128,21 +130,29 @@ public class HassioComponentFactoryTest {
         ch -> {
           Component component = hassioComponentFactory.from(ch);
           assertInstanceOf(Light.class, component);
+          assertNotNull(component.getUniqueId());
           assertEquals("light", component.getPlatform());
           assertNull(component.getDeviceClass());
           assertEquals(ch.getName(), component.getName());
-          assertNotNull(component.getUniqueId());
         },
         () -> fail("Channel not found in project"));
   }
 
-  @Disabled
   @Test
   @DisplayName("Should generate de.matgroe.hassio.types.Cover(Covering.VenetianBlind)")
   void testCoveringVenetianBlind() {
     Optional<GiraOneChannel> channel =
         project.lookupChannelByUrn("urn:gds:chv:Covering-Blind-With-Position-10");
-    fail("not implemented yet");
+       channel.ifPresentOrElse(
+              ch -> {
+                  Component component = hassioComponentFactory.from(ch);
+                  assertInstanceOf(Cover.class, component);
+                  assertNotNull(component.getUniqueId());
+                  assertEquals("cover", component.getPlatform());
+                  assertEquals("shutter", component.getDeviceClass());
+                  assertEquals(ch.getName(), component.getName());
+              },
+              () -> fail("Channel not found in project"));
   }
 
   @Disabled
@@ -151,7 +161,16 @@ public class HassioComponentFactoryTest {
   void testCoveringRoofWindow() {
     Optional<GiraOneChannel> channel =
         project.lookupChannelByUrn("urn:gds:chv:Covering-Blind-With-Position-16");
-    fail("not implemented yet");
+      channel.ifPresentOrElse(
+              ch -> {
+                  Component component = hassioComponentFactory.from(ch);
+                  assertInstanceOf(Cover.class, component);
+                  assertNotNull(component.getUniqueId());
+                  assertEquals("cover", component.getPlatform());
+                  assertEquals("window", component.getDeviceClass());
+                  assertEquals(ch.getName(), component.getName());
+              },
+              () -> fail("Channel not found in project"));
   }
 
   @Disabled
