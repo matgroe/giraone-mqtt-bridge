@@ -19,15 +19,15 @@ package de.matgroe.giraone.client.typeadapters;
 
 import static de.matgroe.giraone.client.typeadapters.GiraOneJsonPropertyNames.PROPERTY_CHANNEL_TYPE;
 import static de.matgroe.giraone.client.typeadapters.GiraOneJsonPropertyNames.PROPERTY_CHANNEL_TYPE_ID;
-import static de.matgroe.giraone.client.typeadapters.GiraOneJsonPropertyNames.PROPERTY_CHANNEL_VIEW_URN;
 import static de.matgroe.giraone.client.typeadapters.GiraOneJsonPropertyNames.PROPERTY_CHANNEL_URN;
+import static de.matgroe.giraone.client.typeadapters.GiraOneJsonPropertyNames.PROPERTY_CHANNEL_VIEW_URN;
 import static de.matgroe.giraone.client.typeadapters.GiraOneJsonPropertyNames.PROPERTY_DATAPOINTS;
 import static de.matgroe.giraone.client.typeadapters.GiraOneJsonPropertyNames.PROPERTY_DATA_POINTS_CC;
 import static de.matgroe.giraone.client.typeadapters.GiraOneJsonPropertyNames.PROPERTY_FUNCTION_TYPE;
 import static de.matgroe.giraone.client.typeadapters.GiraOneJsonPropertyNames.PROPERTY_LOCATION;
 import static de.matgroe.giraone.client.typeadapters.GiraOneJsonPropertyNames.PROPERTY_NAME;
-import static de.matgroe.giraone.client.typeadapters.GiraOneJsonPropertyNames.PROPERTY_URN;
 import static de.matgroe.giraone.client.typeadapters.GiraOneJsonPropertyNames.PROPERTY_PARAMETER;
+import static de.matgroe.giraone.client.typeadapters.GiraOneJsonPropertyNames.PROPERTY_URN;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -40,11 +40,8 @@ import de.matgroe.giraone.client.types.GiraOneChannelTypeId;
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneFunctionType;
 import de.matgroe.giraone.client.types.GiraOneURN;
-
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -92,7 +89,12 @@ public class GiraOneChannelDeserializer extends GiraOneMessageJsonTypeAdapter
             addDatapoints(channel, jsonDeserializationContext, entry.getValue());
             break;
           case PROPERTY_PARAMETER:
-              Arrays.stream((GiraOneChannelParameter[]) jsonDeserializationContext.deserialize(entry.getValue(), GiraOneChannelParameter[].class)).toList().forEach(channel::addParameter);
+            Arrays.stream(
+                    (GiraOneChannelParameter[])
+                        jsonDeserializationContext.deserialize(
+                            entry.getValue(), GiraOneChannelParameter[].class))
+                .toList()
+                .forEach(channel::addParameter);
 
             break;
           default:
@@ -108,17 +110,18 @@ public class GiraOneChannelDeserializer extends GiraOneMessageJsonTypeAdapter
       GiraOneChannel channel,
       JsonDeserializationContext jsonDeserializationContext,
       JsonElement jsonElement) {
-      if (jsonDeserializationContext != null && jsonElement.isJsonArray()) {
-        jsonElement
+    if (jsonDeserializationContext != null && jsonElement.isJsonArray()) {
+      jsonElement
           .getAsJsonArray()
           .asList()
           .forEach(
               elem -> {
-                GiraOneDataPoint dataPoint = jsonDeserializationContext.deserialize(elem, GiraOneDataPoint.class);
+                GiraOneDataPoint dataPoint =
+                    jsonDeserializationContext.deserialize(elem, GiraOneDataPoint.class);
                 if (!dataPoint.getUrn().equals(GiraOneURN.INVALID)) {
                   channel.addDataPoint(dataPoint);
-             }
-        });
+                }
+              });
     }
   }
 }

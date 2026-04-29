@@ -178,48 +178,45 @@ public class HassioComponentFactory {
 
     Optional<GiraOneDataPoint> dpUpDown = channel.getDatapoint(DATAPOINT_UP_DOWN);
     dpUpDown.ifPresent(
-      dataPoint -> {
+        dataPoint -> {
           cover.setCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
           cover.setStateTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
 
           cover.setPayloadClose("1");
-          //cover.setPayloadClose("1");
+          // cover.setPayloadClose("1");
           cover.setPayloadOpen("0");
-          //cover.setPayloadStop("0");
+          // cover.setPayloadStop("0");
           Optional<GiraOneDataPoint> dpStepUpDown = channel.getDatapoint(DATAPOINT_STEP_UP_DOWN);
-          if(dpStepUpDown.isPresent()) {
-            cover.setPayloadStop(String.format("#MAP-DATAPOINT#:%s:%s:0", DATAPOINT_UP_DOWN, DATAPOINT_STEP_UP_DOWN));
+          if (dpStepUpDown.isPresent()) {
+            cover.setPayloadStop(
+                String.format(
+                    "#MAP-DATAPOINT#:%s:%s:0", DATAPOINT_UP_DOWN, DATAPOINT_STEP_UP_DOWN));
           }
-          //cover.setPayloadOpen("0");
+          // cover.setPayloadOpen("0");
         });
 
     Optional<GiraOneDataPoint> dpMovement = channel.getDatapoint(DATAPOINT_MOVEMENT);
-    dpMovement.ifPresent(
-            dataPoint -> {
-
-            });
+    dpMovement.ifPresent(dataPoint -> {});
 
     Optional<GiraOneDataPoint> dpPosition = channel.getDatapoint(DATAPOINT_POSITION);
     dpPosition.ifPresent(
-            dataPoint -> {
-              cover.setPositionCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
-              cover.setPositionStateTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
-              cover.setPositionClosed(100);
-              cover.setPositionOpen(0);
-            });
-
+        dataPoint -> {
+          cover.setPositionCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
+          cover.setPositionStateTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
+          cover.setPositionClosed(100);
+          cover.setPositionOpen(0);
+        });
 
     Optional<GiraOneDataPoint> datapoint = channel.getDatapoint(DATAPOINT_SLAT_POSITION);
     datapoint.ifPresent(
-            dataPoint -> {
-              cover.setTiltCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
-              cover.setTiltStatusTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
-              cover.setTiltMin(100);
-              cover.setTiltMax(0);
-              cover.setTiltClosedValue(100);
-              cover.setTiltOpenedValue(0);
-            });
-
+        dataPoint -> {
+          cover.setTiltCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
+          cover.setTiltStatusTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
+          cover.setTiltMin(100);
+          cover.setTiltMax(0);
+          cover.setTiltClosedValue(100);
+          cover.setTiltOpenedValue(0);
+        });
 
     return cover;
   }

@@ -32,5 +32,4 @@ public class Origin {
 
   @SerializedName("url")
   private String supportUrl;
-
 }

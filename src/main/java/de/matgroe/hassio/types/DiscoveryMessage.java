@@ -20,15 +20,14 @@ package de.matgroe.hassio.types;
 import com.google.gson.annotations.SerializedName;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Represents the Homeassistant Integration DiscoveryMessage.
  *
  * <p>https://www.home-assistant.io/integrations/cover.mqtt/
  */
-import lombok.Getter;
-import lombok.Setter;
-
 @Getter
 @Setter
 public class DiscoveryMessage {

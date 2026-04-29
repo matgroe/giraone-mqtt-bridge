@@ -38,5 +38,4 @@ public class Sensor extends Component {
     this.platform = "sensor";
     this.stateClass = "measurement";
   }
-
 }

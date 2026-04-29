@@ -18,12 +18,8 @@
 
 package de.matgroe.mqtt;
 
-import com.hivemq.client.mqtt.MqttClientState;
-import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5PublishBuilder;
-import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5PublishResult;
 import static org.awaitility.Awaitility.await;
 import static org.awaitility.Duration.TWO_SECONDS;
-import org.jetbrains.annotations.NotNull;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,16 +30,18 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.hivemq.client.mqtt.MqttClientState;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
 import com.hivemq.client.mqtt.mqtt5.message.auth.Mqtt5SimpleAuthBuilder;
 import com.hivemq.client.mqtt.mqtt5.message.connect.Mqtt5ConnectBuilder;
 import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAck;
 import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAckReasonCode;
+import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5PublishBuilder;
+import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5PublishResult;
 import java.util.concurrent.CompletableFuture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.stubbing.OngoingStubbing;
 
 /**
  * Test class for {@link MqttClient}
@@ -67,7 +65,7 @@ class MqttClientTest {
       mock(Mqtt5SimpleAuthBuilder.Nested.Complete.Complete.class, RETURNS_SELF);
 
   Mqtt5PublishBuilder.Send<CompletableFuture<Mqtt5PublishResult>> mqtt5PublishBuilder =
-          mock(Mqtt5PublishBuilder.Send.class, RETURNS_SELF);
+      mock(Mqtt5PublishBuilder.Send.class, RETURNS_SELF);
 
   @BeforeEach
   void setUp() {
@@ -88,7 +86,6 @@ class MqttClientTest {
     when(mqtt5SimpleAuthBuilderMock.applySimpleAuth()).thenReturn(mqtt5ConnectBuilderSendMock);
     when(mqtt5ClientMock.connectWith()).thenReturn(mqtt5ConnectBuilderSendMock);
     when(mqtt5ClientMock.publishWith()).thenReturn(mqtt5PublishBuilder);
-
   }
 
   @Test
@@ -183,7 +180,8 @@ class MqttClientTest {
 
     CompletableFuture<Mqtt5PublishResult> publishResultMock = mock(CompletableFuture.class);
 
-    Mqtt5PublishBuilder.Send.Complete<CompletableFuture<Mqtt5PublishResult>> publishBuilderComplete = mock(Mqtt5PublishBuilder.Send.Complete.class, RETURNS_SELF);
+    Mqtt5PublishBuilder.Send.Complete<CompletableFuture<Mqtt5PublishResult>>
+        publishBuilderComplete = mock(Mqtt5PublishBuilder.Send.Complete.class, RETURNS_SELF);
     when(publishBuilderComplete.send()).thenReturn(publishResultMock);
     when(mqtt5PublishBuilder.topic(anyString())).thenReturn(publishBuilderComplete);
     assertTrue(mqttClient.publish(new MqttMessage("topic", "payload")));

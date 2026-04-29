@@ -26,24 +26,24 @@ import com.google.gson.annotations.SerializedName;
  */
 public class GiraOneChannelParameter {
 
-    @SerializedName("key")
-    private String key;
+  @SerializedName("key")
+  private String key;
 
-    @SerializedName("set")
-    private String set;
+  @SerializedName("set")
+  private String set;
 
-    @SerializedName("value")
-    private String value;
+  @SerializedName("value")
+  private String value;
 
-    public String getKey() {
-        return key;
-    }
+  public String getKey() {
+    return key;
+  }
 
-    public String getSet() {
-        return set;
-    }
+  public String getSet() {
+    return set;
+  }
 
-    public String getValue() {
-        return value;
-    }
+  public String getValue() {
+    return value;
+  }
 }

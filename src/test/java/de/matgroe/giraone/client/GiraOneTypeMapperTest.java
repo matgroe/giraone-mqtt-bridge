@@ -18,9 +18,6 @@
 
 package de.matgroe.giraone.client;
 
-import de.matgroe.giraone.client.types.GiraOneChannelType;
-import de.matgroe.giraone.client.types.GiraOneChannelTypeId;
-import de.matgroe.giraone.client.types.GiraOneFunctionType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -28,10 +25,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonPrimitive;
 import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneChannelCollection;
+import de.matgroe.giraone.client.types.GiraOneChannelType;
+import de.matgroe.giraone.client.types.GiraOneChannelTypeId;
 import de.matgroe.giraone.client.types.GiraOneComponentCollection;
 import de.matgroe.giraone.client.types.GiraOneComponentType;
 import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
 import de.matgroe.giraone.client.types.GiraOneEvent;
+import de.matgroe.giraone.client.types.GiraOneFunctionType;
 import de.matgroe.giraone.client.types.GiraOneValue;
 import de.matgroe.giraone.client.webservice.GiraOneWebserviceResponse;
 import de.matgroe.giraone.client.websocket.GiraOneWebsocketResponse;
@@ -233,7 +233,11 @@ public class GiraOneTypeMapperTest {
   @DisplayName("GetDiagnosticDeviceList message should deserialize to GiraOneComponents")
   @Test
   void shouldDeserialize2GiraOneChannel() {
-    GiraOneChannel channel = gson.fromJson(ResourceLoader.loadStringResource("/giraone/11.Messages/channelViewUrn:urn:gds:chv:KNXlight-KNX-Dimmer-3.json"), GiraOneChannel.class );
+    GiraOneChannel channel =
+        gson.fromJson(
+            ResourceLoader.loadStringResource(
+                "/giraone/11.Messages/channelViewUrn:urn:gds:chv:KNXlight-KNX-Dimmer-3.json"),
+            GiraOneChannel.class);
     assertEquals("urn:gds:chv:KNXlight-KNX-Dimmer-3", channel.getUrn());
     assertEquals(GiraOneChannelType.Dimmer, channel.getChannelType());
     assertEquals(GiraOneChannelTypeId.Light, channel.getChannelTypeId());

@@ -18,7 +18,6 @@
 
 package de.matgroe.hassio;
 
-import de.matgroe.hassio.types.Cover;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -29,6 +28,7 @@ import de.matgroe.giraone.GiraOneTestDataProvider;
 import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneProject;
 import de.matgroe.hassio.types.Component;
+import de.matgroe.hassio.types.Cover;
 import de.matgroe.hassio.types.Light;
 import de.matgroe.hassio.types.Sensor;
 import de.matgroe.hassio.types.Switch;
@@ -143,16 +143,16 @@ public class HassioComponentFactoryTest {
   void testCoveringVenetianBlind() {
     Optional<GiraOneChannel> channel =
         project.lookupChannelByUrn("urn:gds:chv:Covering-Blind-With-Position-10");
-       channel.ifPresentOrElse(
-              ch -> {
-                  Component component = hassioComponentFactory.from(ch);
-                  assertInstanceOf(Cover.class, component);
-                  assertNotNull(component.getUniqueId());
-                  assertEquals("cover", component.getPlatform());
-                  assertEquals("shutter", component.getDeviceClass());
-                  assertEquals(ch.getName(), component.getName());
-              },
-              () -> fail("Channel not found in project"));
+    channel.ifPresentOrElse(
+        ch -> {
+          Component component = hassioComponentFactory.from(ch);
+          assertInstanceOf(Cover.class, component);
+          assertNotNull(component.getUniqueId());
+          assertEquals("cover", component.getPlatform());
+          assertEquals("shutter", component.getDeviceClass());
+          assertEquals(ch.getName(), component.getName());
+        },
+        () -> fail("Channel not found in project"));
   }
 
   @Disabled
@@ -161,16 +161,16 @@ public class HassioComponentFactoryTest {
   void testCoveringRoofWindow() {
     Optional<GiraOneChannel> channel =
         project.lookupChannelByUrn("urn:gds:chv:Covering-Blind-With-Position-16");
-      channel.ifPresentOrElse(
-              ch -> {
-                  Component component = hassioComponentFactory.from(ch);
-                  assertInstanceOf(Cover.class, component);
-                  assertNotNull(component.getUniqueId());
-                  assertEquals("cover", component.getPlatform());
-                  assertEquals("window", component.getDeviceClass());
-                  assertEquals(ch.getName(), component.getName());
-              },
-              () -> fail("Channel not found in project"));
+    channel.ifPresentOrElse(
+        ch -> {
+          Component component = hassioComponentFactory.from(ch);
+          assertInstanceOf(Cover.class, component);
+          assertNotNull(component.getUniqueId());
+          assertEquals("cover", component.getPlatform());
+          assertEquals("window", component.getDeviceClass());
+          assertEquals(ch.getName(), component.getName());
+        },
+        () -> fail("Channel not found in project"));
   }
 
   @Disabled

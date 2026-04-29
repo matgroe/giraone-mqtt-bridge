@@ -90,5 +90,4 @@ public class HassioTopicNameMapper {
     GiraOneDataPoint dp = this.dataPointTopicMap.get(topic);
     return dp != null ? Optional.of(dp) : Optional.empty();
   }
-
 }

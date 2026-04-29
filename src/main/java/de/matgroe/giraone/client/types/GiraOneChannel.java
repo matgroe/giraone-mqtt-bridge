@@ -47,11 +47,14 @@ public class GiraOneChannel {
   }
 
   public void addParameter(GiraOneChannelParameter channelParameter) {
-      this.channelParameter.add(channelParameter);
+    this.channelParameter.add(channelParameter);
   }
 
   public Optional<String> getParameterValue(String parameter) {
-    return this.channelParameter.stream().filter(p -> p.getKey().equals(parameter)).map(GiraOneChannelParameter::getValue).findFirst();
+    return this.channelParameter.stream()
+        .filter(p -> p.getKey().equals(parameter))
+        .map(GiraOneChannelParameter::getValue)
+        .findFirst();
   }
 
   public String getLocation() {
