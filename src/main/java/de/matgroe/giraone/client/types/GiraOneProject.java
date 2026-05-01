@@ -79,7 +79,7 @@ public class GiraOneProject {
    * @param dataPoint - The {@link GiraOneDataPoint} to assign on it's referenced channel
    * @return A {@link Optional} of {@link GiraOneChannel} for the given {@link GiraOneDataPoint}
    */
-  public Optional<GiraOneChannel> lookupGiraOneChannel(GiraOneDataPoint dataPoint) {
+  public Optional<GiraOneChannel> lookupChannelByDataPoint(GiraOneDataPoint dataPoint) {
     return this.channels.stream()
         .filter(ch -> ch.containsGiraOneDataPoint(dataPoint.getUrn()))
         .findFirst();

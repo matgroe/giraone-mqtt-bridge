@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.matgroe.hassio;
+package de.matgroe.bridge;
 
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneProject;
@@ -28,17 +28,21 @@ import java.util.Optional;
  * This class offers functionality to derive a MQTT Topicname from a {@link GiraOneDataPoint} and
  * offers a mapping between the TopicName and the concerning {@link GiraOneDataPoint}
  */
-public class HassioTopicNameMapper {
+public class GiraOneChannelMqttTopicMapper {
   public static final String COMMAND = "command";
   public static final String STATE = "state";
 
   private final String prefix;
   private Map<String, GiraOneDataPoint> dataPointTopicMap;
+  private final GiraOneProject giraOneProject;
 
-  public HassioTopicNameMapper(String prefix, GiraOneProject giraOneProject) {
-    this.dataPointTopicMap = Collections.synchronizedMap(new HashMap<String, GiraOneDataPoint>());
+  public GiraOneChannelMqttTopicMapper(String prefix, GiraOneProject giraOneProject) {
+    this.dataPointTopicMap = Collections.synchronizedMap(new HashMap<>());
     this.prefix = prefix;
-    giraOneProject
+    this.giraOneProject = giraOneProject;
+
+    // prepare lookup map
+    this.giraOneProject
         .lookupGiraOneDataPoints()
         .forEach(
             dp -> {

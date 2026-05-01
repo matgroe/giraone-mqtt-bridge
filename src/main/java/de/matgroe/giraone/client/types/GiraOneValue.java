@@ -43,6 +43,11 @@ public class GiraOneValue {
     this.value = value;
   }
 
+  public GiraOneValue(GiraOneDataPoint datapoint, String value) {
+    this.datapointUrn = datapoint.getUrn();
+    this.value = value;
+  }
+
   public String getDatapointUrn() {
     return datapointUrn.toString();
   }

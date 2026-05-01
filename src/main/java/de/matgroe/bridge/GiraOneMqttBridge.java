@@ -15,10 +15,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.matgroe;
+package de.matgroe.bridge;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import de.matgroe.GiraOneMqttApplicationProperties;
 import de.matgroe.giraone.client.GiraOneClient;
 import de.matgroe.giraone.client.GiraOneClientConnectionState;
 import de.matgroe.giraone.client.GiraOneClientException;
@@ -28,7 +29,6 @@ import de.matgroe.giraone.client.types.GiraOneProject;
 import de.matgroe.giraone.client.types.GiraOneValue;
 import de.matgroe.hassio.HassioComponentFactory;
 import de.matgroe.hassio.HassioDiscoveryMessageFactory;
-import de.matgroe.hassio.HassioTopicNameMapper;
 import de.matgroe.hassio.types.DiscoveryMessage;
 import de.matgroe.hassio.types.UnsupportedComponent;
 import de.matgroe.mqtt.MqttClient;
@@ -63,11 +63,13 @@ public class GiraOneMqttBridge {
   private Disposable giraoneValueDiposable = Disposable.empty();
   private Disposable bridgeStateDiposable = Disposable.empty();
 
+  private MessageTransformer messageTransformer;
+
   private HassioDiscoveryMessageFactory hassioDiscoveryMessageFactory;
 
   private HassioComponentFactory hassioComponentFactory;
 
-  private HassioTopicNameMapper hassioTopicNameMapper;
+  private GiraOneChannelMqttTopicMapper giraOneChannelMqttTopicMapper;
 
   public GiraOneMqttBridge(
       GiraOneMqttApplicationProperties applicationProperties,
@@ -76,6 +78,7 @@ public class GiraOneMqttBridge {
     this.giraOneClient = giraOneClient;
     this.mqttClient = mqttClient;
     this.applicationProperties = applicationProperties;
+
     bridgeState.onNext(GiraOneMqttBridgeState.Stopped);
   }
 
@@ -163,9 +166,11 @@ public class GiraOneMqttBridge {
     this.hassioDiscoveryMessageFactory =
         new HassioDiscoveryMessageFactory(
             applicationProperties, giraOneClient.lookupGiraOneDeviceConfiguration());
-    this.hassioTopicNameMapper =
-        new HassioTopicNameMapper(topicNamePrefix, giraOneClient.getGiraOneProject());
-    this.hassioComponentFactory = new HassioComponentFactory(this.hassioTopicNameMapper);
+    this.giraOneChannelMqttTopicMapper =
+        new GiraOneChannelMqttTopicMapper(topicNamePrefix, giraOneClient.getGiraOneProject());
+    this.hassioComponentFactory = new HassioComponentFactory(this.giraOneChannelMqttTopicMapper);
+    this.messageTransformer =
+        new MessageTransformer(giraOneChannelMqttTopicMapper, giraOneClient.getGiraOneProject());
   }
 
   /** Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#Connected} */
@@ -256,8 +261,8 @@ public class GiraOneMqttBridge {
    */
   private void onMqttMessage(MqttMessage mqttMessage) {
     logger.info("Received MqttMessage:: {}", mqttMessage);
-    Optional<GiraOneDataPoint> dp = hassioTopicNameMapper.giraOneDataPointOf(mqttMessage.topic());
-    dp.ifPresent(dataPoint -> updateGiraOneDataPoint(dataPoint, mqttMessage.payload()));
+    Optional<GiraOneValue> value = messageTransformer.from(mqttMessage).toGiraOneValue();
+    value.ifPresent(dataPoint -> giraOneClient.changeGiraOneDataValue(value.get()));
   }
 
   private void updateGiraOneDataPoint(GiraOneDataPoint dataPoint, String payload) {
@@ -284,10 +289,8 @@ public class GiraOneMqttBridge {
    * @param giraOneValue
    */
   void onGiraOneValue(GiraOneValue giraOneValue) {
-    String topic = hassioTopicNameMapper.stateTopicNameOf(giraOneValue.getGiraOneDataPoint());
-    MqttMessage mqttMessage = new MqttMessage(topic, giraOneValue.getValue());
-    logger.info("Publishing MqttMessage:: {}", mqttMessage);
-    mqttClient.publish(mqttMessage);
+    Optional<MqttMessage> mqttMessage = messageTransformer.from(giraOneValue).toMqttMessage();
+    mqttMessage.ifPresent(dataPoint -> mqttClient.publish(mqttMessage.get()));
   }
 
   public Disposable subscribeOnGiraOneDataPointValues(

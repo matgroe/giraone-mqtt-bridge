@@ -15,8 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package de.matgroe.hassio;
+package de.matgroe.bridge;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -38,15 +37,15 @@ import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Testclass for @{@link HassioTopicNameMapper} */
-public class HassioTopicNameMapperTest {
-  private final Logger logger = LoggerFactory.getLogger(HassioTopicNameMapperTest.class);
+/** Testclass for @{@link GiraOneChannelMqttTopicMapper} */
+public class TopicNameMapperTest {
+  private final Logger logger = LoggerFactory.getLogger(TopicNameMapperTest.class);
 
   static GiraOneClient giraOneClient = Mockito.mock(GiraOneClient.class);
 
   GiraOneProject giraOneProject;
 
-  static HassioTopicNameMapper creator;
+  static GiraOneChannelMqttTopicMapper giraOneChannelMqttTopicMapper;
 
   @BeforeAll
   static void init() {
@@ -55,7 +54,8 @@ public class HassioTopicNameMapperTest {
     when(giraOneClient.lookupGiraOneDeviceConfiguration())
         .thenReturn(GiraOneTestDataProvider.createGiraOneDeviceConfiguration());
 
-    creator = new HassioTopicNameMapper("g1-junit", giraOneClient.getGiraOneProject());
+    giraOneChannelMqttTopicMapper =
+        new GiraOneChannelMqttTopicMapper("g1-junit", giraOneClient.getGiraOneProject());
   }
 
   @BeforeEach
@@ -1114,7 +1114,9 @@ public class HassioTopicNameMapperTest {
   void topicNameFromDatapoint(String dpUrn, String expectedTopicName) {
     Optional<GiraOneDataPoint> dp = giraOneProject.lookupGiraOneDataPoint(dpUrn);
     if (dp.isPresent()) {
-      assertEquals(String.format("%s", expectedTopicName), creator.stateTopicNameOf(dp.get()));
+      assertEquals(
+          String.format("%s", expectedTopicName),
+          giraOneChannelMqttTopicMapper.stateTopicNameOf(dp.get()));
     } else {
       fail("Invaid combination of channelUrn and dataPointUrn given");
     }
@@ -1124,7 +1126,8 @@ public class HassioTopicNameMapperTest {
   @ParameterizedTest
   @MethodSource("providePairStateTopicNameOfChannelAndDataPoint")
   void topicDatapointFromTopicName(String dpUrn, String topicName) {
-    Optional<GiraOneDataPoint> dp = creator.giraOneDataPointOf(String.format("%s", topicName));
+    Optional<GiraOneDataPoint> dp =
+        giraOneChannelMqttTopicMapper.giraOneDataPointOf(String.format("%s", topicName));
     if (dp.isPresent()) {
       assertEquals(dpUrn, dp.get().toString());
     } else {

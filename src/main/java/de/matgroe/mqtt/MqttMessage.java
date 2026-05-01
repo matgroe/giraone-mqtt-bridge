@@ -18,7 +18,7 @@
 package de.matgroe.mqtt;
 
 import com.hivemq.client.mqtt.datatypes.MqttTopic;
-import de.matgroe.GiraOneMqttBridge;
+import de.matgroe.bridge.GiraOneMqttBridge;
 import java.util.UUID;
 
 /**

@@ -1,5 +1,6 @@
 package de.matgroe.hassio;
 
+import de.matgroe.bridge.GiraOneChannelMqttTopicMapper;
 import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneChannelTypeId;
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
@@ -34,10 +35,10 @@ public class HassioComponentFactory {
   private static final String DATAPOINT_POSITION = "Position";
   private static final String DATAPOINT_SLAT_POSITION = "Slat-Position";
 
-  private final HassioTopicNameMapper hassioTopicNameMapper;
+  private final GiraOneChannelMqttTopicMapper hassioGiraOneChannelMqttTopicMapper;
 
-  public HassioComponentFactory(HassioTopicNameMapper hassioTopicNameMapper) {
-    this.hassioTopicNameMapper = hassioTopicNameMapper;
+  public HassioComponentFactory(GiraOneChannelMqttTopicMapper hassioGiraOneChannelMqttTopicMapper) {
+    this.hassioGiraOneChannelMqttTopicMapper = hassioGiraOneChannelMqttTopicMapper;
   }
 
   public Component from(GiraOneChannel channel) {
@@ -102,7 +103,8 @@ public class HassioComponentFactory {
       datapoint = channel.getDatapoint(DATAPOINT_TEMPERATURE);
     }
     datapoint.ifPresent(
-        dataPoint -> s.setStateTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint)));
+        dataPoint ->
+            s.setStateTopic(hassioGiraOneChannelMqttTopicMapper.stateTopicNameOf(dataPoint)));
     return s;
   }
 
@@ -123,8 +125,8 @@ public class HassioComponentFactory {
     Optional<GiraOneDataPoint> datapoint = channel.getDatapoint(DATAPOINT_ON_OFF);
     datapoint.ifPresent(
         dataPoint -> {
-          s.setCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
-          s.setStateTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
+          s.setCommandTopic(hassioGiraOneChannelMqttTopicMapper.commandTopicNameOf(dataPoint));
+          s.setStateTopic(hassioGiraOneChannelMqttTopicMapper.stateTopicNameOf(dataPoint));
         });
 
     if (channel.getChannelTypeId() == GiraOneChannelTypeId.PowerOutlet) {
@@ -156,8 +158,8 @@ public class HassioComponentFactory {
     Optional<GiraOneDataPoint> datapoint = channel.getDatapoint(DATAPOINT_ON_OFF);
     datapoint.ifPresent(
         dataPoint -> {
-          l.setCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
-          l.setStateTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
+          l.setCommandTopic(hassioGiraOneChannelMqttTopicMapper.commandTopicNameOf(dataPoint));
+          l.setStateTopic(hassioGiraOneChannelMqttTopicMapper.stateTopicNameOf(dataPoint));
           l.setPayloadOff("0");
           l.setPayloadOn("1");
         });
@@ -165,8 +167,10 @@ public class HassioComponentFactory {
     datapoint = channel.getDatapoint(DATAPOINT_BRIGHTNESS);
     datapoint.ifPresent(
         dataPoint -> {
-          l.setBrightnessCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
-          l.setBrightnessStateTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
+          l.setBrightnessCommandTopic(
+              hassioGiraOneChannelMqttTopicMapper.commandTopicNameOf(dataPoint));
+          l.setBrightnessStateTopic(
+              hassioGiraOneChannelMqttTopicMapper.stateTopicNameOf(dataPoint));
           l.setBrightnessScale(100);
         });
 
@@ -179,8 +183,8 @@ public class HassioComponentFactory {
     Optional<GiraOneDataPoint> dpUpDown = channel.getDatapoint(DATAPOINT_UP_DOWN);
     dpUpDown.ifPresent(
         dataPoint -> {
-          cover.setCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
-          cover.setStateTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
+          cover.setCommandTopic(hassioGiraOneChannelMqttTopicMapper.commandTopicNameOf(dataPoint));
+          cover.setStateTopic(hassioGiraOneChannelMqttTopicMapper.stateTopicNameOf(dataPoint));
 
           cover.setPayloadClose("1");
           // cover.setPayloadClose("1");
@@ -201,8 +205,10 @@ public class HassioComponentFactory {
     Optional<GiraOneDataPoint> dpPosition = channel.getDatapoint(DATAPOINT_POSITION);
     dpPosition.ifPresent(
         dataPoint -> {
-          cover.setPositionCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
-          cover.setPositionStateTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
+          cover.setPositionCommandTopic(
+              hassioGiraOneChannelMqttTopicMapper.commandTopicNameOf(dataPoint));
+          cover.setPositionStateTopic(
+              hassioGiraOneChannelMqttTopicMapper.stateTopicNameOf(dataPoint));
           cover.setPositionClosed(100);
           cover.setPositionOpen(0);
         });
@@ -210,8 +216,9 @@ public class HassioComponentFactory {
     Optional<GiraOneDataPoint> datapoint = channel.getDatapoint(DATAPOINT_SLAT_POSITION);
     datapoint.ifPresent(
         dataPoint -> {
-          cover.setTiltCommandTopic(hassioTopicNameMapper.commandTopicNameOf(dataPoint));
-          cover.setTiltStatusTopic(hassioTopicNameMapper.stateTopicNameOf(dataPoint));
+          cover.setTiltCommandTopic(
+              hassioGiraOneChannelMqttTopicMapper.commandTopicNameOf(dataPoint));
+          cover.setTiltStatusTopic(hassioGiraOneChannelMqttTopicMapper.stateTopicNameOf(dataPoint));
           cover.setTiltMin(100);
           cover.setTiltMax(0);
           cover.setTiltClosedValue(100);

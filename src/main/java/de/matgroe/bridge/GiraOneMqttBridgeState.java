@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.matgroe;
+package de.matgroe.bridge;
 
 /**
  * Describes the bridge's current working state. - Stopped - Nothing happens right now -

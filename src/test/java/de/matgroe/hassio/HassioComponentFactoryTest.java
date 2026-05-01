@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import de.matgroe.bridge.GiraOneChannelMqttTopicMapper;
 import de.matgroe.giraone.GiraOneTestDataProvider;
 import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneProject;
@@ -53,7 +54,7 @@ public class HassioComponentFactoryTest {
   void setUp() {
     project = GiraOneTestDataProvider.createGiraOneProject();
     hassioComponentFactory =
-        new HassioComponentFactory(new HassioTopicNameMapper("junit", project));
+        new HassioComponentFactory(new GiraOneChannelMqttTopicMapper("junit", project));
   }
 
   @Test

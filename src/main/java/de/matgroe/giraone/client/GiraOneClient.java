@@ -32,6 +32,7 @@ import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import io.reactivex.rxjava3.subjects.ReplaySubject;
 import io.reactivex.rxjava3.subjects.Subject;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +58,7 @@ public class GiraOneClient {
   /** Observe this subject for occured {@link GiraOneClientException} */
   private final Subject<GiraOneClientException> clientExceptions = PublishSubject.create();
 
-  private GiraOneProject giraOneProject = new GiraOneProject();
+  @Getter private GiraOneProject giraOneProject = new GiraOneProject();
 
   private final GiraOneClientProperties configuration;
 
@@ -159,10 +160,6 @@ public class GiraOneClient {
     }
   }
 
-  public GiraOneProject getGiraOneProject() {
-    return this.giraOneProject;
-  }
-
   /** Terminate the connection to Gira One Server. */
   public void disconnect() {
     this.websocketClient.disconnect();
@@ -195,6 +192,15 @@ public class GiraOneClient {
    */
   public void changeGiraOneDataPointValue(GiraOneDataPoint dataPoint, String newValue) {
     this.websocketClient.changeGiraOneDataPointValue(dataPoint, newValue);
+  }
+
+  /**
+   * Changes the value for a {@link GiraOneDataPoint}.
+   *
+   * @param value Contains the {@link GiraOneDataPoint} and the value to change.
+   */
+  public void changeGiraOneDataValue(GiraOneValue value) {
+    this.changeGiraOneDataPointValue(value.getGiraOneDataPoint(), value.getValue());
   }
 
   /**
