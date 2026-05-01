@@ -179,6 +179,14 @@ public class HassioComponentFactory {
 
   private Cover createCover(GiraOneChannel channel) {
     Cover cover = new Cover();
+    if (channel.getChannelTypeId() == GiraOneChannelTypeId.Awning) {
+      cover.setDeviceClass("awning");
+    } else if (channel.getChannelTypeId() == GiraOneChannelTypeId.RoofWindow) {
+      cover.setDeviceClass("window");
+    } else if (channel.getChannelTypeId() == GiraOneChannelTypeId.VenetianBlind) {
+
+      cover.setDeviceClass("shutter");
+    }
 
     Optional<GiraOneDataPoint> dpUpDown = channel.getDatapoint(DATAPOINT_UP_DOWN);
     dpUpDown.ifPresent(
@@ -187,16 +195,13 @@ public class HassioComponentFactory {
           cover.setStateTopic(hassioGiraOneChannelMqttTopicMapper.stateTopicNameOf(dataPoint));
 
           cover.setPayloadClose("1");
-          // cover.setPayloadClose("1");
           cover.setPayloadOpen("0");
-          // cover.setPayloadStop("0");
           Optional<GiraOneDataPoint> dpStepUpDown = channel.getDatapoint(DATAPOINT_STEP_UP_DOWN);
           if (dpStepUpDown.isPresent()) {
             cover.setPayloadStop(
                 String.format(
                     "#MAP-DATAPOINT#:%s:%s:0", DATAPOINT_UP_DOWN, DATAPOINT_STEP_UP_DOWN));
           }
-          // cover.setPayloadOpen("0");
         });
 
     Optional<GiraOneDataPoint> dpMovement = channel.getDatapoint(DATAPOINT_MOVEMENT);

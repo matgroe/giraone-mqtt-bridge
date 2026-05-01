@@ -71,9 +71,19 @@
                 <configuration>
                     <java>
                         <googleJavaFormat/>
+                        <importOrder/>
                         <removeUnusedImports/>
+                        <formatAnnotations />
                     </java>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
