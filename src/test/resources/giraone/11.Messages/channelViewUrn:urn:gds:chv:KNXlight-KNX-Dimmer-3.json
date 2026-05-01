@@ -1,0 +1,68 @@
+{
+  "channelID": 202992,
+  "channelType": "de.gira.schema.channels.KNX.Dimmer",
+  "channelTypeId": "KNX.Light.Light",
+  "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-3",
+  "channelViewID": 203801,
+  "channelViewUrn": "urn:gds:chv:KNXlight-KNX-Dimmer-3",
+  "dataPoints": [
+    {
+      "dataPoint": "OnOff",
+      "id": 202993,
+      "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-3:OnOff"
+    },
+    {
+      "dataPoint": "Shift",
+      "id": 202994,
+      "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-3:Shift"
+    },
+    {
+      "dataPoint": "Brightness",
+      "id": 202995,
+      "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-3:Brightness"
+    }
+  ],
+  "functionType": "de.gira.schema.functions.KNX.Light",
+  "iconID": 1,
+  "name": "Essen - Beleuchtung Dimmen",
+  "parameters": [
+    {
+      "key": "ButtonTimeout",
+      "set": "Visu",
+      "value": "0.4"
+    },
+    {
+      "key": "DefaultShift",
+      "set": "Visu",
+      "value": "10"
+    },
+    {
+      "key": "OffText",
+      "set": "Visu",
+      "value": "Aus"
+    },
+    {
+      "key": "OnText",
+      "set": "Visu",
+      "value": "Ein"
+    },
+    {
+      "key": "ShowOnHomeScreen",
+      "set": "Visu",
+      "value": "False"
+    },
+    {
+      "key": "ShowStatus",
+      "set": "Visu",
+      "value": "True"
+    },
+    {
+      "key": "ShowTimer",
+      "set": "Visu",
+      "value": "True"
+    }
+  ],
+  "switchTimeChannelID": 30090,
+  "switchTimeChannelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Function-Timer-16",
+  "switchTimes": []
+}

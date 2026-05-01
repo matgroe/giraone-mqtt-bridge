@@ -19,7 +19,11 @@
 import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.Collection;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Device {
   @SerializedName("cu")
   private String configurationUrl;
@@ -54,91 +58,7 @@ public class Device {
   @SerializedName("sn")
   private String serialNumber;
 
-  public String getConfigurationUrl() {
-    return configurationUrl;
-  }
-
-  public void setConfigurationUrl(String configurationUrl) {
-    this.configurationUrl = configurationUrl;
-  }
-
-  public String getConnections() {
-    return connections;
-  }
-
-  public void setConnections(String connections) {
-    this.connections = connections;
-  }
-
-  public Collection<String> getIdentifiers() {
-    return identifiers;
-  }
-
-  public void addIdentifier(String identifier) {
-    this.identifiers.add(identifier);
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getManufacturer() {
-    return manufacturer;
-  }
-
-  public void setManufacturer(String manufacturer) {
-    this.manufacturer = manufacturer;
-  }
-
-  public String getModel() {
-    return model;
-  }
-
-  public void setModel(String model) {
-    this.model = model;
-  }
-
-  public String getModelId() {
-    return modelId;
-  }
-
-  public void setModelId(String modelId) {
-    this.modelId = modelId;
-  }
-
-  public String getHwVersion() {
-    return hwVersion;
-  }
-
-  public void setHwVersion(String hwVersion) {
-    this.hwVersion = hwVersion;
-  }
-
-  public String getSwVersion() {
-    return swVersion;
-  }
-
-  public void setSwVersion(String swVersion) {
-    this.swVersion = swVersion;
-  }
-
-  public String getSuggestedArea() {
-    return suggestedArea;
-  }
-
-  public void setSuggestedArea(String suggestedArea) {
-    this.suggestedArea = suggestedArea;
-  }
-
-  public String getSerialNumber() {
-    return serialNumber;
-  }
-
-  public void setSerialNumber(String serialNumber) {
-    this.serialNumber = serialNumber;
+  public void addIdentifier(String id) {
+    this.identifiers.add(id);
   }
 }

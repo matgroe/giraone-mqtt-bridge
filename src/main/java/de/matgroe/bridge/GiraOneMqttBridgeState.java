@@ -15,32 +15,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.matgroe.hassio.types;
-
-import com.google.gson.annotations.SerializedName;
-import java.util.HashMap;
-import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
+package de.matgroe.bridge;
 
 /**
- * Represents the Homeassistant Integration DiscoveryMessage.
+ * Describes the bridge's current working state. - Stopped - Nothing happens right now -
+ * ConnectingGiraOneClient - wait for GiraOneServer to be connected - ConnectingMqttClient wait for
+ * MQTT-Broker to be connected - Connected - Everything is ok, Bridge is transfering messsages
+ * between Gira and MQTT - Disconnected - - Error - Something bad happend, Work stops
  *
- * <p>https://www.home-assistant.io/integrations/cover.mqtt/
+ * <p>The normal state flow for startup is Stopped -> ConnectingGiraOneClient ->
+ * ConnectingMqttClient -> Connected -> Disconnected -> Stopped
+ *
+ * <p>Each state may change to Error
  */
-@Getter
-@Setter
-public class DiscoveryMessage {
-  @SerializedName("dev")
-  private Device device;
-
-  @SerializedName("o")
-  private Origin origin;
-
-  @SerializedName("cmps")
-  private Map<String, Component> components = new HashMap<>();
-
-  public void addComponent(Component component) {
-    this.components.put(component.getUniqueId(), component);
-  }
+public enum GiraOneMqttBridgeState {
+  Stopped,
+  ConnectingGiraOneClient,
+  ConnectingMqttClient,
+  Connected,
+  Disconnected,
+  Error
 }

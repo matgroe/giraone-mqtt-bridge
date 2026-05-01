@@ -18,7 +18,11 @@
 package de.matgroe.hassio.types;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Switch extends Component {
 
   @SerializedName("payload_on")
@@ -30,13 +34,5 @@ public class Switch extends Component {
   public Switch() {
     this.platform = "switch";
     this.deviceClass = "switch";
-  }
-
-  public void setPayloadOff(String payloadOff) {
-    this.payloadOff = payloadOff;
-  }
-
-  public void setPayloadOn(String payloadOn) {
-    this.payloadOn = payloadOn;
   }
 }

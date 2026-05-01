@@ -15,33 +15,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package de.matgroe.hassio.types;
+package de.matgroe.giraone.client.types;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-public class Light extends Switch {
+/**
+ * GiraOneChannelParameter
+ *
+ * @author Matthias Gröger - Initial contribution
+ */
+public class GiraOneChannelParameter {
 
-  @SerializedName("brightness_command_topic")
-  protected String brightnessCommandTopic;
+  @SerializedName("key")
+  private String key;
 
-  @SerializedName("brightness_state_topic")
-  protected String brightnessStateTopic;
+  @SerializedName("set")
+  private String set;
 
-  @SerializedName("brightness_scale")
-  protected int brightnessScale;
+  @SerializedName("value")
+  private String value;
 
-  @SerializedName("on_command_type")
-  protected String onCommandType;
+  public String getKey() {
+    return key;
+  }
 
-  public Light() {
-    brightnessScale = 100;
-    this.platform = "light";
-    this.onCommandType = "brightness";
-    this.deviceClass = null;
+  public String getSet() {
+    return set;
+  }
+
+  public String getValue() {
+    return value;
   }
 }

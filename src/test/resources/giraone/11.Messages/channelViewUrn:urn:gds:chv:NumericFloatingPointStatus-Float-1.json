@@ -1,0 +1,41 @@
+{
+  "channelID": 0,
+  "channelType": "de.gira.schema.channels.Float",
+  "channelTypeId": "NumericFloatStatus.Humidity",
+  "channelViewID": 203793,
+  "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-1",
+  "dataPoints": [
+    {
+      "dataPoint": "Float",
+      "id": 202850,
+      "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-2.Humidity-1:HumidityStatus"
+    }
+  ],
+  "functionType": "de.gira.schema.functions.NumericFloatStatus",
+  "iconID": 127,
+  "name": "Küche - Raumfeuchte",
+  "parameters": [
+    {
+      "key": "isSensorRepresentation",
+      "set": "GPA",
+      "value": "True"
+    },
+    {
+      "key": "DecimalDigits",
+      "set": "Visu",
+      "value": "0"
+    },
+    {
+      "key": "ShowOnHomeScreen",
+      "set": "Visu",
+      "value": "False"
+    },
+    {
+      "key": "Unit",
+      "set": "Visu",
+      "value": "%"
+    }
+  ],
+  "switchTimeChannelID": 0,
+  "switchTimes": []
+}

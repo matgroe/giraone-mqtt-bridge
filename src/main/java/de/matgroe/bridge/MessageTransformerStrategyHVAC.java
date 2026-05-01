@@ -15,24 +15,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.matgroe;
+
+package de.matgroe.bridge;
+
+import de.matgroe.giraone.client.types.GiraOneProject;
+import de.matgroe.giraone.client.types.GiraOneValue;
+import de.matgroe.mqtt.MqttMessage;
 
 /**
- * Describes the bridge's current working state. - Stopped - Nothing happens right now -
- * ConnectingGiraOneClient - wait for GiraOneServer to be connected - ConnectingMqttClient wait for
- * MQTT-Broker to be connected - Connected - Everything is ok, Bridge is transfering messsages
- * between Gira and MQTT - Disconnected - - Error - Something bad happend, Work stops
+ * This strategy is reponsible for apllying special needs on converting between {@link MqttMessage}
+ * and {@link GiraOneValue} for Climate/HVAC devices.
  *
- * <p>The normal state flow for startup is Stopped -> ConnectingGiraOneClient ->
- * ConnectingMqttClient -> Connected -> Disconnected -> Stopped
- *
- * <p>Each state may change to Error
+ * @author Matthias Gröger - Initial contribution
  */
-public enum GiraOneMqttBridgeState {
-  Stopped,
-  ConnectingGiraOneClient,
-  ConnectingMqttClient,
-  Connected,
-  Disconnected,
-  Error
+class MessageTransformerStrategyHVAC<T> extends MessageTransformerStrategyDefault<T> {
+
+  public MessageTransformerStrategyHVAC(
+      GiraOneChannelMqttTopicMapper giraOneChannelMqttTopicMapper,
+      GiraOneProject giraOneProject,
+      T message) {
+    super(giraOneChannelMqttTopicMapper, giraOneProject, message);
+  }
 }

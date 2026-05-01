@@ -52,7 +52,7 @@ public class GiraOneProject {
 
   /**
    * Performs a lookup within the internal {@link Collection} of {@link GiraOneChannel} by the given
-   * channelUrn.
+   * urn.
    *
    * @param urn The channelUrn
    * @return The optional {@link GiraOneChannel}, if there is any
@@ -79,7 +79,7 @@ public class GiraOneProject {
    * @param dataPoint - The {@link GiraOneDataPoint} to assign on it's referenced channel
    * @return A {@link Optional} of {@link GiraOneChannel} for the given {@link GiraOneDataPoint}
    */
-  public Optional<GiraOneChannel> lookupGiraOneChannel(GiraOneDataPoint dataPoint) {
+  public Optional<GiraOneChannel> lookupChannelByDataPoint(GiraOneDataPoint dataPoint) {
     return this.channels.stream()
         .filter(ch -> ch.containsGiraOneDataPoint(dataPoint.getUrn()))
         .findFirst();

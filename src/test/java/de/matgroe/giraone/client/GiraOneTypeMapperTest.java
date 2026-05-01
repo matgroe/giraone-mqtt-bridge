@@ -25,16 +25,20 @@ import com.google.gson.Gson;
 import com.google.gson.JsonPrimitive;
 import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneChannelCollection;
+import de.matgroe.giraone.client.types.GiraOneChannelType;
+import de.matgroe.giraone.client.types.GiraOneChannelTypeId;
 import de.matgroe.giraone.client.types.GiraOneComponentCollection;
 import de.matgroe.giraone.client.types.GiraOneComponentType;
 import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
 import de.matgroe.giraone.client.types.GiraOneEvent;
+import de.matgroe.giraone.client.types.GiraOneFunctionType;
 import de.matgroe.giraone.client.types.GiraOneValue;
 import de.matgroe.giraone.client.webservice.GiraOneWebserviceResponse;
 import de.matgroe.giraone.client.websocket.GiraOneWebsocketResponse;
 import de.matgroe.util.ResourceLoader;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -224,5 +228,21 @@ public class GiraOneTypeMapperTest {
             .findFirst()
             .orElse(null);
     assertNotNull(g1ch);
+  }
+
+  @DisplayName("GetDiagnosticDeviceList message should deserialize to GiraOneComponents")
+  @Test
+  void shouldDeserialize2GiraOneChannel() {
+    GiraOneChannel channel =
+        gson.fromJson(
+            ResourceLoader.loadStringResource(
+                "/giraone/11.Messages/channelViewUrn:urn:gds:chv:KNXlight-KNX-Dimmer-3.json"),
+            GiraOneChannel.class);
+    assertEquals("urn:gds:chv:KNXlight-KNX-Dimmer-3", channel.getUrn());
+    assertEquals(GiraOneChannelType.Dimmer, channel.getChannelType());
+    assertEquals(GiraOneChannelTypeId.Light, channel.getChannelTypeId());
+    assertEquals(GiraOneFunctionType.Light, channel.getFunctionType());
+    assertEquals(Optional.of("0.4"), channel.getParameterValue("ButtonTimeout"));
+    assertEquals(Optional.of("Aus"), channel.getParameterValue("OffText"));
   }
 }

@@ -16,32 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.matgroe.hassio.types;
+package de.matgroe.bridge;
 
-import com.google.gson.annotations.SerializedName;
-import lombok.Getter;
-import lombok.Setter;
+import de.matgroe.giraone.client.types.GiraOneValue;
+import de.matgroe.mqtt.MqttMessage;
+import java.util.Optional;
 
-@Getter
-@Setter
-public class Light extends Switch {
+public interface MessageTransformerStrategy {
+  Optional<GiraOneValue> toGiraOneValue();
 
-  @SerializedName("brightness_command_topic")
-  protected String brightnessCommandTopic;
-
-  @SerializedName("brightness_state_topic")
-  protected String brightnessStateTopic;
-
-  @SerializedName("brightness_scale")
-  protected int brightnessScale;
-
-  @SerializedName("on_command_type")
-  protected String onCommandType;
-
-  public Light() {
-    brightnessScale = 100;
-    this.platform = "light";
-    this.onCommandType = "brightness";
-    this.deviceClass = null;
-  }
+  Optional<MqttMessage> toMqttMessage();
 }
