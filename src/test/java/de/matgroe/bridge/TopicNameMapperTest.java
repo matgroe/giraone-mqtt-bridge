@@ -759,9 +759,6 @@ public class TopicNameMapperTest {
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-2:Movement",
             "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/curtain-2/movement"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-2:Slat-Position",
-            "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/curtain-2/slat-position"),
-        Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-2:Up-Down",
             "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/curtain-2/up-down"),
         Arguments.of(
@@ -860,21 +857,6 @@ public class TopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-4:Slat-Position",
             "g1-junit/state/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-2/curtain-4/slat-position"),
-        Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-5:Slat-Position",
-            "g1-junit/state/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-2/curtain-5/slat-position"),
-        Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-5:Position",
-            "g1-junit/state/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-2/curtain-5/position"),
-        Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-5:Up-Down",
-            "g1-junit/state/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-2/curtain-5/up-down"),
-        Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-5:Step-Up-Down",
-            "g1-junit/state/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-2/curtain-5/step-up-down"),
-        Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-5:Movement",
-            "g1-junit/state/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-2/curtain-5/movement"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-7:Position",
             "g1-junit/state/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-2/curtain-7/position"),
@@ -1002,9 +984,6 @@ public class TopicNameMapperTest {
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-1:Movement",
             "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/curtain-1/movement"),
         Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-1:Slat-Position",
-            "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/curtain-1/slat-position"),
-        Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-1:Up-Down",
             "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/curtain-1/up-down"),
         Arguments.of(
@@ -1040,9 +1019,6 @@ public class TopicNameMapperTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-3:Movement",
             "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/curtain-3/movement"),
-        Arguments.of(
-            "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-3:Slat-Position",
-            "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/curtain-3/slat-position"),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-3:Up-Down",
             "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/curtain-3/up-down"),
@@ -1118,7 +1094,7 @@ public class TopicNameMapperTest {
           String.format("%s", expectedTopicName),
           giraOneChannelMqttTopicMapper.stateTopicNameOf(dp.get()));
     } else {
-      fail("Invaid combination of channelUrn and dataPointUrn given");
+      fail(String.format("Unknown dataPointUrn given: %s", dpUrn));
     }
   }
 
@@ -1131,7 +1107,7 @@ public class TopicNameMapperTest {
     if (dp.isPresent()) {
       assertEquals(dpUrn, dp.get().toString());
     } else {
-      fail("Invaid combination of channelUrn and dataPointUrn given");
+      fail(String.format("Unknown topicName given: %s", topicName));
     }
   }
 }

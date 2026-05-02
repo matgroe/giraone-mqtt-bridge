@@ -64,6 +64,13 @@ public class HassioComponentFactory {
     }
     component.setUniqueId(DigestUtils.sha1Hex(channel.getUrn()));
     component.setName(channel.getName());
+
+    Device d = new Device();
+    d.setSuggestedArea(channel.getLocation());
+    d.addIdentifier(channel.getUrn());
+    d.setName(channel.getName());
+    component.setDevice(d);
+
     return component;
   }
 
@@ -151,9 +158,6 @@ public class HassioComponentFactory {
    */
   private Light createLight(GiraOneChannel channel) {
     Light l = new Light();
-    Device d = new Device();
-    d.setSuggestedArea(channel.getLocation());
-    l.setDevice(d);
 
     Optional<GiraOneDataPoint> datapoint = channel.getDatapoint(DATAPOINT_ON_OFF);
     datapoint.ifPresent(
@@ -179,23 +183,19 @@ public class HassioComponentFactory {
 
   private Cover createCover(GiraOneChannel channel) {
     Cover cover = new Cover();
-    if (channel.getChannelTypeId() == GiraOneChannelTypeId.Awning) {
-      cover.setDeviceClass("awning");
-    } else if (channel.getChannelTypeId() == GiraOneChannelTypeId.RoofWindow) {
-      cover.setDeviceClass("window");
-    } else if (channel.getChannelTypeId() == GiraOneChannelTypeId.VenetianBlind) {
-
-      cover.setDeviceClass("shutter");
-    }
-
     Optional<GiraOneDataPoint> dpUpDown = channel.getDatapoint(DATAPOINT_UP_DOWN);
     dpUpDown.ifPresent(
         dataPoint -> {
           cover.setCommandTopic(hassioGiraOneChannelMqttTopicMapper.commandTopicNameOf(dataPoint));
           cover.setStateTopic(hassioGiraOneChannelMqttTopicMapper.stateTopicNameOf(dataPoint));
-
           cover.setPayloadClose("1");
           cover.setPayloadOpen("0");
+
+          /*
+            The STOP payload comes for the UP_DOWN datapoint but needs to get mapped onto the
+            STEP_UP_DOWN datapoint. So the play load gets an mapping information which will
+            be handled by the MessageTransformerStrategyCover on processing the incoming MqttMessage
+          */
           Optional<GiraOneDataPoint> dpStepUpDown = channel.getDatapoint(DATAPOINT_STEP_UP_DOWN);
           if (dpStepUpDown.isPresent()) {
             cover.setPayloadStop(
@@ -207,6 +207,19 @@ public class HassioComponentFactory {
     Optional<GiraOneDataPoint> dpMovement = channel.getDatapoint(DATAPOINT_MOVEMENT);
     dpMovement.ifPresent(dataPoint -> {});
 
+    if (channel.getChannelTypeId() == GiraOneChannelTypeId.Awning) {
+      cover.setDeviceClass("awning");
+    } else if (channel.getChannelTypeId() == GiraOneChannelTypeId.RoofWindow) {
+      cover.setDeviceClass("window");
+    } else if (channel.getChannelTypeId() == GiraOneChannelTypeId.VenetianBlind) {
+      cover.setDeviceClass("shutter");
+      addRelativeProperties(channel, cover);
+    }
+
+    return cover;
+  }
+
+  private void addRelativeProperties(GiraOneChannel channel, Cover cover) {
     Optional<GiraOneDataPoint> dpPosition = channel.getDatapoint(DATAPOINT_POSITION);
     dpPosition.ifPresent(
         dataPoint -> {
@@ -229,7 +242,5 @@ public class HassioComponentFactory {
           cover.setTiltClosedValue(100);
           cover.setTiltOpenedValue(0);
         });
-
-    return cover;
   }
 }

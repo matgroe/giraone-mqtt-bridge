@@ -177,7 +177,7 @@ public class GiraOneMqttBridge {
   void handleBridgeStateConnected() {
     sendDiscoveryMessage();
     giraoneValueDiposable = giraOneClient.observeGiraOneValues(this::onGiraOneValue);
-    // this.lookupGiraOneDataPoints();
+    this.lookupGiraOneDataPoints();
   }
 
   void lookupGiraOneDataPoints() {
@@ -263,23 +263,6 @@ public class GiraOneMqttBridge {
     logger.info("Received MqttMessage:: {}", mqttMessage);
     Optional<GiraOneValue> value = messageTransformer.from(mqttMessage).toGiraOneValue();
     value.ifPresent(dataPoint -> giraOneClient.changeGiraOneDataValue(value.get()));
-  }
-
-  private void updateGiraOneDataPoint(GiraOneDataPoint dataPoint, String payload) {
-    if (payload.startsWith("#MAP-DATAPOINT#")) {
-      String[] parts = payload.split(":");
-      if (parts.length == 4) {
-        GiraOneDataPoint mapped =
-            new GiraOneDataPoint(dataPoint.getUrn().toString().replace(parts[1], parts[2]));
-        giraOneClient.changeGiraOneDataPointValue(mapped, parts[3]);
-      } else {
-        logger.warn("Received invalid mapping payload {}", payload);
-      }
-    } else {
-      giraOneClient.changeGiraOneDataPointValue(dataPoint, payload);
-      // TODO: wait for changeGiraOneDataPointValue response and report that value
-      onGiraOneValue(new GiraOneValue(dataPoint.getUrn(), payload));
-    }
   }
 
   /**

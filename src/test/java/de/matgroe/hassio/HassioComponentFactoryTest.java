@@ -152,11 +152,24 @@ public class HassioComponentFactoryTest {
           assertEquals("cover", component.getPlatform());
           assertEquals("shutter", component.getDeviceClass());
           assertEquals(ch.getName(), component.getName());
+
+          Cover cover = (Cover) component;
+          assertEquals(
+              "junit/command/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-2/curtain-4/position",
+              cover.getPositionCommandTopic());
+          assertEquals(
+              "junit/state/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-2/curtain-4/position",
+              cover.getPositionStateTopic());
+          assertEquals(
+              "junit/command/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-2/curtain-4/slat-position",
+              cover.getTiltCommandTopic());
+          assertEquals(
+              "junit/state/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-2/curtain-4/slat-position",
+              cover.getTiltStatusTopic());
         },
         () -> fail("Channel not found in project"));
   }
 
-  @Disabled
   @Test
   @DisplayName("Should generate de.matgroe.hassio.types.Cover(Covering.RoofWindow)")
   void testCoveringRoofWindow() {
@@ -170,6 +183,12 @@ public class HassioComponentFactoryTest {
           assertEquals("cover", component.getPlatform());
           assertEquals("window", component.getDeviceClass());
           assertEquals(ch.getName(), component.getName());
+
+          Cover cover = (Cover) component;
+          assertNull(cover.getPositionCommandTopic());
+          assertNull(cover.getPositionStateTopic());
+          assertNull(cover.getTiltCommandTopic());
+          assertNull(cover.getTiltStatusTopic());
         },
         () -> fail("Channel not found in project"));
   }

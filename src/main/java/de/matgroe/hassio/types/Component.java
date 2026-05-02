@@ -35,7 +35,7 @@ public abstract class Component {
   protected Device device;
 
   @SerializedName("entity_category")
-  protected String entityCategory;
+  protected String entityCategoryXX;
 
   @SerializedName("device_class")
   protected String deviceClass;
@@ -56,7 +56,6 @@ public abstract class Component {
   protected boolean retain;
 
   public Component() {
-    this.entityCategory = "diagnostic";
     this.qos = 0;
     this.retain = false;
   }

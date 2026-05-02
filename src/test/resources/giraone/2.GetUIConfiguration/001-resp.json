@@ -2,29 +2,29 @@
   "response": {
     "config": [
       {
-        "guid": "01dec6e6-60bf-4ed8-a52b-1e568c54389e"
+        "guid": "03363946-98ba-4558-a684-f08beeca6cf2"
       },
       {
-        "channelID": 202987,
+        "channelID": 204356,
         "channelType": "de.gira.schema.channels.KNX.Dimmer",
         "channelTypeId": "KNX.Light.Light",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-2",
-        "channelViewID": 203612,
+        "channelViewID": 205042,
         "channelViewUrn": "urn:gds:chv:KNXlight-KNX-Dimmer-2",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 202988,
+            "id": 204357,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-2:OnOff"
           },
           {
             "dataPoint": "Shift",
-            "id": 202989,
+            "id": 204358,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-2:Shift"
           },
           {
             "dataPoint": "Brightness",
-            "id": 202990,
+            "id": 204359,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-2:Brightness"
           }
         ],
@@ -73,26 +73,26 @@
         "switchTimes": []
       },
       {
-        "channelID": 202992,
+        "channelID": 204361,
         "channelType": "de.gira.schema.channels.KNX.Dimmer",
         "channelTypeId": "KNX.Light.Light",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-3",
-        "channelViewID": 203801,
+        "channelViewID": 205090,
         "channelViewUrn": "urn:gds:chv:KNXlight-KNX-Dimmer-3",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 202993,
+            "id": 204362,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-3:OnOff"
           },
           {
             "dataPoint": "Shift",
-            "id": 202994,
+            "id": 204363,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-3:Shift"
           },
           {
             "dataPoint": "Brightness",
-            "id": 202995,
+            "id": 204364,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-3:Brightness"
           }
         ],
@@ -144,32 +144,32 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203466,
+        "channelViewID": 205143,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-5",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203247,
+            "id": 204616,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-5:Step-Up-Down"
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203248,
+            "id": 204617,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-5:Up-Down"
           },
           {
             "dataPoint": "Movement",
-            "id": 203249,
+            "id": 204618,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-5:Movement"
           },
           {
             "dataPoint": "Position",
-            "id": 203250,
+            "id": 204619,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-5:Position"
           },
           {
             "dataPoint": "Slat-Position",
-            "id": 203251,
+            "id": 204620,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-5:Slat-Position"
           }
         ],
@@ -223,32 +223,32 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203573,
+        "channelViewID": 204984,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-6",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203254,
+            "id": 204623,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-6:Step-Up-Down"
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203255,
+            "id": 204624,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-6:Up-Down"
           },
           {
             "dataPoint": "Movement",
-            "id": 203256,
+            "id": 204625,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-6:Movement"
           },
           {
             "dataPoint": "Position",
-            "id": 203257,
+            "id": 204626,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-6:Position"
           },
           {
             "dataPoint": "Slat-Position",
-            "id": 203258,
+            "id": 204627,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-6:Slat-Position"
           }
         ],
@@ -302,32 +302,32 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203565,
+        "channelViewID": 204836,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-7",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203261,
+            "id": 204630,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-7:Step-Up-Down"
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203262,
+            "id": 204631,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-7:Up-Down"
           },
           {
             "dataPoint": "Movement",
-            "id": 203263,
+            "id": 204632,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-7:Movement"
           },
           {
             "dataPoint": "Position",
-            "id": 203264,
+            "id": 204633,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-7:Position"
           },
           {
             "dataPoint": "Slat-Position",
-            "id": 203265,
+            "id": 204634,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-7:Slat-Position"
           }
         ],
@@ -381,32 +381,32 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203539,
+        "channelViewID": 204794,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-8",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203268,
+            "id": 204637,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-8:Step-Up-Down"
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203269,
+            "id": 204638,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-8:Up-Down"
           },
           {
             "dataPoint": "Movement",
-            "id": 203270,
+            "id": 204639,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-8:Movement"
           },
           {
             "dataPoint": "Position",
-            "id": 203271,
+            "id": 204640,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-8:Position"
           },
           {
             "dataPoint": "Slat-Position",
-            "id": 203272,
+            "id": 204641,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-8:Slat-Position"
           }
         ],
@@ -460,27 +460,27 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.KNX.HeatingCoolingSwitchable",
         "channelTypeId": "KNX.HeatingCooling.HeatingUnderfloorHeatingWaterBased",
-        "channelViewID": 203616,
+        "channelViewID": 204968,
         "channelViewUrn": "urn:gds:chv:KNXheating2Fcooling-Heating-Cooling-Switchable-4",
         "dataPoints": [
           {
             "dataPoint": "Current",
-            "id": 203129,
+            "id": 204498,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-4:Current"
           },
           {
             "dataPoint": "Set-Point",
-            "id": 203130,
+            "id": 204499,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-4:Set-Point"
           },
           {
             "dataPoint": "Mode",
-            "id": 203131,
+            "id": 204500,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-4:Mode"
           },
           {
             "dataPoint": "Status",
-            "id": 203132,
+            "id": 204501,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-4:Status"
           },
           {
@@ -489,7 +489,7 @@
           },
           {
             "dataPoint": "Heating",
-            "id": 203135,
+            "id": 204504,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-4:Heating"
           },
           {
@@ -572,12 +572,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Temperatur",
-        "channelViewID": 203724,
+        "channelViewID": 205135,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-16",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202872,
+            "id": 204241,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-3.Roomtemperature-1:Temperature"
           }
         ],
@@ -613,12 +613,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Humidity",
-        "channelViewID": 203557,
+        "channelViewID": 205155,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-15",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202869,
+            "id": 204238,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-3.Humidity-1:HumidityStatus"
           }
         ],
@@ -655,7 +655,7 @@
         "channelType": "de.gira.schema.channels.Hue.Light",
         "channelTypeId": "Hue.Light",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Hue-Light-1",
-        "channelViewID": 203587,
+        "channelViewID": 205098,
         "channelViewUrn": "urn:gds:chv:Hue-Light-Hue-Light-1",
         "dataPoints": [
           {
@@ -738,7 +738,7 @@
         "channelType": "de.gira.schema.channels.Hue.Light",
         "channelTypeId": "Hue.Light",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Hue-Light-3",
-        "channelViewID": 203496,
+        "channelViewID": 205109,
         "channelViewUrn": "urn:gds:chv:Hue-Light-Hue-Light-3",
         "dataPoints": [
           {
@@ -817,26 +817,26 @@
         "switchTimes": []
       },
       {
-        "channelID": 202997,
+        "channelID": 204366,
         "channelType": "de.gira.schema.channels.KNX.Dimmer",
         "channelTypeId": "KNX.Light.Light",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-4",
-        "channelViewID": 203787,
+        "channelViewID": 204755,
         "channelViewUrn": "urn:gds:chv:KNXlight-KNX-Dimmer-4",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 202998,
+            "id": 204367,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-4:OnOff"
           },
           {
             "dataPoint": "Shift",
-            "id": 202999,
+            "id": 204368,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-4:Shift"
           },
           {
             "dataPoint": "Brightness",
-            "id": 203000,
+            "id": 204369,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-4:Brightness"
           }
         ],
@@ -885,26 +885,26 @@
         "switchTimes": []
       },
       {
-        "channelID": 203003,
+        "channelID": 204372,
         "channelType": "de.gira.schema.channels.KNX.Dimmer",
         "channelTypeId": "KNX.Light.Light",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-2.DimmingActuator-1",
-        "channelViewID": 203452,
+        "channelViewID": 205082,
         "channelViewUrn": "urn:gds:chv:KNXlight-KNX-Dimmer-5",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203004,
+            "id": 204373,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-2.DimmingActuator-1:OnOff"
           },
           {
             "dataPoint": "Shift",
-            "id": 203005,
+            "id": 204374,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-2.DimmingActuator-1:Shift"
           },
           {
             "dataPoint": "Brightness",
-            "id": 203006,
+            "id": 204375,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-2.DimmingActuator-1:Brightness"
           }
         ],
@@ -956,32 +956,32 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203424,
+        "channelViewID": 204862,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-9",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203275,
+            "id": 204644,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-9:Step-Up-Down"
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203276,
+            "id": 204645,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-9:Up-Down"
           },
           {
             "dataPoint": "Movement",
-            "id": 203277,
+            "id": 204646,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-9:Movement"
           },
           {
             "dataPoint": "Position",
-            "id": 203278,
+            "id": 204647,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-9:Position"
           },
           {
             "dataPoint": "Slat-Position",
-            "id": 203279,
+            "id": 204648,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-9:Slat-Position"
           }
         ],
@@ -1035,27 +1035,27 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.KNX.HeatingCoolingSwitchable",
         "channelTypeId": "KNX.HeatingCooling.HeatingUnderfloorHeatingWaterBased",
-        "channelViewID": 203655,
+        "channelViewID": 204891,
         "channelViewUrn": "urn:gds:chv:KNXheating2Fcooling-Heating-Cooling-Switchable-5",
         "dataPoints": [
           {
             "dataPoint": "Current",
-            "id": 203140,
+            "id": 204509,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-5:Current"
           },
           {
             "dataPoint": "Set-Point",
-            "id": 203141,
+            "id": 204510,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-5:Set-Point"
           },
           {
             "dataPoint": "Mode",
-            "id": 203142,
+            "id": 204511,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-5:Mode"
           },
           {
             "dataPoint": "Status",
-            "id": 203143,
+            "id": 204512,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-5:Status"
           },
           {
@@ -1064,7 +1064,7 @@
           },
           {
             "dataPoint": "Heating",
-            "id": 203146,
+            "id": 204515,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-5:Heating"
           },
           {
@@ -1138,12 +1138,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Temperatur",
-        "channelViewID": 203545,
+        "channelViewID": 204776,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-2",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202853,
+            "id": 204222,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-2.Roomtemperature-1:Temperature"
           }
         ],
@@ -1179,12 +1179,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Humidity",
-        "channelViewID": 203793,
+        "channelViewID": 205122,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-1",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202850,
+            "id": 204219,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-2.Humidity-1:HumidityStatus"
           }
         ],
@@ -1217,26 +1217,26 @@
         "switchTimes": []
       },
       {
-        "channelID": 202982,
+        "channelID": 204351,
         "channelType": "de.gira.schema.channels.KNX.Dimmer",
         "channelTypeId": "KNX.Light.Light",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-1",
-        "channelViewID": 203667,
+        "channelViewID": 204854,
         "channelViewUrn": "urn:gds:chv:KNXlight-KNX-Dimmer-1",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 202983,
+            "id": 204352,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-1:OnOff"
           },
           {
             "dataPoint": "Shift",
-            "id": 202984,
+            "id": 204353,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-1:Shift"
           },
           {
             "dataPoint": "Brightness",
-            "id": 202985,
+            "id": 204354,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-1:Brightness"
           }
         ],
@@ -1288,32 +1288,32 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203746,
+        "channelViewID": 205137,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-2",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203226,
+            "id": 204595,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-2:Step-Up-Down"
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203227,
+            "id": 204596,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-2:Up-Down"
           },
           {
             "dataPoint": "Movement",
-            "id": 203228,
+            "id": 204597,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-2:Movement"
           },
           {
             "dataPoint": "Position",
-            "id": 203229,
+            "id": 204598,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-2:Position"
           },
           {
             "dataPoint": "Slat-Position",
-            "id": 203230,
+            "id": 204599,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-2:Slat-Position"
           }
         ],
@@ -1367,32 +1367,32 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203517,
+        "channelViewID": 204998,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-3",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203233,
+            "id": 204602,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-3:Step-Up-Down"
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203234,
+            "id": 204603,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-3:Up-Down"
           },
           {
             "dataPoint": "Movement",
-            "id": 203235,
+            "id": 204604,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-3:Movement"
           },
           {
             "dataPoint": "Position",
-            "id": 203236,
+            "id": 204605,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-3:Position"
           },
           {
             "dataPoint": "Slat-Position",
-            "id": 203237,
+            "id": 204606,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-3:Slat-Position"
           }
         ],
@@ -1446,32 +1446,32 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203581,
+        "channelViewID": 205030,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-4",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203240,
+            "id": 204609,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-4:Step-Up-Down"
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203241,
+            "id": 204610,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-4:Up-Down"
           },
           {
             "dataPoint": "Movement",
-            "id": 203242,
+            "id": 204611,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-4:Movement"
           },
           {
             "dataPoint": "Position",
-            "id": 203243,
+            "id": 204612,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-4:Position"
           },
           {
             "dataPoint": "Slat-Position",
-            "id": 203244,
+            "id": 204613,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-4:Slat-Position"
           }
         ],
@@ -1525,27 +1525,27 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.KNX.HeatingCoolingSwitchable",
         "channelTypeId": "KNX.HeatingCooling.HeatingUnderfloorHeatingWaterBased",
-        "channelViewID": 203526,
+        "channelViewID": 205012,
         "channelViewUrn": "urn:gds:chv:KNXheating2Fcooling-Heating-Cooling-Switchable-3",
         "dataPoints": [
           {
             "dataPoint": "Current",
-            "id": 203118,
+            "id": 204487,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-3:Current"
           },
           {
             "dataPoint": "Set-Point",
-            "id": 203119,
+            "id": 204488,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-3:Set-Point"
           },
           {
             "dataPoint": "Mode",
-            "id": 203120,
+            "id": 204489,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-3:Mode"
           },
           {
             "dataPoint": "Status",
-            "id": 203121,
+            "id": 204490,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-3:Status"
           },
           {
@@ -1554,7 +1554,7 @@
           },
           {
             "dataPoint": "Heating",
-            "id": 203124,
+            "id": 204493,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-3:Heating"
           },
           {
@@ -1628,12 +1628,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Humidity",
-        "channelViewID": 203407,
+        "channelViewID": 205124,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-8",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202638,
+            "id": 204007,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker2-gang-3.Humidity-1:HumidityStatus"
           }
         ],
@@ -1669,12 +1669,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Temperatur",
-        "channelViewID": 203726,
+        "channelViewID": 204952,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-18",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202641,
+            "id": 204010,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker2-gang-3.Roomtemperature-1:Temperature"
           }
         ],
@@ -1707,16 +1707,16 @@
         "switchTimes": []
       },
       {
-        "channelID": 203281,
+        "channelID": 204650,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.Lamp",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Switching-19",
-        "channelViewID": 203639,
+        "channelViewID": 204804,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-1",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203282,
+            "id": 204651,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Switching-19:OnOff"
           }
         ],
@@ -1790,16 +1790,16 @@
         "switchTimes": []
       },
       {
-        "channelID": 203290,
+        "channelID": 204659,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.PowerOutlet",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Switching-22",
-        "channelViewID": 203722,
+        "channelViewID": 205006,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-4",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203291,
+            "id": 204660,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Switching-22:OnOff"
           }
         ],
@@ -1876,27 +1876,27 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.KNX.HeatingCoolingSwitchable",
         "channelTypeId": "KNX.HeatingCooling.HeatingUnderfloorHeatingWaterBased",
-        "channelViewID": 203602,
+        "channelViewID": 205054,
         "channelViewUrn": "urn:gds:chv:KNXheating2Fcooling-Heating-Cooling-Switchable-2",
         "dataPoints": [
           {
             "dataPoint": "Current",
-            "id": 203107,
+            "id": 204476,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-2:Current"
           },
           {
             "dataPoint": "Set-Point",
-            "id": 203108,
+            "id": 204477,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-2:Set-Point"
           },
           {
             "dataPoint": "Mode",
-            "id": 203109,
+            "id": 204478,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-2:Mode"
           },
           {
             "dataPoint": "Status",
-            "id": 203110,
+            "id": 204479,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-2:Status"
           },
           {
@@ -1905,7 +1905,7 @@
           },
           {
             "dataPoint": "Heating",
-            "id": 203113,
+            "id": 204482,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-2:Heating"
           },
           {
@@ -1979,32 +1979,32 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203418,
+        "channelViewID": 205046,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-1",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203219,
+            "id": 204588,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-1:Step-Up-Down"
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203220,
+            "id": 204589,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-1:Up-Down"
           },
           {
             "dataPoint": "Movement",
-            "id": 203221,
+            "id": 204590,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-1:Movement"
           },
           {
             "dataPoint": "Position",
-            "id": 203222,
+            "id": 204591,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-1:Position"
           },
           {
             "dataPoint": "Slat-Position",
-            "id": 203223,
+            "id": 204592,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-1:Slat-Position"
           }
         ],
@@ -2050,12 +2050,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Humidity",
-        "channelViewID": 203596,
+        "channelViewID": 204930,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-13",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202951,
+            "id": 204320,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-8.Humidity-1:HumidityStatus"
           }
         ],
@@ -2091,12 +2091,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Temperatur",
-        "channelViewID": 203416,
+        "channelViewID": 205120,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-9",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202954,
+            "id": 204323,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-8.Roomtemperature-1:Temperature"
           }
         ],
@@ -2132,12 +2132,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Temperatur",
-        "channelViewID": 203730,
+        "channelViewID": 205086,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-20",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202649,
+            "id": 204018,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker2-gang-4.Roomtemperature-1:Temperature"
           }
         ],
@@ -2173,12 +2173,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Humidity",
-        "channelViewID": 203450,
+        "channelViewID": 204852,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-3",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202646,
+            "id": 204015,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker2-gang-4.Humidity-1:HumidityStatus"
           }
         ],
@@ -2214,27 +2214,27 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.KNX.HeatingCoolingSwitchable",
         "channelTypeId": "KNX.HeatingCooling.HeatingUnderfloorHeatingWaterBased",
-        "channelViewID": 203484,
+        "channelViewID": 204954,
         "channelViewUrn": "urn:gds:chv:KNXheating2Fcooling-Heating-Cooling-Switchable-6",
         "dataPoints": [
           {
             "dataPoint": "Current",
-            "id": 203151,
+            "id": 204520,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-6:Current"
           },
           {
             "dataPoint": "Set-Point",
-            "id": 203152,
+            "id": 204521,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-6:Set-Point"
           },
           {
             "dataPoint": "Mode",
-            "id": 203153,
+            "id": 204522,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-6:Mode"
           },
           {
             "dataPoint": "Status",
-            "id": 203154,
+            "id": 204523,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-6:Status"
           },
           {
@@ -2243,7 +2243,7 @@
           },
           {
             "dataPoint": "Heating",
-            "id": 203157,
+            "id": 204526,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-6:Heating"
           },
           {
@@ -2318,7 +2318,7 @@
         "channelType": "de.gira.schema.channels.FunctionScene",
         "channelTypeId": "FunctionScene.Scene",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Function-Scene-6",
-        "channelViewID": 203681,
+        "channelViewID": 205024,
         "channelViewUrn": "urn:gds:chv:Function-Scene-6",
         "dataPoints": [
           {
@@ -2391,16 +2391,16 @@
         "switchTimes": []
       },
       {
-        "channelID": 203284,
+        "channelID": 204653,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.Lamp",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Switching-20",
-        "channelViewID": 203653,
+        "channelViewID": 205004,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-2",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203285,
+            "id": 204654,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Switching-20:OnOff"
           }
         ],
@@ -2474,16 +2474,16 @@
         "switchTimes": []
       },
       {
-        "channelID": 203347,
+        "channelID": 204716,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.Lamp",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-20",
-        "channelViewID": 203515,
+        "channelViewID": 205094,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-14",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203348,
+            "id": 204717,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-20:OnOff"
           }
         ],
@@ -2557,16 +2557,16 @@
         "switchTimes": []
       },
       {
-        "channelID": 203287,
+        "channelID": 204656,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.Lamp",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Switching-21",
-        "channelViewID": 203732,
+        "channelViewID": 204766,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-3",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203288,
+            "id": 204657,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Switching-21:OnOff"
           }
         ],
@@ -2643,27 +2643,27 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.KNX.HeatingCoolingSwitchable",
         "channelTypeId": "KNX.HeatingCooling.HeatingUnderfloorHeatingWaterBased",
-        "channelViewID": 203505,
+        "channelViewID": 204778,
         "channelViewUrn": "urn:gds:chv:KNXheating2Fcooling-Heating-Cooling-Switchable-1",
         "dataPoints": [
           {
             "dataPoint": "Current",
-            "id": 203096,
+            "id": 204465,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-1:Current"
           },
           {
             "dataPoint": "Set-Point",
-            "id": 203097,
+            "id": 204466,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-1:Set-Point"
           },
           {
             "dataPoint": "Mode",
-            "id": 203098,
+            "id": 204467,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-1:Mode"
           },
           {
             "dataPoint": "Status",
-            "id": 203099,
+            "id": 204468,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-1:Status"
           },
           {
@@ -2672,7 +2672,7 @@
           },
           {
             "dataPoint": "Heating",
-            "id": 203102,
+            "id": 204471,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-1:Heating"
           },
           {
@@ -2746,12 +2746,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Humidity",
-        "channelViewID": 203647,
+        "channelViewID": 204966,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-12",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202822,
+            "id": 204191,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-14.Humidity-1:HumidityStatus"
           }
         ],
@@ -2787,12 +2787,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Temperatur",
-        "channelViewID": 203752,
+        "channelViewID": 204860,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-11",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202825,
+            "id": 204194,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-14.Roomtemperature-1:Temperature"
           }
         ],
@@ -2825,16 +2825,16 @@
         "switchTimes": []
       },
       {
-        "channelID": 203365,
+        "channelID": 204734,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.PowerOutlet",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-4",
-        "channelViewID": 203414,
+        "channelViewID": 204996,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-8",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203366,
+            "id": 204735,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-4:OnOff"
           }
         ],
@@ -2910,107 +2910,28 @@
       {
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
-        "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203458,
-        "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-19",
-        "dataPoints": [
-          {
-            "dataPoint": "Step-Up-Down",
-            "id": 203171,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-2:Step-Up-Down"
-          },
-          {
-            "dataPoint": "Up-Down",
-            "id": 203172,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-2:Up-Down"
-          },
-          {
-            "dataPoint": "Movement",
-            "id": 203173,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-2:Movement"
-          },
-          {
-            "dataPoint": "Position",
-            "id": 203174,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-2:Position"
-          },
-          {
-            "dataPoint": "Slat-Position",
-            "id": 203175,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-2:Slat-Position"
-          }
-        ],
-        "functionType": "de.gira.schema.functions.Covering",
-        "iconID": 7,
-        "name": "Ankleide - Dachfenster Jalousie",
-        "parameters": [
-          {
-            "key": "ButtonTimeout",
-            "set": "Visu",
-            "value": "0.4"
-          },
-          {
-            "key": "OnlyShowAsRelativ",
-            "set": "Visu",
-            "value": "False"
-          },
-          {
-            "key": "ShowOnHomeScreen",
-            "set": "Visu",
-            "value": "False"
-          },
-          {
-            "key": "ShowTimer",
-            "set": "Visu",
-            "value": "True"
-          }
-        ],
-        "switchTimeChannelID": 30312,
-        "switchTimeChannelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Function-Timer-53",
-        "switchTimes": [
-          {
-            "active": false,
-            "index": 0
-          },
-          {
-            "active": false,
-            "index": 1
-          },
-          {
-            "active": false,
-            "index": 2
-          },
-          {
-            "active": false,
-            "index": 3
-          }
-        ]
-      },
-      {
-        "channelID": 0,
-        "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.RoofWindow",
-        "channelViewID": 203626,
+        "channelViewID": 204883,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-16",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203192,
+            "id": 204561,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-5:Step-Up-Down"
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203193,
+            "id": 204562,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-5:Up-Down"
           },
           {
             "dataPoint": "Movement",
-            "id": 203194,
+            "id": 204563,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-5:Movement"
           },
           {
             "dataPoint": "Position",
-            "id": 203195,
+            "id": 204564,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-5:Position"
           },
           {
@@ -3051,27 +2972,27 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.KNX.HeatingCoolingSwitchable",
         "channelTypeId": "KNX.HeatingCooling.HeatingUnderfloorHeatingWaterBased",
-        "channelViewID": 203395,
+        "channelViewID": 205064,
         "channelViewUrn": "urn:gds:chv:KNXheating2Fcooling-Heating-Cooling-Switchable-10",
         "dataPoints": [
           {
             "dataPoint": "Current",
-            "id": 203060,
+            "id": 204429,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-4:Current"
           },
           {
             "dataPoint": "Set-Point",
-            "id": 203061,
+            "id": 204430,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-4:Set-Point"
           },
           {
             "dataPoint": "Mode",
-            "id": 203062,
+            "id": 204431,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-4:Mode"
           },
           {
             "dataPoint": "Status",
-            "id": 203063,
+            "id": 204432,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-4:Status"
           },
           {
@@ -3080,7 +3001,7 @@
           },
           {
             "dataPoint": "Heating",
-            "id": 203066,
+            "id": 204435,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-4:Heating"
           },
           {
@@ -3154,12 +3075,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Temperatur",
-        "channelViewID": 203714,
+        "channelViewID": 204762,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-21",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202817,
+            "id": 204186,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-13.Roomtemperature-1:Temperature"
           }
         ],
@@ -3195,12 +3116,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Humidity",
-        "channelViewID": 203432,
+        "channelViewID": 204800,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-6",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202814,
+            "id": 204183,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-13.Humidity-1:HumidityStatus"
           }
         ],
@@ -3233,26 +3154,26 @@
         "switchTimes": []
       },
       {
-        "channelID": 203018,
+        "channelID": 204387,
         "channelType": "de.gira.schema.channels.KNX.Dimmer",
         "channelTypeId": "KNX.Light.Light",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-2.DimmingActuator-4",
-        "channelViewID": 203686,
+        "channelViewID": 204905,
         "channelViewUrn": "urn:gds:chv:KNXlight-KNX-Dimmer-8",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203019,
+            "id": 204388,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-2.DimmingActuator-4:OnOff"
           },
           {
             "dataPoint": "Shift",
-            "id": 203020,
+            "id": 204389,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-2.DimmingActuator-4:Shift"
           },
           {
             "dataPoint": "Brightness",
-            "id": 203021,
+            "id": 204390,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-2.DimmingActuator-4:Brightness"
           }
         ],
@@ -3303,33 +3224,111 @@
       {
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
+        "channelTypeId": "Covering.Roller",
+        "channelViewID": 204788,
+        "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-23",
+        "dataPoints": [
+          {
+            "dataPoint": "Step-Up-Down",
+            "id": 204540,
+            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-2:Step-Up-Down"
+          },
+          {
+            "dataPoint": "Up-Down",
+            "id": 204541,
+            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-2:Up-Down"
+          },
+          {
+            "dataPoint": "Movement",
+            "id": 204542,
+            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-2:Movement"
+          },
+          {
+            "dataPoint": "Position",
+            "id": 204543,
+            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-2:Position"
+          },
+          {
+            "dataPoint": "Slat-Position",
+            "id": 0
+          }
+        ],
+        "functionType": "de.gira.schema.functions.Covering",
+        "iconID": 7,
+        "name": "Ankleide - Rolladen Dachfenster",
+        "parameters": [
+          {
+            "key": "ButtonTimeout",
+            "set": "Visu",
+            "value": "0.4"
+          },
+          {
+            "key": "OnlyShowAsRelativ",
+            "set": "Visu",
+            "value": "False"
+          },
+          {
+            "key": "ShowOnHomeScreen",
+            "set": "Visu",
+            "value": "False"
+          },
+          {
+            "key": "ShowTimer",
+            "set": "Visu",
+            "value": "True"
+          }
+        ],
+        "switchTimeChannelID": 30456,
+        "switchTimeChannelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Function-Timer-77",
+        "switchTimes": [
+          {
+            "active": false,
+            "index": 0
+          },
+          {
+            "active": false,
+            "index": 1
+          },
+          {
+            "active": false,
+            "index": 2
+          },
+          {
+            "active": false,
+            "index": 3
+          }
+        ]
+      },
+      {
+        "channelID": 0,
+        "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203716,
+        "channelViewID": 204978,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-10",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203301,
+            "id": 204670,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-4:Step-Up-Down"
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203302,
+            "id": 204671,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-4:Up-Down"
           },
           {
             "dataPoint": "Movement",
-            "id": 203303,
+            "id": 204672,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-4:Movement"
           },
           {
             "dataPoint": "Position",
-            "id": 203304,
+            "id": 204673,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-4:Position"
           },
           {
             "dataPoint": "Slat-Position",
-            "id": 203305,
+            "id": 204674,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-4:Slat-Position"
           }
         ],
@@ -3369,96 +3368,29 @@
       },
       {
         "channelID": 0,
-        "channelType": "de.gira.schema.channels.BlindWithPos",
-        "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203559,
-        "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-11",
-        "dataPoints": [
-          {
-            "dataPoint": "Step-Up-Down",
-            "id": 203308,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-5:Step-Up-Down"
-          },
-          {
-            "dataPoint": "Up-Down",
-            "id": 203309,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-5:Up-Down"
-          },
-          {
-            "dataPoint": "Movement",
-            "id": 203310,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-5:Movement"
-          },
-          {
-            "dataPoint": "Position",
-            "id": 203311,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-5:Position"
-          },
-          {
-            "dataPoint": "Slat-Position",
-            "id": 203312,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-5:Slat-Position"
-          }
-        ],
-        "functionType": "de.gira.schema.functions.Covering",
-        "iconID": 7,
-        "name": "Schlafen - Jalousie  gr. Fenster",
-        "parameters": [
-          {
-            "key": "ButtonTimeout",
-            "set": "Visu",
-            "value": "0.4"
-          },
-          {
-            "key": "OnlyShowAsRelativ",
-            "set": "Visu",
-            "value": "False"
-          },
-          {
-            "key": "ShowOnHomeScreen",
-            "set": "Visu",
-            "value": "False"
-          },
-          {
-            "key": "ShowTimer",
-            "set": "Visu",
-            "value": "True"
-          }
-        ],
-        "switchTimeChannelID": 30222,
-        "switchTimeChannelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Function-Timer-38",
-        "switchTimes": [
-          {
-            "active": true,
-            "index": 0
-          }
-        ]
-      },
-      {
-        "channelID": 0,
         "channelType": "de.gira.schema.channels.KNX.HeatingCoolingSwitchable",
         "channelTypeId": "KNX.HeatingCooling.HeatingUnderfloorHeatingWaterBased",
-        "channelViewID": 203734,
+        "channelViewID": 204868,
         "channelViewUrn": "urn:gds:chv:KNXheating2Fcooling-Heating-Cooling-Switchable-12",
         "dataPoints": [
           {
             "dataPoint": "Current",
-            "id": 203082,
+            "id": 204451,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-6:Current"
           },
           {
             "dataPoint": "Set-Point",
-            "id": 203083,
+            "id": 204452,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-6:Set-Point"
           },
           {
             "dataPoint": "Mode",
-            "id": 203084,
+            "id": 204453,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-6:Mode"
           },
           {
             "dataPoint": "Status",
-            "id": 203085,
+            "id": 204454,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-6:Status"
           },
           {
@@ -3467,7 +3399,7 @@
           },
           {
             "dataPoint": "Heating",
-            "id": 203088,
+            "id": 204457,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-6:Heating"
           },
           {
@@ -3541,12 +3473,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Temperatur",
-        "channelViewID": 203405,
+        "channelViewID": 204774,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-14",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202908,
+            "id": 204277,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-5.Roomtemperature-1:Temperature"
           }
         ],
@@ -3582,12 +3514,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Humidity",
-        "channelViewID": 203409,
+        "channelViewID": 205008,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-4",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202905,
+            "id": 204274,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-5.Humidity-1:HumidityStatus"
           }
         ],
@@ -3620,26 +3552,26 @@
         "switchTimes": []
       },
       {
-        "channelID": 203008,
+        "channelID": 204377,
         "channelType": "de.gira.schema.channels.KNX.Dimmer",
         "channelTypeId": "KNX.Light.Light",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-2.DimmingActuator-2",
-        "channelViewID": 203480,
+        "channelViewID": 204768,
         "channelViewUrn": "urn:gds:chv:KNXlight-KNX-Dimmer-6",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203009,
+            "id": 204378,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-2.DimmingActuator-2:OnOff"
           },
           {
             "dataPoint": "Shift",
-            "id": 203010,
+            "id": 204379,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-2.DimmingActuator-2:Shift"
           },
           {
             "dataPoint": "Brightness",
-            "id": 203011,
+            "id": 204380,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-2.DimmingActuator-2:Brightness"
           }
         ],
@@ -3688,16 +3620,85 @@
         "switchTimes": []
       },
       {
-        "channelID": 203338,
+        "channelID": 0,
+        "channelType": "de.gira.schema.channels.BlindWithPos",
+        "channelTypeId": "Covering.Roller",
+        "channelViewID": 205036,
+        "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-18",
+        "dataPoints": [
+          {
+            "dataPoint": "Step-Up-Down",
+            "id": 0
+          },
+          {
+            "dataPoint": "Up-Down",
+            "id": 0
+          },
+          {
+            "dataPoint": "Movement",
+            "id": 0
+          },
+          {
+            "dataPoint": "Position",
+            "id": 0
+          },
+          {
+            "dataPoint": "Slat-Position",
+            "id": 0
+          }
+        ],
+        "functionType": "de.gira.schema.functions.Covering",
+        "iconID": 7,
+        "name": "Schlafen - Rollladen Garten",
+        "parameters": [
+          {
+            "key": "ButtonTimeout",
+            "set": "Visu",
+            "value": "0.4"
+          },
+          {
+            "key": "ShowOnHomeScreen",
+            "set": "Visu",
+            "value": "False"
+          },
+          {
+            "key": "ShowTimer",
+            "set": "Visu",
+            "value": "True"
+          }
+        ],
+        "switchTimeChannelID": 30390,
+        "switchTimeChannelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Function-Timer-66",
+        "switchTimes": [
+          {
+            "active": false,
+            "index": 0
+          },
+          {
+            "active": false,
+            "index": 1
+          },
+          {
+            "active": false,
+            "index": 2
+          },
+          {
+            "active": false,
+            "index": 3
+          }
+        ]
+      },
+      {
+        "channelID": 204707,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.Lamp",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-11",
-        "channelViewID": 203456,
+        "channelViewID": 205177,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-11",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203339,
+            "id": 204708,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-11:OnOff"
           }
         ],
@@ -3774,32 +3775,32 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203781,
+        "channelViewID": 204924,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-12",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203315,
+            "id": 204684,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-7:Step-Up-Down"
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203316,
+            "id": 204685,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-7:Up-Down"
           },
           {
             "dataPoint": "Movement",
-            "id": 203317,
+            "id": 204686,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-7:Movement"
           },
           {
             "dataPoint": "Position",
-            "id": 203318,
+            "id": 204687,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-7:Position"
           },
           {
             "dataPoint": "Slat-Position",
-            "id": 203319,
+            "id": 204688,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-7:Slat-Position"
           }
         ],
@@ -3841,32 +3842,32 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203434,
+        "channelViewID": 205076,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-13",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203322,
+            "id": 204691,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-8:Step-Up-Down"
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203323,
+            "id": 204692,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-8:Up-Down"
           },
           {
             "dataPoint": "Movement",
-            "id": 203324,
+            "id": 204693,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-8:Movement"
           },
           {
             "dataPoint": "Position",
-            "id": 203325,
+            "id": 204694,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-8:Position"
           },
           {
             "dataPoint": "Slat-Position",
-            "id": 203326,
+            "id": 204695,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-8:Slat-Position"
           }
         ],
@@ -3908,32 +3909,32 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203764,
+        "channelViewID": 204990,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-14",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203329,
+            "id": 204698,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-9:Step-Up-Down"
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203330,
+            "id": 204699,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-9:Up-Down"
           },
           {
             "dataPoint": "Movement",
-            "id": 203331,
+            "id": 204700,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-9:Movement"
           },
           {
             "dataPoint": "Position",
-            "id": 203332,
+            "id": 204701,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-9:Position"
           },
           {
             "dataPoint": "Slat-Position",
-            "id": 203333,
+            "id": 204702,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Curtain-9:Slat-Position"
           }
         ],
@@ -3975,27 +3976,27 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.KNX.HeatingCoolingSwitchable",
         "channelTypeId": "KNX.HeatingCooling.HeatingUnderfloorHeatingWaterBased",
-        "channelViewID": 203547,
+        "channelViewID": 204912,
         "channelViewUrn": "urn:gds:chv:KNXheating2Fcooling-Heating-Cooling-Switchable-8",
         "dataPoints": [
           {
             "dataPoint": "Current",
-            "id": 203038,
+            "id": 204407,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-2:Current"
           },
           {
             "dataPoint": "Set-Point",
-            "id": 203039,
+            "id": 204408,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-2:Set-Point"
           },
           {
             "dataPoint": "Mode",
-            "id": 203040,
+            "id": 204409,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-2:Mode"
           },
           {
             "dataPoint": "Status",
-            "id": 203041,
+            "id": 204410,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-2:Status"
           },
           {
@@ -4004,7 +4005,7 @@
           },
           {
             "dataPoint": "Heating",
-            "id": 203044,
+            "id": 204413,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-2:Heating"
           },
           {
@@ -4095,12 +4096,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Temperatur",
-        "channelViewID": 203571,
+        "channelViewID": 205088,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-19",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202794,
+            "id": 204163,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-12.Roomtemperature-1:Temperature"
           }
         ],
@@ -4133,26 +4134,26 @@
         "switchTimes": []
       },
       {
-        "channelID": 203013,
+        "channelID": 204382,
         "channelType": "de.gira.schema.channels.KNX.Dimmer",
         "channelTypeId": "KNX.Light.Light",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-2.DimmingActuator-3",
-        "channelViewID": 203598,
+        "channelViewID": 204822,
         "channelViewUrn": "urn:gds:chv:KNXlight-KNX-Dimmer-7",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203014,
+            "id": 204383,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-2.DimmingActuator-3:OnOff"
           },
           {
             "dataPoint": "Shift",
-            "id": 203015,
+            "id": 204384,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-2.DimmingActuator-3:Shift"
           },
           {
             "dataPoint": "Brightness",
-            "id": 203016,
+            "id": 204385,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-2.DimmingActuator-3:Brightness"
           }
         ],
@@ -4201,16 +4202,16 @@
         "switchTimes": []
       },
       {
-        "channelID": 203368,
+        "channelID": 204737,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.PowerOutlet",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-5",
-        "channelViewID": 203744,
+        "channelViewID": 204922,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-10",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203369,
+            "id": 204738,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-5:OnOff"
           }
         ],
@@ -4296,12 +4297,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Humidity",
-        "channelViewID": 203632,
+        "channelViewID": 204950,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-10",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202678,
+            "id": 204047,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker2-gang-6.Humidity-1:HumidityStatus"
           }
         ],
@@ -4338,7 +4339,7 @@
         "channelType": "de.gira.schema.channels.Hue.Light",
         "channelTypeId": "Hue.Light",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Hue-Light-4",
-        "channelViewID": 203772,
+        "channelViewID": 204938,
         "channelViewUrn": "urn:gds:chv:Hue-Light-Hue-Light-4",
         "dataPoints": [
           {
@@ -4407,16 +4408,16 @@
         "switchTimes": []
       },
       {
-        "channelID": 203335,
+        "channelID": 204704,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.Lamp",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-1",
-        "channelViewID": 203799,
+        "channelViewID": 204903,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-5",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203336,
+            "id": 204705,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-1:OnOff"
           }
         ],
@@ -4492,107 +4493,28 @@
       {
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
-        "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203805,
-        "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position",
-        "dataPoints": [
-          {
-            "dataPoint": "Step-Up-Down",
-            "id": 203164,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-1:Step-Up-Down"
-          },
-          {
-            "dataPoint": "Up-Down",
-            "id": 203165,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-1:Up-Down"
-          },
-          {
-            "dataPoint": "Movement",
-            "id": 203166,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-1:Movement"
-          },
-          {
-            "dataPoint": "Position",
-            "id": 203167,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-1:Position"
-          },
-          {
-            "dataPoint": "Slat-Position",
-            "id": 203168,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-1:Slat-Position"
-          }
-        ],
-        "functionType": "de.gira.schema.functions.Covering",
-        "iconID": 7,
-        "name": "Gast - Dachfenster Jalousie",
-        "parameters": [
-          {
-            "key": "ButtonTimeout",
-            "set": "Visu",
-            "value": "0.4"
-          },
-          {
-            "key": "OnlyShowAsRelativ",
-            "set": "Visu",
-            "value": "False"
-          },
-          {
-            "key": "ShowOnHomeScreen",
-            "set": "Visu",
-            "value": "False"
-          },
-          {
-            "key": "ShowTimer",
-            "set": "Visu",
-            "value": "True"
-          }
-        ],
-        "switchTimeChannelID": 30306,
-        "switchTimeChannelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Function-Timer-52",
-        "switchTimes": [
-          {
-            "active": false,
-            "index": 0
-          },
-          {
-            "active": false,
-            "index": 1
-          },
-          {
-            "active": false,
-            "index": 2
-          },
-          {
-            "active": false,
-            "index": 3
-          }
-        ]
-      },
-      {
-        "channelID": 0,
-        "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.RoofWindow",
-        "channelViewID": 203641,
+        "channelViewID": 205169,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-15",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203185,
+            "id": 204554,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-4:Step-Up-Down"
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203186,
+            "id": 204555,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-4:Up-Down"
           },
           {
             "dataPoint": "Movement",
-            "id": 203187,
+            "id": 204556,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-4:Movement"
           },
           {
             "dataPoint": "Position",
-            "id": 203188,
+            "id": 204557,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-4:Position"
           },
           {
@@ -4633,27 +4555,27 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.KNX.HeatingCoolingSwitchable",
         "channelTypeId": "KNX.HeatingCooling.HeatingUnderfloorHeatingWaterBased",
-        "channelViewID": 203701,
+        "channelViewID": 204842,
         "channelViewUrn": "urn:gds:chv:KNXheating2Fcooling-Heating-Cooling-Switchable-11",
         "dataPoints": [
           {
             "dataPoint": "Current",
-            "id": 203071,
+            "id": 204440,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-5:Current"
           },
           {
             "dataPoint": "Set-Point",
-            "id": 203072,
+            "id": 204441,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-5:Set-Point"
           },
           {
             "dataPoint": "Mode",
-            "id": 203073,
+            "id": 204442,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-5:Mode"
           },
           {
             "dataPoint": "Status",
-            "id": 203074,
+            "id": 204443,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-5:Status"
           },
           {
@@ -4662,7 +4584,7 @@
           },
           {
             "dataPoint": "Heating",
-            "id": 203077,
+            "id": 204446,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-5:Heating"
           },
           {
@@ -4736,12 +4658,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Temperatur",
-        "channelViewID": 203795,
+        "channelViewID": 205118,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-22",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202726,
+            "id": 204095,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang.Roomtemperature-1:Temperature"
           }
         ],
@@ -4777,12 +4699,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Humidity",
-        "channelViewID": 203684,
+        "channelViewID": 205022,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-5",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202723,
+            "id": 204092,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang.Humidity-1:HumidityStatus"
           }
         ],
@@ -4815,16 +4737,94 @@
         "switchTimes": []
       },
       {
-        "channelID": 203341,
+        "channelID": 0,
+        "channelType": "de.gira.schema.channels.BlindWithPos",
+        "channelTypeId": "Covering.Roller",
+        "channelViewID": 205149,
+        "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-21",
+        "dataPoints": [
+          {
+            "dataPoint": "Step-Up-Down",
+            "id": 204533,
+            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-1:Step-Up-Down"
+          },
+          {
+            "dataPoint": "Up-Down",
+            "id": 204534,
+            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-1:Up-Down"
+          },
+          {
+            "dataPoint": "Movement",
+            "id": 204535,
+            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-1:Movement"
+          },
+          {
+            "dataPoint": "Position",
+            "id": 204536,
+            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-1:Position"
+          },
+          {
+            "dataPoint": "Slat-Position",
+            "id": 0
+          }
+        ],
+        "functionType": "de.gira.schema.functions.Covering",
+        "iconID": 7,
+        "name": "Gast Rolladen Dachfenster",
+        "parameters": [
+          {
+            "key": "ButtonTimeout",
+            "set": "Visu",
+            "value": "0.4"
+          },
+          {
+            "key": "OnlyShowAsRelativ",
+            "set": "Visu",
+            "value": "False"
+          },
+          {
+            "key": "ShowOnHomeScreen",
+            "set": "Visu",
+            "value": "False"
+          },
+          {
+            "key": "ShowTimer",
+            "set": "Visu",
+            "value": "True"
+          }
+        ],
+        "switchTimeChannelID": 30444,
+        "switchTimeChannelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Function-Timer-75",
+        "switchTimes": [
+          {
+            "active": false,
+            "index": 0
+          },
+          {
+            "active": false,
+            "index": 1
+          },
+          {
+            "active": false,
+            "index": 2
+          },
+          {
+            "active": false,
+            "index": 3
+          }
+        ]
+      },
+      {
+        "channelID": 204710,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.Lamp",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-19",
-        "channelViewID": 203393,
+        "channelViewID": 205096,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-13",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203342,
+            "id": 204711,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-19:OnOff"
           }
         ],
@@ -4901,33 +4901,28 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.VenetianBlind",
-        "channelViewID": 203440,
+        "channelViewID": 204932,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-20",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203178,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-3:Step-Up-Down"
+            "id": 0
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203179,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-3:Up-Down"
+            "id": 0
           },
           {
             "dataPoint": "Movement",
-            "id": 203180,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-3:Movement"
+            "id": 0
           },
           {
             "dataPoint": "Position",
-            "id": 203181,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-3:Position"
+            "id": 0
           },
           {
             "dataPoint": "Slat-Position",
-            "id": 203182,
-            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-3:Slat-Position"
+            "id": 0
           }
         ],
         "functionType": "de.gira.schema.functions.Covering",
@@ -4938,11 +4933,6 @@
             "key": "ButtonTimeout",
             "set": "Visu",
             "value": "0.4"
-          },
-          {
-            "key": "OnlyShowAsRelativ",
-            "set": "Visu",
-            "value": "True"
           },
           {
             "key": "ShowOnHomeScreen",
@@ -4980,27 +4970,27 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.BlindWithPos",
         "channelTypeId": "Covering.RoofWindow",
-        "channelViewID": 203474,
+        "channelViewID": 205161,
         "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-17",
         "dataPoints": [
           {
             "dataPoint": "Step-Up-Down",
-            "id": 203199,
+            "id": 204568,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-6:Step-Up-Down"
           },
           {
             "dataPoint": "Up-Down",
-            "id": 203200,
+            "id": 204569,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-6:Up-Down"
           },
           {
             "dataPoint": "Movement",
-            "id": 203201,
+            "id": 204570,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-6:Movement"
           },
           {
             "dataPoint": "Position",
-            "id": 203202,
+            "id": 204571,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-6:Position"
           },
           {
@@ -5041,27 +5031,27 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.KNX.HeatingCoolingSwitchable",
         "channelTypeId": "KNX.HeatingCooling.HeatingUnderfloorHeatingWaterBased",
-        "channelViewID": 203671,
+        "channelViewID": 204826,
         "channelViewUrn": "urn:gds:chv:KNXheating2Fcooling-Heating-Cooling-Switchable-9",
         "dataPoints": [
           {
             "dataPoint": "Current",
-            "id": 203049,
+            "id": 204418,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-3:Current"
           },
           {
             "dataPoint": "Set-Point",
-            "id": 203050,
+            "id": 204419,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-3:Set-Point"
           },
           {
             "dataPoint": "Mode",
-            "id": 203051,
+            "id": 204420,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-3:Mode"
           },
           {
             "dataPoint": "Status",
-            "id": 203052,
+            "id": 204421,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-3:Status"
           },
           {
@@ -5070,7 +5060,7 @@
           },
           {
             "dataPoint": "Heating",
-            "id": 203055,
+            "id": 204424,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-3:Heating"
           },
           {
@@ -5144,12 +5134,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Humidity",
-        "channelViewID": 203494,
+        "channelViewID": 204802,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-24",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202759,
+            "id": 204128,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-10.Humidity-1:HumidityStatus"
           }
         ],
@@ -5185,12 +5175,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Temperatur",
-        "channelViewID": 203770,
+        "channelViewID": 204901,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-23",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202762,
+            "id": 204131,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-10.Roomtemperature-1:Temperature"
           }
         ],
@@ -5223,16 +5213,94 @@
         "switchTimes": []
       },
       {
-        "channelID": 203362,
+        "channelID": 0,
+        "channelType": "de.gira.schema.channels.BlindWithPos",
+        "channelTypeId": "Covering.Roller",
+        "channelViewID": 204806,
+        "channelViewUrn": "urn:gds:chv:Covering-Blind-With-Position-22",
+        "dataPoints": [
+          {
+            "dataPoint": "Step-Up-Down",
+            "id": 204547,
+            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-3:Step-Up-Down"
+          },
+          {
+            "dataPoint": "Up-Down",
+            "id": 204548,
+            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-3:Up-Down"
+          },
+          {
+            "dataPoint": "Movement",
+            "id": 204549,
+            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-3:Movement"
+          },
+          {
+            "dataPoint": "Position",
+            "id": 204550,
+            "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-3:Position"
+          },
+          {
+            "dataPoint": "Slat-Position",
+            "id": 0
+          }
+        ],
+        "functionType": "de.gira.schema.functions.Covering",
+        "iconID": 7,
+        "name": "Flur - Rolladen Dachfenster",
+        "parameters": [
+          {
+            "key": "ButtonTimeout",
+            "set": "Visu",
+            "value": "0.4"
+          },
+          {
+            "key": "OnlyShowAsRelativ",
+            "set": "Visu",
+            "value": "True"
+          },
+          {
+            "key": "ShowOnHomeScreen",
+            "set": "Visu",
+            "value": "False"
+          },
+          {
+            "key": "ShowTimer",
+            "set": "Visu",
+            "value": "True"
+          }
+        ],
+        "switchTimeChannelID": 30450,
+        "switchTimeChannelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Function-Timer-76",
+        "switchTimes": [
+          {
+            "active": false,
+            "index": 0
+          },
+          {
+            "active": false,
+            "index": 1
+          },
+          {
+            "active": false,
+            "index": 2
+          },
+          {
+            "active": false,
+            "index": 3
+          }
+        ]
+      },
+      {
+        "channelID": 204731,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.Lamp",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-3",
-        "channelViewID": 203446,
+        "channelViewID": 205167,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-7",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203363,
+            "id": 204732,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-3:OnOff"
           }
         ],
@@ -5306,16 +5374,16 @@
         "switchTimes": []
       },
       {
-        "channelID": 203344,
+        "channelID": 204713,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.PowerOutlet",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-2",
-        "channelViewID": 203430,
+        "channelViewID": 205159,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-6",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203345,
+            "id": 204714,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-2:OnOff"
           }
         ],
@@ -5392,27 +5460,27 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.KNX.HeatingCoolingSwitchable",
         "channelTypeId": "KNX.HeatingCooling.HeatingUnderfloorHeatingWaterBased",
-        "channelViewID": 203754,
+        "channelViewID": 204812,
         "channelViewUrn": "urn:gds:chv:KNXheating2Fcooling-Heating-Cooling-Switchable-7",
         "dataPoints": [
           {
             "dataPoint": "Current",
-            "id": 203027,
+            "id": 204396,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-1:Current"
           },
           {
             "dataPoint": "Set-Point",
-            "id": 203028,
+            "id": 204397,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-1:Set-Point"
           },
           {
             "dataPoint": "Mode",
-            "id": 203029,
+            "id": 204398,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-1:Mode"
           },
           {
             "dataPoint": "Status",
-            "id": 203030,
+            "id": 204399,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-1:Status"
           },
           {
@@ -5421,7 +5489,7 @@
           },
           {
             "dataPoint": "Heating",
-            "id": 203033,
+            "id": 204402,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-1.Heatingactuator-1:Heating"
           },
           {
@@ -5495,12 +5563,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Temperatur",
-        "channelViewID": 203797,
+        "channelViewID": 204858,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-17",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202692,
+            "id": 204061,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker2-gang-8.Roomtemperature-1:Temperature"
           }
         ],
@@ -5536,12 +5604,12 @@
         "channelID": 0,
         "channelType": "de.gira.schema.channels.Float",
         "channelTypeId": "NumericFloatStatus.Humidity",
-        "channelViewID": 203791,
+        "channelViewID": 205010,
         "channelViewUrn": "urn:gds:chv:NumericFloatingPointStatus-Float-7",
         "dataPoints": [
           {
             "dataPoint": "Float",
-            "id": 202689,
+            "id": 204058,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker2-gang-8.Humidity-1:HumidityStatus"
           }
         ],
@@ -5578,7 +5646,7 @@
         "channelType": "de.gira.schema.channels.Hue.Light",
         "channelTypeId": "Hue.Light",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Hue-Light-2",
-        "channelViewID": 203692,
+        "channelViewID": 205126,
         "channelViewUrn": "urn:gds:chv:Hue-Light-Hue-Light-2",
         "dataPoints": [
           {
@@ -5657,16 +5725,16 @@
         "switchTimes": []
       },
       {
-        "channelID": 203205,
+        "channelID": 204574,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.PowerOutlet",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Switching-13",
-        "channelViewID": 203690,
+        "channelViewID": 204878,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-21",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203206,
+            "id": 204575,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Switching-13:OnOff"
           }
         ],
@@ -5749,16 +5817,16 @@
         ]
       },
       {
-        "channelID": 203359,
+        "channelID": 204728,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.PowerOutlet",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-24",
-        "channelViewID": 203728,
+        "channelViewID": 204772,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-9",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203360,
+            "id": 204729,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-24:OnOff"
           }
         ],
@@ -5849,16 +5917,16 @@
         ]
       },
       {
-        "channelID": 203356,
+        "channelID": 204725,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.Lamp",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-23",
-        "channelViewID": 203665,
+        "channelViewID": 204964,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-19",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203357,
+            "id": 204726,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-23:OnOff"
           }
         ],
@@ -5932,16 +6000,16 @@
         "switchTimes": []
       },
       {
-        "channelID": 203350,
+        "channelID": 204719,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.PowerOutlet",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-21",
-        "channelViewID": 203448,
+        "channelViewID": 205157,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-17",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203351,
+            "id": 204720,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-21:OnOff"
           }
         ],
@@ -6024,16 +6092,16 @@
         ]
       },
       {
-        "channelID": 203375,
+        "channelID": 204744,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.PowerOutlet",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator6-gang2C16A2FBlindActuator3-gang-1.Switching-6",
-        "channelViewID": 203649,
+        "channelViewID": 204889,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-25",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203376,
+            "id": 204745,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator6-gang2C16A2FBlindActuator3-gang-1.Switching-6:OnOff"
           }
         ],
@@ -6112,16 +6180,16 @@
         ]
       },
       {
-        "channelID": 203211,
+        "channelID": 204580,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.Pump",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Switching-15",
-        "channelViewID": 203391,
+        "channelViewID": 205052,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-12",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203212,
+            "id": 204581,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Switching-15:OnOff"
           }
         ],
@@ -6195,16 +6263,16 @@
         "switchTimes": []
       },
       {
-        "channelID": 203296,
+        "channelID": 204665,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.Lamp",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Switching-24",
-        "channelViewID": 203637,
+        "channelViewID": 205107,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-15",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203297,
+            "id": 204666,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Switching-24:OnOff"
           }
         ],
@@ -6278,16 +6346,16 @@
         "switchTimes": []
       },
       {
-        "channelID": 203371,
+        "channelID": 204740,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.PowerOutlet",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-6",
-        "channelViewID": 203472,
+        "channelViewID": 204753,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-23",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203372,
+            "id": 204741,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-6:OnOff"
           }
         ],
@@ -6361,16 +6429,16 @@
         "switchTimes": []
       },
       {
-        "channelID": 203353,
+        "channelID": 204722,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.Lamp",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-22",
-        "channelViewID": 203464,
+        "channelViewID": 204764,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-18",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203354,
+            "id": 204723,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-2.Switching-22:OnOff"
           }
         ],
@@ -6448,7 +6516,7 @@
         "channelType": "de.gira.schema.channels.FunctionScene",
         "channelTypeId": "FunctionScene.Scene",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Function-Scene-4",
-        "channelViewID": 203523,
+        "channelViewID": 204909,
         "channelViewUrn": "urn:gds:chv:Function-Scene-4",
         "dataPoints": [
           {
@@ -6518,16 +6586,16 @@
         ]
       },
       {
-        "channelID": 203208,
+        "channelID": 204577,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.PowerOutlet",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Switching-14",
-        "channelViewID": 203579,
+        "channelViewID": 205074,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-20",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203209,
+            "id": 204578,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Switching-14:OnOff"
           }
         ],
@@ -6601,16 +6669,16 @@
         "switchTimes": []
       },
       {
-        "channelID": 203293,
+        "channelID": 204662,
         "channelType": "de.gira.schema.channels.Switch",
         "channelTypeId": "Switch.Lamp",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Switching-23",
-        "channelViewID": 203651,
+        "channelViewID": 205175,
         "channelViewUrn": "urn:gds:chv:Switch-Switch-16",
         "dataPoints": [
           {
             "dataPoint": "OnOff",
-            "id": 203294,
+            "id": 204663,
             "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Switching-23:OnOff"
           }
         ],
@@ -6688,7 +6756,7 @@
         "channelType": "de.gira.schema.channels.FunctionScene",
         "channelTypeId": "FunctionScene.Scene",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Function-Scene-1",
-        "channelViewID": 203411,
+        "channelViewID": 204947,
         "channelViewUrn": "urn:gds:chv:FunctionScene-Function-Scene-1",
         "dataPoints": [
           {
@@ -6709,7 +6777,7 @@
           {
             "key": "LockDefaultSceneType",
             "set": "Visu",
-            "value": "true"
+            "value": "True"
           },
           {
             "key": "ShowOnHomeScreen",
@@ -6769,7 +6837,7 @@
         "channelType": "de.gira.schema.channels.FunctionScene",
         "channelTypeId": "FunctionScene.Scene",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Function-Scene-3",
-        "channelViewID": 203711,
+        "channelViewID": 204880,
         "channelViewUrn": "urn:gds:chv:FunctionScene-Function-Scene-3",
         "dataPoints": [
           {
@@ -6850,7 +6918,7 @@
         "channelType": "de.gira.schema.channels.FunctionScene",
         "channelTypeId": "FunctionScene.Scene",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Function-Scene-2",
-        "channelViewID": 203634,
+        "channelViewID": 205027,
         "channelViewUrn": "urn:gds:chv:FunctionScene-Function-Scene-2",
         "dataPoints": [
           {
@@ -6927,7 +6995,7 @@
         "channelType": "de.gira.schema.channels.FunctionScene",
         "channelTypeId": "FunctionScene.Scene",
         "channelUrn": "urn:gds:chn:GiraOneServer.GIOSRVKX03:Function-Scene-7",
-        "channelViewID": 203536,
+        "channelViewID": 204759,
         "channelViewUrn": "urn:gds:chv:Function-Scene-7",
         "dataPoints": [
           {
@@ -7015,43 +7083,69 @@
               {
                 "content": [
                   {
+                    "channelViewID": 204880
+                  },
+                  {
+                    "channelViewID": 204947
+                  }
+                ],
+                "iconID": 1,
+                "id": 205287,
+                "mainType": "Profile",
+                "name": "User",
+                "subType": "User",
+                "urn": "urn:gds:pfe:ProfileCollection:User"
+              }
+            ],
+            "iconID": 107,
+            "id": 205284,
+            "mainType": "Profile",
+            "name": "Profile collection",
+            "subType": "Collection",
+            "urn": "urn:gds:pfe:ProfileCollection"
+          },
+          {
+            "content": [
+              {
+                "content": [
+                  {
                     "content": [
                       {
-                        "channelViewID": 203612
+                        "channelViewID": 205042
                       },
                       {
-                        "channelViewID": 203801
+                        "channelViewID": 205090
                       },
                       {
-                        "channelViewID": 203466
+                        "channelViewID": 205143
                       },
                       {
-                        "channelViewID": 203573
+                        "channelViewID": 204984
                       },
                       {
-                        "channelViewID": 203565
+                        "channelViewID": 204836
                       },
                       {
-                        "channelViewID": 203539
+                        "channelViewID": 204794
                       },
                       {
-                        "channelViewID": 203616
+                        "channelViewID": 204968
                       },
                       {
-                        "channelViewID": 203724
+                        "channelViewID": 205135
                       },
                       {
-                        "channelViewID": 203557
+                        "channelViewID": 205155
                       },
                       {
-                        "channelViewID": 203587
+                        "channelViewID": 205098
                       },
                       {
-                        "channelViewID": 203496
+                        "channelViewID": 205109
                       }
                     ],
                     "iconID": 24,
-                    "id": 203931,
+                    "id": 205298,
                     "mainType": "Location",
                     "name": "Essen / Wohnen",
                     "subType": "Room",
@@ -7060,26 +7154,26 @@
                   {
                     "content": [
                       {
-                        "channelViewID": 203787
+                        "channelViewID": 204755
                       },
                       {
-                        "channelViewID": 203452
+                        "channelViewID": 205082
                       },
                       {
-                        "channelViewID": 203424
+                        "channelViewID": 204862
                       },
                       {
-                        "channelViewID": 203655
+                        "channelViewID": 204891
                       },
                       {
-                        "channelViewID": 203545
+                        "channelViewID": 204776
                       },
                       {
-                        "channelViewID": 203793
+                        "channelViewID": 205122
                       }
                     ],
                     "iconID": 17,
-                    "id": 203932,
+                    "id": 205297,
                     "mainType": "Location",
                     "name": "Küche",
                     "subType": "Room",
@@ -7088,29 +7182,29 @@
                   {
                     "content": [
                       {
-                        "channelViewID": 203667
+                        "channelViewID": 204854
                       },
                       {
-                        "channelViewID": 203746
+                        "channelViewID": 205137
                       },
                       {
-                        "channelViewID": 203517
+                        "channelViewID": 204998
                       },
                       {
-                        "channelViewID": 203581
+                        "channelViewID": 205030
                       },
                       {
-                        "channelViewID": 203526
+                        "channelViewID": 205012
                       },
                       {
-                        "channelViewID": 203407
+                        "channelViewID": 205124
                       },
                       {
-                        "channelViewID": 203726
+                        "channelViewID": 204952
                       }
                     ],
                     "iconID": 29,
-                    "id": 203930,
+                    "id": 205296,
                     "mainType": "Location",
                     "name": "Büro",
                     "subType": "Room",
@@ -7119,26 +7213,26 @@
                   {
                     "content": [
                       {
-                        "channelViewID": 203639
+                        "channelViewID": 204804
                       },
                       {
-                        "channelViewID": 203722
+                        "channelViewID": 205006
                       },
                       {
-                        "channelViewID": 203602
+                        "channelViewID": 205054
                       },
                       {
-                        "channelViewID": 203418
+                        "channelViewID": 205046
                       },
                       {
-                        "channelViewID": 203596
+                        "channelViewID": 204930
                       },
                       {
-                        "channelViewID": 203416
+                        "channelViewID": 205120
                       }
                     ],
                     "iconID": 50,
-                    "id": 203935,
+                    "id": 205295,
                     "mainType": "Location",
                     "name": "WC",
                     "subType": "Room",
@@ -7147,29 +7241,29 @@
                   {
                     "content": [
                       {
-                        "channelViewID": 203730
+                        "channelViewID": 205086
                       },
                       {
-                        "channelViewID": 203450
+                        "channelViewID": 204852
                       },
                       {
-                        "channelViewID": 203484
+                        "channelViewID": 204954
                       },
                       {
                         "content": [],
                         "iconID": 134,
-                        "id": 203934,
+                        "id": 205300,
                         "mainType": "Location",
                         "name": "Schaltschrank",
                         "subType": "ControlCabinet",
                         "urn": "urn:gds:loc:LocationCollection:Floor:Room-3:ControlCabinet"
                       },
                       {
-                        "channelViewID": 203681
+                        "channelViewID": 205024
                       }
                     ],
                     "iconID": 44,
-                    "id": 203933,
+                    "id": 205299,
                     "mainType": "Location",
                     "name": "HWR",
                     "subType": "Room",
@@ -7178,26 +7272,26 @@
                   {
                     "content": [
                       {
-                        "channelViewID": 203653
+                        "channelViewID": 205004
                       },
                       {
-                        "channelViewID": 203515
+                        "channelViewID": 205094
                       },
                       {
-                        "channelViewID": 203732
+                        "channelViewID": 204766
                       },
                       {
-                        "channelViewID": 203505
+                        "channelViewID": 204778
                       },
                       {
-                        "channelViewID": 203647
+                        "channelViewID": 204966
                       },
                       {
-                        "channelViewID": 203752
+                        "channelViewID": 204860
                       }
                     ],
                     "iconID": 18,
-                    "id": 203936,
+                    "id": 205294,
                     "mainType": "Location",
                     "name": "Diele",
                     "subType": "Room",
@@ -7205,7 +7299,7 @@
                   }
                 ],
                 "iconID": 136,
-                "id": 203929,
+                "id": 205293,
                 "mainType": "Location",
                 "name": "Erdgeschoss",
                 "subType": "Floor",
@@ -7216,29 +7310,29 @@
                   {
                     "content": [
                       {
-                        "channelViewID": 203414
+                        "channelViewID": 204996
                       },
                       {
-                        "channelViewID": 203458
+                        "channelViewID": 204883
                       },
                       {
-                        "channelViewID": 203626
+                        "channelViewID": 205064
                       },
                       {
-                        "channelViewID": 203395
+                        "channelViewID": 204762
                       },
                       {
-                        "channelViewID": 203714
+                        "channelViewID": 204800
                       },
                       {
-                        "channelViewID": 203432
+                        "channelViewID": 204905
                       },
                       {
-                        "channelViewID": 203686
+                        "channelViewID": 204788
                       }
                     ],
                     "iconID": 134,
-                    "id": 203922,
+                    "id": 205310,
                     "mainType": "Location",
                     "name": "Ankleide",
                     "subType": "Room",
@@ -7247,26 +7341,26 @@
                   {
                     "content": [
                       {
-                        "channelViewID": 203716
+                        "channelViewID": 204978
                       },
                       {
-                        "channelViewID": 203559
+                        "channelViewID": 204868
                       },
                       {
-                        "channelViewID": 203734
+                        "channelViewID": 204774
                       },
                       {
-                        "channelViewID": 203405
+                        "channelViewID": 205008
                       },
                       {
-                        "channelViewID": 203409
+                        "channelViewID": 204768
                       },
                       {
-                        "channelViewID": 203480
+                        "channelViewID": 205036
                       }
                     ],
                     "iconID": 30,
-                    "id": 203927,
+                    "id": 205308,
                     "mainType": "Location",
                     "name": "Schlafen",
                     "subType": "Room",
@@ -7275,38 +7369,38 @@
                   {
                     "content": [
                       {
-                        "channelViewID": 203456
+                        "channelViewID": 205177
                       },
                       {
-                        "channelViewID": 203781
+                        "channelViewID": 204924
                       },
                       {
-                        "channelViewID": 203434
+                        "channelViewID": 205076
                       },
                       {
-                        "channelViewID": 203764
+                        "channelViewID": 204990
                       },
                       {
-                        "channelViewID": 203547
+                        "channelViewID": 204912
                       },
                       {
-                        "channelViewID": 203571
+                        "channelViewID": 205088
                       },
                       {
-                        "channelViewID": 203598
+                        "channelViewID": 204822
                       },
                       {
-                        "channelViewID": 203744
+                        "channelViewID": 204922
                       },
                       {
-                        "channelViewID": 203632
+                        "channelViewID": 204950
                       },
                       {
-                        "channelViewID": 203772
+                        "channelViewID": 204938
                       }
                     ],
                     "iconID": 27,
-                    "id": 203925,
+                    "id": 205309,
                     "mainType": "Location",
                     "name": "Bad",
                     "subType": "Room",
@@ -7315,26 +7409,26 @@
                   {
                     "content": [
                       {
-                        "channelViewID": 203799
+                        "channelViewID": 204903
                       },
                       {
-                        "channelViewID": 203805
+                        "channelViewID": 205169
                       },
                       {
-                        "channelViewID": 203641
+                        "channelViewID": 204842
                       },
                       {
-                        "channelViewID": 203701
+                        "channelViewID": 205118
                       },
                       {
-                        "channelViewID": 203795
+                        "channelViewID": 205022
                       },
                       {
-                        "channelViewID": 203684
+                        "channelViewID": 205149
                       }
                     ],
                     "iconID": 3,
-                    "id": 203926,
+                    "id": 205307,
                     "mainType": "Location",
                     "name": "Gast",
                     "subType": "Room",
@@ -7343,26 +7437,29 @@
                   {
                     "content": [
                       {
-                        "channelViewID": 203393
+                        "channelViewID": 205096
                       },
                       {
-                        "channelViewID": 203440
+                        "channelViewID": 204932
                       },
                       {
-                        "channelViewID": 203474
+                        "channelViewID": 205161
                       },
                       {
-                        "channelViewID": 203671
+                        "channelViewID": 204826
                       },
                       {
-                        "channelViewID": 203494
+                        "channelViewID": 204802
                       },
                       {
-                        "channelViewID": 203770
+                        "channelViewID": 204901
+                      },
+                      {
+                        "channelViewID": 204806
                       }
                     ],
                     "iconID": 18,
-                    "id": 203924,
+                    "id": 205311,
                     "mainType": "Location",
                     "name": "Flur",
                     "subType": "Room",
@@ -7371,23 +7468,23 @@
                   {
                     "content": [
                       {
-                        "channelViewID": 203446
+                        "channelViewID": 205167
                       },
                       {
-                        "channelViewID": 203430
+                        "channelViewID": 205159
                       },
                       {
-                        "channelViewID": 203754
+                        "channelViewID": 204812
                       },
                       {
-                        "channelViewID": 203797
+                        "channelViewID": 204858
                       },
                       {
-                        "channelViewID": 203791
+                        "channelViewID": 205010
                       }
                     ],
                     "iconID": 138,
-                    "id": 203923,
+                    "id": 205306,
                     "mainType": "Location",
                     "name": "Abstellraum",
                     "subType": "Room",
@@ -7395,7 +7492,7 @@
                   }
                 ],
                 "iconID": 137,
-                "id": 203921,
+                "id": 205305,
                 "mainType": "Location",
                 "name": "Obergeschoss",
                 "subType": "Floor",
@@ -7406,20 +7503,20 @@
                   {
                     "content": [
                       {
-                        "channelViewID": 203692
+                        "channelViewID": 205126
                       },
                       {
-                        "channelViewID": 203690
+                        "channelViewID": 204878
                       },
                       {
-                        "channelViewID": 203728
+                        "channelViewID": 204772
                       },
                       {
-                        "channelViewID": 203665
+                        "channelViewID": 204964
                       }
                     ],
                     "iconID": 132,
-                    "id": 203940,
+                    "id": 205302,
                     "mainType": "Location",
                     "name": "Vorgarten",
                     "subType": "Building",
@@ -7428,29 +7525,29 @@
                   {
                     "content": [
                       {
-                        "channelViewID": 203448
+                        "channelViewID": 205157
                       },
                       {
-                        "channelViewID": 203649
+                        "channelViewID": 204889
                       },
                       {
-                        "channelViewID": 203391
+                        "channelViewID": 205052
                       },
                       {
-                        "channelViewID": 203637
+                        "channelViewID": 205107
                       },
                       {
-                        "channelViewID": 203472
+                        "channelViewID": 204753
                       },
                       {
-                        "channelViewID": 203464
+                        "channelViewID": 204764
                       },
                       {
-                        "channelViewID": 203523
+                        "channelViewID": 204909
                       }
                     ],
                     "iconID": 146,
-                    "id": 203939,
+                    "id": 205303,
                     "mainType": "Location",
                     "name": "Garten",
                     "subType": "Building",
@@ -7459,14 +7556,14 @@
                   {
                     "content": [
                       {
-                        "channelViewID": 203579
+                        "channelViewID": 205074
                       },
                       {
-                        "channelViewID": 203651
+                        "channelViewID": 205175
                       }
                     ],
                     "iconID": 34,
-                    "id": 203938,
+                    "id": 205304,
                     "mainType": "Location",
                     "name": "Carport",
                     "subType": "Building",
@@ -7474,7 +7571,7 @@
                   }
                 ],
                 "iconID": 132,
-                "id": 203937,
+                "id": 205301,
                 "mainType": "Location",
                 "name": "Außenbereich",
                 "subType": "Building",
@@ -7483,20 +7580,20 @@
               {
                 "content": [
                   {
-                    "channelViewID": 203411
+                    "channelViewID": 204947
                   },
                   {
-                    "channelViewID": 203711
+                    "channelViewID": 204880
                   },
                   {
-                    "channelViewID": 203634
+                    "channelViewID": 205027
                   },
                   {
-                    "channelViewID": 203536
+                    "channelViewID": 204759
                   }
                 ],
                 "iconID": 139,
-                "id": 203928,
+                "id": 205292,
                 "mainType": "Location",
                 "name": "Szenen",
                 "subType": "Room",
@@ -7504,7 +7601,7 @@
               }
             ],
             "iconID": 63,
-            "id": 203920,
+            "id": 205291,
             "mainType": "Location",
             "name": "Standortbestimmung",
             "subType": "Collection",
@@ -7515,80 +7612,80 @@
               {
                 "content": [
                   {
-                    "channelViewID": 203612
+                    "channelViewID": 205042
                   },
                   {
-                    "channelViewID": 203801
+                    "channelViewID": 205090
                   },
                   {
-                    "channelViewID": 203587
+                    "channelViewID": 205098
                   },
                   {
-                    "channelViewID": 203496
+                    "channelViewID": 205109
                   },
                   {
-                    "channelViewID": 203787
+                    "channelViewID": 204755
                   },
                   {
-                    "channelViewID": 203452
+                    "channelViewID": 205082
                   },
                   {
-                    "channelViewID": 203667
+                    "channelViewID": 204854
                   },
                   {
-                    "channelViewID": 203639
+                    "channelViewID": 204804
                   },
                   {
-                    "channelViewID": 203653
+                    "channelViewID": 205004
                   },
                   {
-                    "channelViewID": 203515
+                    "channelViewID": 205094
                   },
                   {
-                    "channelViewID": 203732
+                    "channelViewID": 204766
                   },
                   {
-                    "channelViewID": 203686
+                    "channelViewID": 204905
                   },
                   {
-                    "channelViewID": 203480
+                    "channelViewID": 204768
                   },
                   {
-                    "channelViewID": 203456
+                    "channelViewID": 205177
                   },
                   {
-                    "channelViewID": 203598
+                    "channelViewID": 204822
                   },
                   {
-                    "channelViewID": 203772
+                    "channelViewID": 204938
                   },
                   {
-                    "channelViewID": 203799
+                    "channelViewID": 204903
                   },
                   {
-                    "channelViewID": 203393
+                    "channelViewID": 205096
                   },
                   {
-                    "channelViewID": 203446
+                    "channelViewID": 205167
                   },
                   {
-                    "channelViewID": 203692
+                    "channelViewID": 205126
                   },
                   {
-                    "channelViewID": 203665
+                    "channelViewID": 204964
                   },
                   {
-                    "channelViewID": 203637
+                    "channelViewID": 205107
                   },
                   {
-                    "channelViewID": 203464
+                    "channelViewID": 204764
                   },
                   {
-                    "channelViewID": 203651
+                    "channelViewID": 205175
                   }
                 ],
                 "iconID": 1,
-                "id": 203944,
+                "id": 205326,
                 "mainType": "Trade",
                 "name": "Licht",
                 "subType": "Lighting",
@@ -7597,41 +7694,41 @@
               {
                 "content": [
                   {
-                    "channelViewID": 203722
+                    "channelViewID": 205006
                   },
                   {
-                    "channelViewID": 203414
+                    "channelViewID": 204996
                   },
                   {
-                    "channelViewID": 203744
+                    "channelViewID": 204922
                   },
                   {
-                    "channelViewID": 203430
+                    "channelViewID": 205159
                   },
                   {
-                    "channelViewID": 203690
+                    "channelViewID": 204878
                   },
                   {
-                    "channelViewID": 203728
+                    "channelViewID": 204772
                   },
                   {
-                    "channelViewID": 203448
+                    "channelViewID": 205157
                   },
                   {
-                    "channelViewID": 203649
+                    "channelViewID": 204889
                   },
                   {
-                    "channelViewID": 203391
+                    "channelViewID": 205052
                   },
                   {
-                    "channelViewID": 203472
+                    "channelViewID": 204753
                   },
                   {
-                    "channelViewID": 203579
+                    "channelViewID": 205074
                   }
                 ],
                 "iconID": 131,
-                "id": 203945,
+                "id": 205318,
                 "mainType": "Trade",
                 "name": "Schalten",
                 "subType": "Switching",
@@ -7640,80 +7737,83 @@
               {
                 "content": [
                   {
-                    "channelViewID": 203466
+                    "channelViewID": 205143
                   },
                   {
-                    "channelViewID": 203573
+                    "channelViewID": 204984
                   },
                   {
-                    "channelViewID": 203565
+                    "channelViewID": 204836
                   },
                   {
-                    "channelViewID": 203539
+                    "channelViewID": 204794
                   },
                   {
-                    "channelViewID": 203424
+                    "channelViewID": 204862
                   },
                   {
-                    "channelViewID": 203746
+                    "channelViewID": 205137
                   },
                   {
-                    "channelViewID": 203517
+                    "channelViewID": 204998
                   },
                   {
-                    "channelViewID": 203581
+                    "channelViewID": 205030
                   },
                   {
-                    "channelViewID": 203418
+                    "channelViewID": 205046
                   },
                   {
-                    "channelViewID": 203458
+                    "channelViewID": 204883
                   },
                   {
-                    "channelViewID": 203626
+                    "channelViewID": 204788
                   },
                   {
-                    "channelViewID": 203716
+                    "channelViewID": 204978
                   },
                   {
-                    "channelViewID": 203559
+                    "channelViewID": 205036
                   },
                   {
-                    "channelViewID": 203781
+                    "channelViewID": 204924
                   },
                   {
-                    "channelViewID": 203434
+                    "channelViewID": 205076
                   },
                   {
-                    "channelViewID": 203764
+                    "channelViewID": 204990
                   },
                   {
-                    "channelViewID": 203805
+                    "channelViewID": 205169
                   },
                   {
-                    "channelViewID": 203641
+                    "channelViewID": 205149
                   },
                   {
-                    "channelViewID": 203440
+                    "channelViewID": 204932
                   },
                   {
-                    "channelViewID": 203474
+                    "channelViewID": 205161
                   },
                   {
-                    "channelViewID": 203411
+                    "channelViewID": 204806
                   },
                   {
-                    "channelViewID": 203711
+                    "channelViewID": 204947
                   },
                   {
-                    "channelViewID": 203634
+                    "channelViewID": 204880
                   },
                   {
-                    "channelViewID": 203536
+                    "channelViewID": 205027
+                  },
+                  {
+                    "channelViewID": 204759
                   }
                 ],
                 "iconID": 7,
-                "id": 203955,
+                "id": 205320,
                 "mainType": "Trade",
                 "name": "Beschattung",
                 "subType": "Covering",
@@ -7722,47 +7822,47 @@
               {
                 "content": [
                   {
-                    "channelViewID": 203616
+                    "channelViewID": 204968
                   },
                   {
-                    "channelViewID": 203655
+                    "channelViewID": 204891
                   },
                   {
-                    "channelViewID": 203526
+                    "channelViewID": 205012
                   },
                   {
-                    "channelViewID": 203602
+                    "channelViewID": 205054
                   },
                   {
-                    "channelViewID": 203484
+                    "channelViewID": 204954
                   },
                   {
-                    "channelViewID": 203681
+                    "channelViewID": 205024
                   },
                   {
-                    "channelViewID": 203505
+                    "channelViewID": 204778
                   },
                   {
-                    "channelViewID": 203395
+                    "channelViewID": 205064
                   },
                   {
-                    "channelViewID": 203734
+                    "channelViewID": 204868
                   },
                   {
-                    "channelViewID": 203547
+                    "channelViewID": 204912
                   },
                   {
-                    "channelViewID": 203701
+                    "channelViewID": 204842
                   },
                   {
-                    "channelViewID": 203671
+                    "channelViewID": 204826
                   },
                   {
-                    "channelViewID": 203754
+                    "channelViewID": 204812
                   }
                 ],
                 "iconID": 11,
-                "id": 203947,
+                "id": 205313,
                 "mainType": "Trade",
                 "name": "Temperatur",
                 "subType": "HVAC",
@@ -7771,11 +7871,11 @@
               {
                 "content": [
                   {
-                    "channelViewID": 203523
+                    "channelViewID": 204909
                   }
                 ],
                 "iconID": 122,
-                "id": 203943,
+                "id": 205321,
                 "mainType": "Trade",
                 "name": "Szenen",
                 "subType": "Scenes",
@@ -7784,7 +7884,7 @@
               {
                 "content": [],
                 "iconID": 94,
-                "id": 203950,
+                "id": 205314,
                 "mainType": "Trade",
                 "name": "Zeitschaltuhr",
                 "subType": "Timer",
@@ -7793,7 +7893,7 @@
               {
                 "content": [],
                 "iconID": 254,
-                "id": 203951,
+                "id": 205317,
                 "mainType": "Trade",
                 "name": "Sicherheit",
                 "subType": "Security",
@@ -7802,80 +7902,80 @@
               {
                 "content": [
                   {
-                    "channelViewID": 203724
+                    "channelViewID": 205135
                   },
                   {
-                    "channelViewID": 203557
+                    "channelViewID": 205155
                   },
                   {
-                    "channelViewID": 203545
+                    "channelViewID": 204776
                   },
                   {
-                    "channelViewID": 203793
+                    "channelViewID": 205122
                   },
                   {
-                    "channelViewID": 203407
+                    "channelViewID": 205124
                   },
                   {
-                    "channelViewID": 203726
+                    "channelViewID": 204952
                   },
                   {
-                    "channelViewID": 203596
+                    "channelViewID": 204930
                   },
                   {
-                    "channelViewID": 203416
+                    "channelViewID": 205120
                   },
                   {
-                    "channelViewID": 203730
+                    "channelViewID": 205086
                   },
                   {
-                    "channelViewID": 203450
+                    "channelViewID": 204852
                   },
                   {
-                    "channelViewID": 203647
+                    "channelViewID": 204966
                   },
                   {
-                    "channelViewID": 203752
+                    "channelViewID": 204860
                   },
                   {
-                    "channelViewID": 203714
+                    "channelViewID": 204762
                   },
                   {
-                    "channelViewID": 203432
+                    "channelViewID": 204800
                   },
                   {
-                    "channelViewID": 203405
+                    "channelViewID": 204774
                   },
                   {
-                    "channelViewID": 203409
+                    "channelViewID": 205008
                   },
                   {
-                    "channelViewID": 203571
+                    "channelViewID": 205088
                   },
                   {
-                    "channelViewID": 203632
+                    "channelViewID": 204950
                   },
                   {
-                    "channelViewID": 203795
+                    "channelViewID": 205118
                   },
                   {
-                    "channelViewID": 203684
+                    "channelViewID": 205022
                   },
                   {
-                    "channelViewID": 203494
+                    "channelViewID": 204802
                   },
                   {
-                    "channelViewID": 203770
+                    "channelViewID": 204901
                   },
                   {
-                    "channelViewID": 203797
+                    "channelViewID": 204858
                   },
                   {
-                    "channelViewID": 203791
+                    "channelViewID": 205010
                   }
                 ],
                 "iconID": 108,
-                "id": 203954,
+                "id": 205316,
                 "mainType": "Trade",
                 "name": "Statusanzeigen",
                 "subType": "Monitor",
@@ -7884,7 +7984,7 @@
               {
                 "content": [],
                 "iconID": 96,
-                "id": 203953,
+                "id": 205325,
                 "mainType": "Trade",
                 "name": "Wertgeber",
                 "subType": "Control",
@@ -7893,7 +7993,7 @@
               {
                 "content": [],
                 "iconID": 75,
-                "id": 203946,
+                "id": 205322,
                 "mainType": "Trade",
                 "name": "Sequenzen",
                 "subType": "Sequences",
@@ -7902,7 +8002,7 @@
               {
                 "content": [],
                 "iconID": 204,
-                "id": 203942,
+                "id": 205319,
                 "mainType": "Trade",
                 "name": "Logik",
                 "subType": "Logic",
@@ -7911,7 +8011,7 @@
               {
                 "content": [],
                 "iconID": 86,
-                "id": 203952,
+                "id": 205323,
                 "mainType": "Trade",
                 "name": "Kameras",
                 "subType": "Cameras",
@@ -7920,7 +8020,7 @@
               {
                 "content": [],
                 "iconID": 73,
-                "id": 203948,
+                "id": 205315,
                 "mainType": "Trade",
                 "name": "Multimedia",
                 "subType": "Multimedia",
@@ -7929,7 +8029,7 @@
               {
                 "content": [],
                 "iconID": 155,
-                "id": 203949,
+                "id": 205324,
                 "mainType": "Trade",
                 "name": "IP-Verbindungen",
                 "subType": "Links",
@@ -7937,37 +8037,11 @@
               }
             ],
             "iconID": 295,
-            "id": 203941,
+            "id": 205312,
             "mainType": "Trade",
             "name": "Gewerke",
             "subType": "Collection",
             "urn": "urn:gds:trd:TradeCollection"
-          },
-          {
-            "content": [
-              {
-                "content": [
-                  {
-                    "channelViewID": 203711
-                  },
-                  {
-                    "channelViewID": 203411
-                  }
-                ],
-                "iconID": 1,
-                "id": 203960,
-                "mainType": "Profile",
-                "name": "User",
-                "subType": "User",
-                "urn": "urn:gds:pfe:ProfileCollection:User"
-              }
-            ],
-            "iconID": 107,
-            "id": 203956,
-            "mainType": "Profile",
-            "name": "Profile collection",
-            "subType": "Collection",
-            "urn": "urn:gds:pfe:ProfileCollection"
           }
         ],
         "iconID": -1,
