@@ -19,6 +19,7 @@ package de.matgroe.bridge;
 
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneProject;
+import de.matgroe.giraone.client.types.GiraOneURN;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,14 +52,14 @@ public class GiraOneChannelMqttTopicMapper {
             });
   }
 
-  private String formatDatapointChannel(GiraOneDataPoint dataPoint) {
-    String parent = dataPoint.getUrn().getParent().getResourceName();
+  private String formatDatapointChannel(GiraOneURN urn) {
+    String parent = urn.getParent().getResourceName();
     parent = parent.replace('.', '/');
     return parent.toLowerCase();
   }
 
-  private String generateDataPointId(GiraOneDataPoint dataPoint) {
-    return dataPoint.getUrn().getResourceName().toLowerCase();
+  private String generateDataPointId(GiraOneURN urn) {
+    return urn.getResourceName().toLowerCase();
   }
 
   /**
@@ -68,9 +69,18 @@ public class GiraOneChannelMqttTopicMapper {
    * @return returns a topicname in format of {prefix}/{channel}/{datapointId}
    */
   public String stateTopicNameOf(GiraOneDataPoint dataPoint) {
+    return stateTopicNameOf(dataPoint.getUrn());
+  }
+
+  /**
+   * Creates a state topicname for the given {@link GiraOneDataPoint}. The
+   *
+   * @param urn The {@link GiraOneURN}
+   * @return returns a topicname in format of {prefix}/{channel}/{datapointId}
+   */
+  public String stateTopicNameOf(GiraOneURN urn) {
     return String.format(
-        "%s/%s/%s/%s",
-        prefix, STATE, formatDatapointChannel(dataPoint), generateDataPointId(dataPoint));
+        "%s/%s/%s/%s", prefix, STATE, formatDatapointChannel(urn), generateDataPointId(urn));
   }
 
   /**
@@ -80,9 +90,18 @@ public class GiraOneChannelMqttTopicMapper {
    * @return returns a topicname in format of {prefix}/{channel}/{datapointId}
    */
   public String commandTopicNameOf(GiraOneDataPoint dataPoint) {
+    return commandTopicNameOf(dataPoint.getUrn());
+  }
+
+  /**
+   * Creates a state topicname for the given {@link GiraOneDataPoint}. The
+   *
+   * @param urn The {@link GiraOneURN}
+   * @return returns a topicname in format of {prefix}/{channel}/{datapointId}
+   */
+  public String commandTopicNameOf(GiraOneURN urn) {
     return String.format(
-        "%s/%s/%s/%s",
-        prefix, COMMAND, formatDatapointChannel(dataPoint), generateDataPointId(dataPoint));
+        "%s/%s/%s/%s", prefix, COMMAND, formatDatapointChannel(urn), generateDataPointId(urn));
   }
 
   /**

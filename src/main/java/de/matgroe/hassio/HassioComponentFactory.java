@@ -1,5 +1,13 @@
 package de.matgroe.hassio;
 
+import static de.matgroe.Contstants.DATAPOINT_BRIGHTNESS;
+import static de.matgroe.Contstants.DATAPOINT_HUMIDITY;
+import static de.matgroe.Contstants.DATAPOINT_ON_OFF;
+import static de.matgroe.Contstants.DATAPOINT_POSITION;
+import static de.matgroe.Contstants.DATAPOINT_SLAT_POSITION;
+import static de.matgroe.Contstants.DATAPOINT_TEMPERATURE;
+import static de.matgroe.Contstants.DATAPOINT_UP_DOWN;
+
 import de.matgroe.bridge.GiraOneChannelMqttTopicMapper;
 import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneChannelTypeId;
@@ -24,16 +32,6 @@ import org.slf4j.LoggerFactory;
  * https://www.home-assistant.io/integrations/homeassistant/#device-class
  */
 public class HassioComponentFactory {
-  private static final String DATAPOINT_TEMPERATURE = "Temperature";
-  private static final String DATAPOINT_HUMIDITY = "HumidityStatus";
-  private static final String DATAPOINT_ON_OFF = "OnOff";
-  private static final String DATAPOINT_SHIFT = "Shift";
-  private static final String DATAPOINT_BRIGHTNESS = "Brightness";
-  private static final String DATAPOINT_STEP_UP_DOWN = "Step-Up-Down";
-  private static final String DATAPOINT_UP_DOWN = "Up-Down";
-  private static final String DATAPOINT_MOVEMENT = "Movement";
-  private static final String DATAPOINT_POSITION = "Position";
-  private static final String DATAPOINT_SLAT_POSITION = "Slat-Position";
 
   private final GiraOneChannelMqttTopicMapper hassioGiraOneChannelMqttTopicMapper;
 
@@ -176,6 +174,7 @@ public class HassioComponentFactory {
           l.setBrightnessStateTopic(
               hassioGiraOneChannelMqttTopicMapper.stateTopicNameOf(dataPoint));
           l.setBrightnessScale(100);
+          l.setOnCommandType("brightness");
         });
 
     return l;
@@ -188,24 +187,7 @@ public class HassioComponentFactory {
         dataPoint -> {
           cover.setCommandTopic(hassioGiraOneChannelMqttTopicMapper.commandTopicNameOf(dataPoint));
           cover.setStateTopic(hassioGiraOneChannelMqttTopicMapper.stateTopicNameOf(dataPoint));
-          cover.setPayloadClose("1");
-          cover.setPayloadOpen("0");
-
-          /*
-            The STOP payload comes for the UP_DOWN datapoint but needs to get mapped onto the
-            STEP_UP_DOWN datapoint. So the play load gets an mapping information which will
-            be handled by the MessageTransformerStrategyCover on processing the incoming MqttMessage
-          */
-          Optional<GiraOneDataPoint> dpStepUpDown = channel.getDatapoint(DATAPOINT_STEP_UP_DOWN);
-          if (dpStepUpDown.isPresent()) {
-            cover.setPayloadStop(
-                String.format(
-                    "#MAP-DATAPOINT#:%s:%s:0", DATAPOINT_UP_DOWN, DATAPOINT_STEP_UP_DOWN));
-          }
         });
-
-    Optional<GiraOneDataPoint> dpMovement = channel.getDatapoint(DATAPOINT_MOVEMENT);
-    dpMovement.ifPresent(dataPoint -> {});
 
     if (channel.getChannelTypeId() == GiraOneChannelTypeId.Awning) {
       cover.setDeviceClass("awning");

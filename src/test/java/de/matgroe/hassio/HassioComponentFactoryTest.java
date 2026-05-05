@@ -135,6 +135,25 @@ public class HassioComponentFactoryTest {
           assertEquals("light", component.getPlatform());
           assertNull(component.getDeviceClass());
           assertEquals(ch.getName(), component.getName());
+
+          assertNotNull(((Light) component).getOnCommandType());
+        },
+        () -> fail("Channel not found in project"));
+  }
+
+  @Test
+  @DisplayName("Should generate de.matgroe.hassio.types.Light")
+  void testLightChannel() {
+    Optional<GiraOneChannel> channel = project.lookupChannelByUrn("urn:gds:chv:Switch-Switch-1");
+    channel.ifPresentOrElse(
+        ch -> {
+          Component component = hassioComponentFactory.from(ch);
+          assertInstanceOf(Light.class, component);
+          assertNotNull(component.getUniqueId());
+          assertEquals("light", component.getPlatform());
+          assertNull(component.getDeviceClass());
+          assertEquals(ch.getName(), component.getName());
+          assertNull(((Light) component).getOnCommandType());
         },
         () -> fail("Channel not found in project"));
   }

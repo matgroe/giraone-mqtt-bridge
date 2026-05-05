@@ -16,31 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.matgroe.hassio.types;
+package de.matgroe;
 
-import com.google.gson.annotations.SerializedName;
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-public class Light extends Switch {
-
-  @SerializedName("brightness_command_topic")
-  protected String brightnessCommandTopic;
-
-  @SerializedName("brightness_state_topic")
-  protected String brightnessStateTopic;
-
-  @SerializedName("brightness_scale")
-  protected int brightnessScale;
-
-  @SerializedName("on_command_type")
-  protected String onCommandType;
-
-  public Light() {
-    brightnessScale = 100;
-    this.platform = "light";
-    this.deviceClass = null;
-  }
+public abstract class Contstants {
+  public static final String DATAPOINT_TEMPERATURE = "Temperature";
+  public static final String DATAPOINT_HUMIDITY = "HumidityStatus";
+  public static final String DATAPOINT_ON_OFF = "OnOff";
+  public static final String DATAPOINT_SHIFT = "Shift";
+  public static final String DATAPOINT_BRIGHTNESS = "Brightness";
+  public static final String DATAPOINT_STEP_UP_DOWN = "Step-Up-Down";
+  public static final String DATAPOINT_UP_DOWN = "Up-Down";
+  public static final String DATAPOINT_MOVEMENT = "Movement";
+  public static final String DATAPOINT_POSITION = "Position";
+  public static final String DATAPOINT_SLAT_POSITION = "Slat-Position";
 }

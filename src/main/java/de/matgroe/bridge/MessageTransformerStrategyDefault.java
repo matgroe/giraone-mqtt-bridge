@@ -21,6 +21,7 @@ import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneProject;
 import de.matgroe.giraone.client.types.GiraOneValue;
 import de.matgroe.mqtt.MqttMessage;
+import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 
@@ -37,28 +38,28 @@ class MessageTransformerStrategyDefault<T> implements MessageTransformerStrategy
   protected final T message;
 
   @Override
-  public Optional<GiraOneValue> toGiraOneValue() {
+  public List<GiraOneValue> toGiraOneValue() {
     if (message instanceof MqttMessage mqttMessage) {
       Optional<GiraOneDataPoint> dp =
           giraOneChannelMqttTopicMapper.giraOneDataPointOf(mqttMessage.topic());
       if (dp.isPresent()) {
-        return Optional.of(new GiraOneValue(dp.get().getUrn(), mqttMessage.payload()));
+        return List.of(new GiraOneValue(dp.get().getUrn(), mqttMessage.payload()));
       }
     } else if (message instanceof GiraOneValue giraOneValue) {
-      return Optional.of(giraOneValue);
+      return List.of(giraOneValue);
     }
-    return Optional.empty();
+    return List.of();
   }
 
   @Override
-  public Optional<MqttMessage> toMqttMessage() {
+  public List<MqttMessage> toMqttMessage() {
     if (message instanceof GiraOneValue giraOneValue) {
       String topic =
           giraOneChannelMqttTopicMapper.stateTopicNameOf(giraOneValue.getGiraOneDataPoint());
-      return Optional.of(new MqttMessage(topic, giraOneValue.getValue()));
+      return List.of(new MqttMessage(topic, giraOneValue.getValue()));
     } else if (message instanceof MqttMessage mqttMessage) {
-      return Optional.of(mqttMessage);
+      return List.of(mqttMessage);
     }
-    return Optional.empty();
+    return List.of();
   }
 }

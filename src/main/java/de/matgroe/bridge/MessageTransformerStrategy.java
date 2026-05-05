@@ -20,10 +20,10 @@ package de.matgroe.bridge;
 
 import de.matgroe.giraone.client.types.GiraOneValue;
 import de.matgroe.mqtt.MqttMessage;
-import java.util.Optional;
+import java.util.List;
 
 public interface MessageTransformerStrategy {
-  Optional<GiraOneValue> toGiraOneValue();
+  List<GiraOneValue> toGiraOneValue();
 
-  Optional<MqttMessage> toMqttMessage();
+  List<MqttMessage> toMqttMessage();
 }

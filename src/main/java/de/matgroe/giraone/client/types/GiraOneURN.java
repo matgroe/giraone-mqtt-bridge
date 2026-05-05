@@ -86,6 +86,10 @@ public class GiraOneURN {
     return new GiraOneURN(urnParts);
   }
 
+  public GiraOneURN makeSibling(final String sibling) {
+    return GiraOneURN.of(getParent(), sibling);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

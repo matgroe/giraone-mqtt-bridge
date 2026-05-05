@@ -35,7 +35,7 @@ public abstract class Component {
   protected Device device;
 
   @SerializedName("entity_category")
-  protected String entityCategoryXX;
+  protected String entityCategory;
 
   @SerializedName("device_class")
   protected String deviceClass;

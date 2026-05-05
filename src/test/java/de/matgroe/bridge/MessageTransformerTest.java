@@ -25,8 +25,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import de.matgroe.giraone.GiraOneTestDataProvider;
 import de.matgroe.giraone.client.types.GiraOneProject;
 import de.matgroe.giraone.client.types.GiraOneValue;
+import de.matgroe.giraone.client.types.GiraOneValueChange;
+import de.matgroe.hassio.types.Cover;
 import de.matgroe.mqtt.MqttMessage;
-import java.util.Optional;
+import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -78,12 +80,12 @@ class MessageTransformerTest {
   void transformDefaultMqttMessageToGiraOneValue() {
     MqttMessage m =
         new MqttMessage("g1-junit/state/knxdimmingactuator4-gang-1/dimmingactuator-4/onoff", "X");
-    Optional<GiraOneValue> opt = transformer.from(m).toGiraOneValue();
-    assertTrue(opt.isPresent());
-    assertEquals("X", opt.get().getValue());
+    List<GiraOneValue> list = transformer.from(m).toGiraOneValue();
+    assertFalse(list.isEmpty());
+    assertEquals("X", list.getFirst().getValue());
     assertEquals(
         "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-4:OnOff",
-        opt.get().getDatapointUrn());
+        list.getFirst().getDatapointUrn());
   }
 
   @Test
@@ -92,8 +94,8 @@ class MessageTransformerTest {
     MqttMessage m =
         new MqttMessage(
             "g1-junit/state/knxdimmingactuator4-gang-1/dimmingactuator-4/onoffxxx", "X");
-    Optional<GiraOneValue> opt = transformer.from(m).toGiraOneValue();
-    assertFalse(opt.isPresent());
+    List<GiraOneValue> list = transformer.from(m).toGiraOneValue();
+    assertTrue(list.isEmpty());
   }
 
   @Test
@@ -103,25 +105,61 @@ class MessageTransformerTest {
         new GiraOneValue(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-4:OnOff",
             "1");
-    Optional<MqttMessage> opt = transformer.from(v).toMqttMessage();
-    assertTrue(opt.isPresent());
-    assertEquals("1", opt.get().payload());
+    List<MqttMessage> list = transformer.from(v).toMqttMessage();
+    assertFalse(list.isEmpty());
+    assertEquals("1", list.getFirst().payload());
     assertEquals(
-        "g1-junit/state/knxdimmingactuator4-gang-1/dimmingactuator-4/onoff", opt.get().topic());
+        "g1-junit/state/knxdimmingactuator4-gang-1/dimmingactuator-4/onoff",
+        list.getFirst().topic());
   }
 
-  @Test
-  @DisplayName("should map datapoint")
-  void testDatapointMapping() {
-    MqttMessage m =
-        new MqttMessage(
-            "g1-junit/state/knxswitchingactuator16-gang2c16a2fblindactuator8-gang-1/curtain-4/up-down",
-            "#MAP-DATAPOINT#:Up-Down:Step-Up-Down:12");
-    Optional<GiraOneValue> opt = transformer.from(m).toGiraOneValue();
-    assertTrue(opt.isPresent());
-    assertEquals("12", opt.get().getValue());
-    assertEquals(
-        "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-4:Step-Up-Down",
-        opt.get().getDatapointUrn());
+  private static Stream<Arguments> provideStepUpDown() {
+    return Stream.of(
+        Arguments.of(
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-4:Step-Up-Down",
+            "0",
+            "1",
+            1,
+            Cover.STATE_STOPPED),
+        Arguments.of(
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-4:Step-Up-Down",
+            "1",
+            "0",
+            1,
+            Cover.STATE_OPENING),
+        Arguments.of(
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-4:Step-Up-Down",
+            "1",
+            "1",
+            1,
+            Cover.STATE_CLOSING),
+        Arguments.of(
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-4:Movement",
+            "0",
+            "1",
+            0,
+            Cover.STATE_OPENING),
+        Arguments.of(
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-4:Movement",
+            "1",
+            "0",
+            1,
+            Cover.STATE_STOPPED));
+  }
+
+  @ParameterizedTest
+  @DisplayName("should transform datapoint urn to Cover moving direction")
+  @MethodSource("provideStepUpDown")
+  void transformStepUpDownToMovingState(
+      String urn, String oldValue, String newValue, int expectedMessages, String expectedState) {
+    GiraOneValueChange change = new GiraOneValueChange(urn, newValue, oldValue);
+    List<MqttMessage> list = transformer.from(change).toMqttMessage();
+    assertEquals(expectedMessages, list.size());
+    if (expectedMessages > 0) {
+      assertEquals(
+          "g1-junit/state/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-1/curtain-4/up-down",
+          list.getFirst().topic());
+      assertEquals(expectedState, list.getFirst().payload());
+    }
   }
 }

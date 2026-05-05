@@ -177,7 +177,7 @@ public class GiraOneMqttBridge {
   void handleBridgeStateConnected() {
     sendDiscoveryMessage();
     giraoneValueDiposable = giraOneClient.observeGiraOneValues(this::onGiraOneValue);
-    this.lookupGiraOneDataPoints();
+    // this.lookupGiraOneDataPoints();
   }
 
   void lookupGiraOneDataPoints() {
@@ -261,8 +261,11 @@ public class GiraOneMqttBridge {
    */
   private void onMqttMessage(MqttMessage mqttMessage) {
     logger.info("Received MqttMessage:: {}", mqttMessage);
-    Optional<GiraOneValue> value = messageTransformer.from(mqttMessage).toGiraOneValue();
-    value.ifPresent(dataPoint -> giraOneClient.changeGiraOneDataValue(value.get()));
+    messageTransformer.from(mqttMessage).toGiraOneValue().stream()
+        .map(giraOneClient::changeGiraOneDataValue)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .forEach(this::onGiraOneValue);
   }
 
   /**
@@ -272,8 +275,8 @@ public class GiraOneMqttBridge {
    * @param giraOneValue
    */
   void onGiraOneValue(GiraOneValue giraOneValue) {
-    Optional<MqttMessage> mqttMessage = messageTransformer.from(giraOneValue).toMqttMessage();
-    mqttMessage.ifPresent(dataPoint -> mqttClient.publish(mqttMessage.get()));
+    logger.info("Publish  giraOneValue :: {}", giraOneValue);
+    messageTransformer.from(giraOneValue).toMqttMessage().forEach(mqttClient::publish);
   }
 
   public Disposable subscribeOnGiraOneDataPointValues(

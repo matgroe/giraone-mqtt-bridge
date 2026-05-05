@@ -18,10 +18,20 @@
 
 package de.matgroe.bridge;
 
+import static de.matgroe.Contstants.DATAPOINT_MOVEMENT;
+import static de.matgroe.Contstants.DATAPOINT_POSITION;
+import static de.matgroe.Contstants.DATAPOINT_STEP_UP_DOWN;
+import static de.matgroe.Contstants.DATAPOINT_UP_DOWN;
+
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneProject;
+import de.matgroe.giraone.client.types.GiraOneURN;
 import de.matgroe.giraone.client.types.GiraOneValue;
+import de.matgroe.giraone.client.types.GiraOneValueChange;
+import de.matgroe.hassio.types.Cover;
 import de.matgroe.mqtt.MqttMessage;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,25 +53,56 @@ class MessageTransformerStrategyCover<T> extends MessageTransformerStrategyDefau
   }
 
   @Override
-  public Optional<GiraOneValue> toGiraOneValue() {
-    Optional<GiraOneValue> giraOneValue = Optional.empty();
+  public List<MqttMessage> toMqttMessage() {
+    List<MqttMessage> list = new ArrayList<>();
+    if (message instanceof GiraOneValueChange valueChange) {
+      GiraOneURN srcUrn = GiraOneURN.of(valueChange.getDatapointUrn());
+      GiraOneURN dstUrn = srcUrn.makeSibling(DATAPOINT_UP_DOWN);
+      String topic = giraOneChannelMqttTopicMapper.stateTopicNameOf(dstUrn);
+      String values = String.format("%s%s", valueChange.getPreviousValue(), valueChange.getValue());
+      if (DATAPOINT_STEP_UP_DOWN.equals(srcUrn.getResourceName())) {
+        switch (values) {
+          case "01" -> list.add(new MqttMessage(topic, Cover.STATE_STOPPED));
+          case "10" -> list.add(new MqttMessage(topic, Cover.STATE_OPENING));
+          case "11" -> list.add(new MqttMessage(topic, Cover.STATE_CLOSING));
+        }
+      } else if (DATAPOINT_MOVEMENT.equals(srcUrn.getResourceName())) {
+        if ("10".equals(values)) {
+          list.add(new MqttMessage(topic, Cover.STATE_STOPPED));
+        }
+      } else if (DATAPOINT_POSITION.equals(srcUrn.getResourceName())) {
+        list.add(
+            new MqttMessage(
+                topic,
+                valueChange.isValueIncreasing() ? Cover.STATE_CLOSING : Cover.STATE_OPENING));
+      } else {
+        list.addAll(super.toMqttMessage());
+      }
+      return list;
+    } else {
+      return super.toMqttMessage();
+    }
+  }
+
+  public List<GiraOneValue> toGiraOneValue() {
+    List<GiraOneValue> list = new ArrayList<>();
     if (message instanceof MqttMessage mqttMessage) {
       Optional<GiraOneDataPoint> dataPoint =
           giraOneChannelMqttTopicMapper.giraOneDataPointOf(mqttMessage.topic());
       if (dataPoint.isPresent()) {
-        if (mqttMessage.payload().startsWith(MAP_DATAPOINT)) {
-          String[] parts = mqttMessage.payload().split(":");
-          if (parts.length == 4) {
-            GiraOneDataPoint mapped =
-                new GiraOneDataPoint(
-                    dataPoint.get().getUrn().toString().replace(parts[1], parts[2]));
-            giraOneValue = Optional.of(new GiraOneValue(mapped, parts[3]));
+        GiraOneURN urn = dataPoint.get().getUrn();
+        if (DATAPOINT_UP_DOWN.equals(urn.getResourceName())) {
+          switch (mqttMessage.payload()) {
+            case Cover.PAYLOAD_CLOSE -> list.add(new GiraOneValue(urn, "1"));
+            case Cover.PAYLOAD_OPEN -> list.add(new GiraOneValue(urn, "0"));
+            case Cover.PAYLOAD_STOP ->
+                list.add(new GiraOneValue(urn.makeSibling(DATAPOINT_STEP_UP_DOWN), "0"));
           }
         } else {
-          giraOneValue = Optional.of(new GiraOneValue(dataPoint.get(), mqttMessage.payload()));
+          list.addAll(super.toGiraOneValue());
         }
       }
     }
-    return giraOneValue;
+    return list;
   }
 }
