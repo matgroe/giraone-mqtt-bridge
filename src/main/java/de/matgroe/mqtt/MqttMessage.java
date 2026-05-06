@@ -25,10 +25,19 @@ import java.util.UUID;
  * This record decribes the intemediate message format between {@link GiraOneMqttBridge} and {@link
  * MqttClient}
  */
-public record MqttMessage(String topic, String payload, String messageId) {
+public record MqttMessage(String topic, String payload, String messageId, long expiresAfterMs) {
+
+  public static final long EXPIRE_NEVER = -1;
+  public static final long EXPIRE_AFTER_ONE_MINUTE = 1000 * 60;
+  public static final long EXPIRE_AFTER_ONE_HOUR = EXPIRE_AFTER_ONE_MINUTE * 60;
+  public static final long EXPIRE_AFTER_ONE_DAY = EXPIRE_AFTER_ONE_HOUR * 24;
+
+  public MqttMessage(String topic, String payload, long expiresAfterMs) {
+    this(topic, payload, UUID.randomUUID().toString(), expiresAfterMs);
+  }
 
   public MqttMessage(String topic, String payload) {
-    this(topic, payload, UUID.randomUUID().toString());
+    this(topic, payload, UUID.randomUUID().toString(), EXPIRE_NEVER);
   }
 
   public MqttMessage(MqttTopic topic, String payload) {

@@ -32,19 +32,46 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 class CaseFormatterTest {
 
-  private static Stream<Arguments> provideCaseHyphenArguments() {
+  private static Stream<Arguments> provideKababCaseArguments() {
     return Stream.of(
+        Arguments.of(null, ""),
         Arguments.of("Hello", "hello"),
         Arguments.of("HelloWorld", "hello-world"),
         Arguments.of("helloWorld", "hello-world"),
-        Arguments.of("hello-World", "hello-world"));
+        Arguments.of("hello-World", "hello-world"),
+        Arguments.of("hello - World", "hello-world"),
+        Arguments.of("bÜrÖ Änß", "b-ur-o-anss"),
+        Arguments.of("Büro Beschattung", "buro-beschattung"),
+        Arguments.of("Büro Beßchattung", "buro-besschattung"),
+        Arguments.arguments(
+            "Ankleide Taster, Beschattung und Lüftung 2!§$%&/()=",
+            "ankleide-taster-beschattung-und-luftung-2"));
   }
 
-  @DisplayName("test for correct lower-case-hyphen formatting")
+  @DisplayName("test for correct kebab-case formatting")
   @ParameterizedTest
-  @MethodSource("provideCaseHyphenArguments")
-  void testLowerCaseHyphen(String input, String expected) {
-    String formatted = CaseFormatter.lowerCaseHyphen(input);
+  @MethodSource("provideKababCaseArguments")
+  void testKababCase(String input, String expected) {
+    String formatted = CaseFormatter.makeKebabCase(input);
+    assertEquals(expected, formatted);
+  }
+
+  private static Stream<Arguments> provideSnakeCaseArguments() {
+    return Stream.of(
+        Arguments.of("Hello", "hello"),
+        Arguments.of("HelloWorld", "hello_world"),
+        Arguments.of("helloWorld", "hello_world"),
+        Arguments.of("hello-World", "hello_world"),
+        Arguments.of("hello - World", "hello_world"),
+        Arguments.of("hello_world", "hello_world"),
+        Arguments.of("hello - xxx-World", "hello_xxx_world"));
+  }
+
+  @DisplayName("test for correct snake_case formatting")
+  @ParameterizedTest
+  @MethodSource("provideSnakeCaseArguments")
+  void testSnakeCase(String input, String expected) {
+    String formatted = CaseFormatter.makeSnakeCase(input);
     assertEquals(expected, formatted);
   }
 }

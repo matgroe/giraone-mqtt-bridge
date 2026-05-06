@@ -55,7 +55,7 @@ public class GiraOneMqttApplication implements CommandLineRunner {
 
   public void run(String... args) throws Exception {
     dumpEnvironmentInfo(args);
-    theBridge.run();
+    theBridge.initialize();
     {
       Thread.sleep(2000);
     }

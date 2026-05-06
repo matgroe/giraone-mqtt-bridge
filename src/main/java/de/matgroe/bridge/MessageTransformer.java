@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package de.matgroe.bridge;
 
 import de.matgroe.giraone.client.types.GiraOneChannel;
@@ -26,6 +25,7 @@ import de.matgroe.giraone.client.types.GiraOneValue;
 import de.matgroe.mqtt.MqttMessage;
 import java.util.Optional;
 
+/** */
 public class MessageTransformer {
   private final GiraOneChannelMqttTopicMapper giraOneChannelMqttTopicMapper;
   private final GiraOneProject giraOneProject;

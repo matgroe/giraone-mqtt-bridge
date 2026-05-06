@@ -52,15 +52,15 @@ class MessageTransformerTest {
     return Stream.of(
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-2:Up-Down",
-            "g1-junit/state/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-1/curtain-2/up-down",
+            "g1-junit/state/buro/covering/d5a8f603_buro_raffstore_eckfenster_tur/up-down",
             MessageTransformerStrategyCover.class),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-1:Heating",
-            "g1-junit/state/knxhvacactuator6-gang-2/heatingactuator-1/heating",
+            "g1-junit/state/diele/heating/bbecb629_diele_heizung/heating",
             MessageTransformerStrategyHVAC.class),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-13.Dimming-1:OnOff",
-            "g1-junit/state/knxbutton4comfort2csystem55rocker3-gang-13/dimming-1/onoff",
+            "ankleide/trigger/dbdf5f47_ankleide_taster_dimmen_1/onoff",
             MessageTransformerStrategyDefault.class));
   }
 
@@ -79,12 +79,13 @@ class MessageTransformerTest {
   @DisplayName("should transform default MqttMessage to GiraOneValue")
   void transformDefaultMqttMessageToGiraOneValue() {
     MqttMessage m =
-        new MqttMessage("g1-junit/state/knxdimmingactuator4-gang-1/dimmingactuator-4/onoff", "X");
+        new MqttMessage(
+            "g1-junit/command/gast/covering/af40fdc5_gast_luftung_dachfenster/movement", "X");
     List<GiraOneValue> list = transformer.from(m).toGiraOneValue();
     assertFalse(list.isEmpty());
     assertEquals("X", list.getFirst().getValue());
     assertEquals(
-        "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-4:OnOff",
+        "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-4:Movement",
         list.getFirst().getDatapointUrn());
   }
 
@@ -109,7 +110,7 @@ class MessageTransformerTest {
     assertFalse(list.isEmpty());
     assertEquals("1", list.getFirst().payload());
     assertEquals(
-        "g1-junit/state/knxdimmingactuator4-gang-1/dimmingactuator-4/onoff",
+        "g1-junit/state/kuche/dimmer/1a0f7ac2_kuche_dimmen_geratewand/onoff",
         list.getFirst().topic());
   }
 
@@ -157,7 +158,7 @@ class MessageTransformerTest {
     assertEquals(expectedMessages, list.size());
     if (expectedMessages > 0) {
       assertEquals(
-          "g1-junit/state/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-1/curtain-4/up-down",
+          "g1-junit/state/buro/covering/0d237ef6_buro_raffstore_terasse/up-down",
           list.getFirst().topic());
       assertEquals(expectedState, list.getFirst().payload());
     }

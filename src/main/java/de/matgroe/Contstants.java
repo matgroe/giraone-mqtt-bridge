@@ -18,7 +18,13 @@
 
 package de.matgroe;
 
+/**
+ * Defines global constants within application context
+ *
+ * @author Matthias Groeger - Initial contribution
+ */
 public abstract class Contstants {
+
   public static final String DATAPOINT_TEMPERATURE = "Temperature";
   public static final String DATAPOINT_HUMIDITY = "HumidityStatus";
   public static final String DATAPOINT_ON_OFF = "OnOff";
@@ -29,4 +35,9 @@ public abstract class Contstants {
   public static final String DATAPOINT_MOVEMENT = "Movement";
   public static final String DATAPOINT_POSITION = "Position";
   public static final String DATAPOINT_SLAT_POSITION = "Slat-Position";
+
+  private static final String CHANNEL_URN_GDS_DEVICE =
+      "urn:gds:dp:GiraOneServer.GIOSRVKX03:GDS-Device-Channel";
+  private static final String DATAPOINT_GDS_DEVICE_READY = "Ready";
+  private static final String DATAPOINT_GDS_DEVICE__LOCAL_TIME = "Local-Time";
 }

@@ -30,6 +30,8 @@ import org.slf4j.LoggerFactory;
  *
  * <p>https://www.home-assistant.io/integrations/mqtt/
  * https://www.home-assistant.io/integrations/homeassistant/#device-class
+ *
+ * @author Matthias Groeger - Initial contribution
  */
 public class HassioComponentFactory {
 

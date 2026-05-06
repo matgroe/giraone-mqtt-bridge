@@ -50,7 +50,6 @@ import org.junit.jupiter.api.Test;
  */
 class MqttClientTest {
   MqttClientProperties mqttClientProperties = new MqttClientProperties();
-  ;
 
   MqttClient mqttClient;
   Mqtt5AsyncClient mqtt5ClientMock = mock(Mqtt5AsyncClient.class);

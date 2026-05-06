@@ -17,25 +17,61 @@
  */
 package de.matgroe.util;
 
+import java.text.Normalizer;
+import java.util.regex.Pattern;
+
 /**
  * Utility class with some string case formatting functions.
+ *
+ * <p>see:
+ * https://www.freecodecamp.org/news/snake-case-vs-camel-case-vs-pascal-case-vs-kebab-case-whats-the-difference/
  *
  * @author Matthias Gröger - Initial contribution
  */
 public abstract class CaseFormatter {
 
+  private static String normalizeInput(String input) {
+    if (input == null) {
+      return "";
+    }
+
+    String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+    Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+
+    return pattern
+        .matcher(normalized)
+        .replaceAll("")
+        .replace("ß", "ss")
+        .replaceAll("[!§$%=\"&(),.:;'#/+*]", "");
+  }
+
   /**
-   * Converts the given input String into it's lower-case-hyphen representation.
+   * Converts the given input String into it's kabab-case representation.
    *
    * @param input The String to format
-   * @return the lower-case-hyphen formatted input String.
+   * @return the kebab-case formatted input String.
    */
-  public static String lowerCaseHyphen(final String input) {
-    return input
+  public static String makeKebabCase(final String input) {
+    return normalizeInput(input)
         .replaceAll("[a-z]+[0-9]*|[A-Z][a-z]+[0-9]*", "-$0-")
+        .replace(" ", "-")
         .replaceFirst("^-+", "")
         .replaceFirst("-+$", "")
         .replaceAll("--+", "-")
+        .replaceAll("-(\\s*-)*", "-")
         .toLowerCase();
+  }
+
+  /**
+   * Converts the given input String into it's snake_case representation.
+   *
+   * @param input The String to format
+   * @return the snake_case formatted input String.
+   */
+  public static String makeSnakeCase(final String input) {
+    return makeKebabCase(input)
+        .replace("-", "_")
+        .replaceAll("_(\\s*_)*", "_")
+        .replaceAll("(_)+", "_");
   }
 }

@@ -174,16 +174,16 @@ public class HassioComponentFactoryTest {
 
           Cover cover = (Cover) component;
           assertEquals(
-              "junit/command/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-2/curtain-4/position",
+              "junit/command/schlafen/covering/61900bc1_schlafen_raffstore_kl_fenster/position",
               cover.getPositionCommandTopic());
           assertEquals(
-              "junit/state/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-2/curtain-4/position",
+              "junit/state/schlafen/covering/61900bc1_schlafen_raffstore_kl_fenster/position",
               cover.getPositionStateTopic());
           assertEquals(
-              "junit/command/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-2/curtain-4/slat-position",
+              "junit/command/schlafen/covering/61900bc1_schlafen_raffstore_kl_fenster/slat-position",
               cover.getTiltCommandTopic());
           assertEquals(
-              "junit/state/knxswitchingactuator24-gang2c16a2fblindactuator12-gang-2/curtain-4/slat-position",
+              "junit/state/schlafen/covering/61900bc1_schlafen_raffstore_kl_fenster/slat-position",
               cover.getTiltStatusTopic());
         },
         () -> fail("Channel not found in project"));
