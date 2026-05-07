@@ -219,4 +219,19 @@ public class GiraOneClient {
   public Disposable observeGiraOneValues(Consumer<GiraOneValue> consumer) {
     return this.websocketClient.subscribeOnGiraOneValues(consumer);
   }
+
+  /**
+   * Register's a listener for {@link GiraOneValue}. A value is getting reported on receiving an
+   * event from gira one server. This may be initiated by invoking {@link
+   * #lookupGiraOneDatapointValue(GiraOneDataPoint)} or by any value event as received from the Gira
+   * One Server.
+   *
+   * @param consumer The Consumer for {@link GiraOneValue} changes.
+   * @param errorHandler The ErrorHandler
+   * @return a {@link Disposable}
+   */
+  public Disposable observeGiraOneValues(
+      Consumer<GiraOneValue> consumer, Consumer<Throwable> errorHandler) {
+    return this.websocketClient.subscribeOnGiraOneValues(consumer);
+  }
 }

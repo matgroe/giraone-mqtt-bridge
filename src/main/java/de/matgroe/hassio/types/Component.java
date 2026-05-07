@@ -24,7 +24,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class Component {
-
   @SerializedName("platform")
   protected String platform;
 

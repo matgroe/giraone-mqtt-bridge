@@ -36,6 +36,13 @@ public abstract class Contstants {
   public static final String DATAPOINT_POSITION = "Position";
   public static final String DATAPOINT_SLAT_POSITION = "Slat-Position";
 
+  public static final String DATAPOINT_CURRENT = "Current";
+  public static final String DATAPOINT_SET_POINT = "Set-Point";
+  public static final String DATAPOINT_MODE = "Mode";
+  public static final String DATAPOINT_STATUS = "Status";
+  public static final String DATAPOINT_PRESENSE = "Presence";
+  public static final String DATAPOINT_HEATING = "Heating";
+
   private static final String CHANNEL_URN_GDS_DEVICE =
       "urn:gds:dp:GiraOneServer.GIOSRVKX03:GDS-Device-Channel";
   private static final String DATAPOINT_GDS_DEVICE_READY = "Ready";

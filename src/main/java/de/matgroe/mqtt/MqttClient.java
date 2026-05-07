@@ -101,6 +101,18 @@ public class MqttClient {
    * Register's a listener incoming {@link MqttMessage}
    *
    * @param consumer The Consumer for {@link MqttMessage} changes.
+   * @param errorHandler The exception handler
+   * @return a {@link Disposable}
+   */
+  public Disposable observeInboundQueue(
+      Consumer<MqttMessage> consumer, Consumer<Throwable> errorHandler) {
+    return inboundQueue.subscribe(consumer, errorHandler);
+  }
+
+  /**
+   * Register's a listener incoming {@link MqttMessage}
+   *
+   * @param consumer The Consumer for {@link MqttMessage} changes.
    * @return a {@link Disposable}
    */
   public Disposable observeInboundQueue(Consumer<MqttMessage> consumer) {

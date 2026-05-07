@@ -23,6 +23,7 @@ import de.matgroe.GiraOneMqttApplicationProperties;
 import de.matgroe.giraone.client.GiraOneClient;
 import de.matgroe.giraone.client.GiraOneClientConnectionState;
 import de.matgroe.giraone.client.GiraOneClientException;
+import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
 import de.matgroe.giraone.client.types.GiraOneProject;
@@ -90,7 +91,8 @@ public class GiraOneMqttBridge {
         mqttClient.observeMqttConnectionState(this::onMqttClientConnectionStateChanged));
 
     // register for incoming MqttClient messages
-    mqttClientDiposables.add(mqttClient.observeInboundQueue(this::onMqttMessage));
+    mqttClientDiposables.add(
+        mqttClient.observeInboundQueue(this::onMqttMessage, this::onMqttMessageProcessingError));
 
     // Register at GiraOneClient for all Exceptions
     giraOneClientDisposables.add(
@@ -168,7 +170,9 @@ public class GiraOneMqttBridge {
   /** Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#Connected} */
   void handleBridgeStateConnected() {
     sendDiscoveryMessage();
-    giraoneValueDiposable = giraOneClient.observeGiraOneValues(this::onGiraOneValue);
+    giraoneValueDiposable =
+        giraOneClient.observeGiraOneValues(
+            this::onGiraOneValue, this::onGiraOneValueProcessingError);
     this.lookupGiraOneDataPoints();
   }
 
@@ -176,18 +180,9 @@ public class GiraOneMqttBridge {
     Thread.ofVirtual()
         .start(
             () -> {
-              giraOneClient
-                  .getGiraOneProject()
-                  .lookupGiraOneDataPoints()
-                  .forEach(
-                      (GiraOneDataPoint dataPoint) -> {
-                        giraOneClient.lookupGiraOneDatapointValue(dataPoint);
-                        try {
-                          Thread.sleep(300);
-                        } catch (InterruptedException e) {
-                          throw new RuntimeException(e);
-                        }
-                      });
+              giraOneClient.getGiraOneProject().lookupGiraOneDataPoints().stream()
+                  .filter(this::mapsToSupportedComponent)
+                  .forEach(giraOneClient::lookupGiraOneDatapointValue);
             });
   }
 
@@ -251,6 +246,20 @@ public class GiraOneMqttBridge {
         .forEach(this::onGiraOneValue);
   }
 
+  void onMqttMessageProcessingError(Throwable throwable) {
+    logger.error("Caught Exception on proseccing MqttMessage.", throwable);
+  }
+
+  private boolean mapsToSupportedComponent(GiraOneDataPoint datapoint) {
+    Optional<GiraOneChannel> channel =
+        giraOneClient.getGiraOneProject().lookupChannelByDataPoint(datapoint);
+    return channel
+        .filter(
+            giraOneChannel ->
+                !(hassioComponentFactory.from(giraOneChannel) instanceof UnsupportedComponent))
+        .isPresent();
+  }
+
   /**
    * This method handles incoming {@link GiraOneValue } messages and forwards them to the {@link
    * MqttClient}
@@ -258,8 +267,16 @@ public class GiraOneMqttBridge {
    * @param giraOneValue
    */
   void onGiraOneValue(GiraOneValue giraOneValue) {
-    logger.info("Publish  giraOneValue :: {}", giraOneValue);
-    messageTransformer.from(giraOneValue).toMqttMessage().forEach(mqttClient::publish);
+    if (this.mapsToSupportedComponent(giraOneValue.getGiraOneDataPoint())) {
+      logger.info("Publish  giraOneValue :: {}", giraOneValue);
+      messageTransformer.from(giraOneValue).toMqttMessage().forEach(mqttClient::publish);
+    } else {
+      logger.info("Ignoring giraOneValue :: {}", giraOneValue);
+    }
+  }
+
+  void onGiraOneValueProcessingError(Throwable throwable) {
+    logger.error("Caught Exception on proseccing GiraOneValue.", throwable);
   }
 
   private void sendDiscoveryMessage() {

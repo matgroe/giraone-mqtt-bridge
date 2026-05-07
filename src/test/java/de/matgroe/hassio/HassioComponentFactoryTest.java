@@ -28,6 +28,7 @@ import de.matgroe.bridge.GiraOneChannelMqttTopicMapper;
 import de.matgroe.giraone.GiraOneTestDataProvider;
 import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneProject;
+import de.matgroe.hassio.types.ClimateHVAC;
 import de.matgroe.hassio.types.Component;
 import de.matgroe.hassio.types.Cover;
 import de.matgroe.hassio.types.Light;
@@ -35,7 +36,6 @@ import de.matgroe.hassio.types.Sensor;
 import de.matgroe.hassio.types.Switch;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -212,12 +212,22 @@ public class HassioComponentFactoryTest {
         () -> fail("Channel not found in project"));
   }
 
-  @Disabled
   @Test
   @DisplayName("Should generate de.matgroe.hassio.types.ClimateHVAC")
   void testHeatingCoolingSwitchable() {
     Optional<GiraOneChannel> channel =
         project.lookupChannelByUrn("urn:gds:chv:KNXheating2Fcooling-Heating-Cooling-Switchable-5");
-    fail("not implemented yet");
+    channel.ifPresentOrElse(
+        ch -> {
+          Component component = hassioComponentFactory.from(ch);
+          assertInstanceOf(ClimateHVAC.class, component);
+          assertNotNull(component.getUniqueId());
+          assertEquals("climate", component.getPlatform());
+          assertNull(component.getDeviceClass());
+          assertEquals(ch.getName(), component.getName());
+
+          ClimateHVAC hvac = (ClimateHVAC) component;
+        },
+        () -> fail("Channel not found in project"));
   }
 }
