@@ -46,6 +46,8 @@ import org.springframework.stereotype.Component;
 /** This class is responsible for dispatching .. */
 @Component
 public class GiraOneMqttBridge {
+  private final String BRIDGE_DATAPOINT_UPTIME = "urn:de:matgroe:giraone-bridge:Uptime";
+
   private final Logger logger = LoggerFactory.getLogger(GiraOneMqttBridge.class);
   private final CompositeDisposable giraOneClientDisposables = new CompositeDisposable();
   private final CompositeDisposable mqttClientDiposables = new CompositeDisposable();
@@ -170,6 +172,7 @@ public class GiraOneMqttBridge {
   /** Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#Connected} */
   void handleBridgeStateConnected() {
     sendDiscoveryMessage();
+    this.onGiraOneValue(new GiraOneValue(BRIDGE_DATAPOINT_UPTIME, "now"));
     giraoneValueDiposable =
         giraOneClient.observeGiraOneValues(
             this::onGiraOneValue, this::onGiraOneValueProcessingError);
@@ -283,7 +286,8 @@ public class GiraOneMqttBridge {
     logger.info("Create and send DiscoveryMessage");
     DiscoveryMessage dm = hassioDiscoveryMessageFactory.createDiscoveryMessage();
     GiraOneProject project = this.giraOneClient.getGiraOneProject();
-
+    project.addDiagnosticChannel(
+        "urn:de:matgroe:giraone-bridge:uptime", "Startzeit", BRIDGE_DATAPOINT_UPTIME);
     project.lookupChannels().stream()
         .map(hassioComponentFactory::from)
         .filter(u -> u.getClass() != UnsupportedComponent.class)

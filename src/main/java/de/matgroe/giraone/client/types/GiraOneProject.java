@@ -17,11 +17,14 @@
  */
 package de.matgroe.giraone.client.types;
 
+import static de.matgroe.Constants.LOCATION_BRIDGE;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * This class represents the project installation within your as configured GiraOne SmartHome
@@ -30,8 +33,18 @@ import java.util.Set;
  * @author Matthias Gröger - Initial contribution
  */
 public class GiraOneProject {
-
   private final Set<GiraOneChannel> channels = Collections.synchronizedSet(new HashSet<>());
+
+  public GiraOneProject() {
+    addDiagnosticChannel(
+        "urn:gds:ch:GiraOneServer.GIOSRVKX03:GDS-Device-Channel",
+        "GiraOneServer Zeit",
+        "urn:gds:dp:GiraOneServer.GIOSRVKX03:GDS-Device-Channel:Local-Time");
+    addDiagnosticChannel(
+        "urn:gds:ch:GiraOneServer.GIOSRVKX03:GDS-Device-Channel",
+        "GiraOneServer Bereit",
+        "urn:gds:dp:GiraOneServer.GIOSRVKX03:GDS-Device-Channel:Ready");
+  }
 
   /**
    * Adds the given channel to it's Set of {@link GiraOneChannel}. Duplicates with same urn are
@@ -108,6 +121,25 @@ public class GiraOneProject {
         .flatMap(Collection::stream)
         .filter(f -> matches(dataPointUrn, f))
         .findFirst();
+  }
+
+  /**
+   * Adds an internal diagnostic channel to the project
+   *
+   * @param channelUrn The disgnostic channel URN
+   * @param name The chanel name
+   * @param datapointUrn A List of datapoints for the channel
+   */
+  public void addDiagnosticChannel(String channelUrn, String name, String... datapointUrn) {
+    GiraOneChannel channel = new GiraOneChannel();
+    channel.setUrn(channelUrn);
+    channel.setLocation(LOCATION_BRIDGE);
+    channel.setName(name);
+    channel.setChannelType(GiraOneChannelType.Diagnostic);
+    Stream.of(datapointUrn)
+        .map(m -> new GiraOneDataPoint(GiraOneURN.of(m)))
+        .forEach(channel::addDataPoint);
+    this.channels.add(channel);
   }
 
   private boolean matches(String dataPointUrn, GiraOneDataPoint dataPoint) {

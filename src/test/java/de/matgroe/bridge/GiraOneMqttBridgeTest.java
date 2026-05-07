@@ -55,7 +55,7 @@ public class GiraOneMqttBridgeTest {
     when(applicationProperties.getUrl()).thenReturn("http://localhost");
 
     when(mqttClient.observeMqttConnectionState(any())).thenReturn(Disposable.empty());
-    when(mqttClient.observeInboundQueue(any())).thenReturn(Disposable.empty());
+    when(mqttClient.observeInboundQueue(any(), any())).thenReturn(Disposable.empty());
 
     when(giraOneClient.observeOnGiraOneClientExceptions(any())).thenReturn(Disposable.empty());
     when(giraOneClient.observeGiraOneConnectionState(any())).thenReturn(Disposable.empty());

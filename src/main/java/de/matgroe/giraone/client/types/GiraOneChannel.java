@@ -34,11 +34,11 @@ import java.util.Set;
 public class GiraOneChannel {
   private String name;
   private String location;
-  private GiraOneURN urn = GiraOneURN.INVALID;
 
-  private GiraOneFunctionType functionType;
-  private GiraOneChannelType channelType;
-  private GiraOneChannelTypeId channelTypeId;
+  private GiraOneURN urn = GiraOneURN.INVALID;
+  private GiraOneFunctionType functionType = GiraOneFunctionType.Unknown;
+  private GiraOneChannelType channelType = GiraOneChannelType.Unknown;
+  private GiraOneChannelTypeId channelTypeId = GiraOneChannelTypeId.Unknown;
   private final Set<GiraOneDataPoint> dataPoints = Collections.synchronizedSet(new HashSet<>());
   private final List<GiraOneChannelParameter> channelParameter = new ArrayList<>();
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0
+- FEATURE: Control HVAC/Clima
+- FEATURE: Cover/Shutter/RoofWindow
+
 ## 0.1.1
 - FIX: sending out missing discovery message
 - FIX: stability improved

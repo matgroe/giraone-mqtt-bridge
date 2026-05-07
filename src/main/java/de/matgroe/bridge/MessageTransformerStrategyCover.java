@@ -18,10 +18,10 @@
 
 package de.matgroe.bridge;
 
-import static de.matgroe.Contstants.DATAPOINT_MOVEMENT;
-import static de.matgroe.Contstants.DATAPOINT_POSITION;
-import static de.matgroe.Contstants.DATAPOINT_STEP_UP_DOWN;
-import static de.matgroe.Contstants.DATAPOINT_UP_DOWN;
+import static de.matgroe.Constants.DATAPOINT_MOVEMENT;
+import static de.matgroe.Constants.DATAPOINT_POSITION;
+import static de.matgroe.Constants.DATAPOINT_STEP_UP_DOWN;
+import static de.matgroe.Constants.DATAPOINT_UP_DOWN;
 
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneProject;
@@ -43,7 +43,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 class MessageTransformerStrategyCover<T> extends MessageTransformerStrategyDefault<T> {
-  public static final String MAP_DATAPOINT = "#MAP-DATAPOINT#";
 
   public MessageTransformerStrategyCover(
       GiraOneChannelMqttTopicMapper giraOneChannelMqttTopicMapper,

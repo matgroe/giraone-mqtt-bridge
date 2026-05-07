@@ -1,18 +1,20 @@
 package de.matgroe.hassio;
 
-import static de.matgroe.Contstants.DATAPOINT_BRIGHTNESS;
-import static de.matgroe.Contstants.DATAPOINT_CURRENT;
-import static de.matgroe.Contstants.DATAPOINT_HEATING;
-import static de.matgroe.Contstants.DATAPOINT_HUMIDITY;
-import static de.matgroe.Contstants.DATAPOINT_MODE;
-import static de.matgroe.Contstants.DATAPOINT_ON_OFF;
-import static de.matgroe.Contstants.DATAPOINT_POSITION;
-import static de.matgroe.Contstants.DATAPOINT_PRESENSE;
-import static de.matgroe.Contstants.DATAPOINT_SET_POINT;
-import static de.matgroe.Contstants.DATAPOINT_SLAT_POSITION;
-import static de.matgroe.Contstants.DATAPOINT_STATUS;
-import static de.matgroe.Contstants.DATAPOINT_TEMPERATURE;
-import static de.matgroe.Contstants.DATAPOINT_UP_DOWN;
+import static de.matgroe.Constants.DATAPOINT_BRIGHTNESS;
+import static de.matgroe.Constants.DATAPOINT_CURRENT;
+import static de.matgroe.Constants.DATAPOINT_HEATING;
+import static de.matgroe.Constants.DATAPOINT_HUMIDITY;
+import static de.matgroe.Constants.DATAPOINT_LOCALTIME;
+import static de.matgroe.Constants.DATAPOINT_MODE;
+import static de.matgroe.Constants.DATAPOINT_ON_OFF;
+import static de.matgroe.Constants.DATAPOINT_POSITION;
+import static de.matgroe.Constants.DATAPOINT_PRESENSE;
+import static de.matgroe.Constants.DATAPOINT_SET_POINT;
+import static de.matgroe.Constants.DATAPOINT_SLAT_POSITION;
+import static de.matgroe.Constants.DATAPOINT_STATUS;
+import static de.matgroe.Constants.DATAPOINT_TEMPERATURE;
+import static de.matgroe.Constants.DATAPOINT_UPTIME;
+import static de.matgroe.Constants.DATAPOINT_UP_DOWN;
 import static de.matgroe.hassio.types.ClimateHVAC.MODE_COMFORT;
 import static de.matgroe.hassio.types.ClimateHVAC.MODE_FROST_CONTROL;
 import static de.matgroe.hassio.types.ClimateHVAC.MODE_HEATING;
@@ -74,6 +76,9 @@ public class HassioComponentFactory {
         break;
       case Heating:
         component = createClimateHVAC(channel);
+        break;
+      case Diagnostic:
+        component = createInternalDiagnostic(channel);
         break;
       default:
         logger.warn("no factory implementation for {} ", channel);
@@ -277,5 +282,25 @@ public class HassioComponentFactory {
         });
 
     return hvac;
+  }
+
+  private Component createInternalDiagnostic(GiraOneChannel channel) {
+    Sensor sensor = new Sensor();
+    sensor.setEntityCategory("diagnostic");
+    Optional<GiraOneDataPoint> datapoint = channel.getDatapoint(DATAPOINT_LOCALTIME);
+    datapoint.ifPresent(
+        dataPoint -> {
+          sensor.setDeviceClass("timestamp");
+          sensor.setExpiresAfter(600);
+          sensor.setStateTopic(channelTopicMapper.stateTopicNameOf(dataPoint));
+        });
+
+    datapoint = channel.getDatapoint(DATAPOINT_UPTIME);
+    datapoint.ifPresent(
+        dataPoint -> {
+          sensor.setDeviceClass("timestamp");
+          sensor.setStateTopic(channelTopicMapper.stateTopicNameOf(dataPoint));
+        });
+    return sensor;
   }
 }

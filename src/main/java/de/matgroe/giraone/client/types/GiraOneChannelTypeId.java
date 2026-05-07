@@ -39,6 +39,7 @@ public enum GiraOneChannelTypeId {
   Scene("FunctionScene.Scene"),
   Button("Trigger.Button"),
   HueLight("Hue.Light"),
+  CoveringRoller("Covering.Roller"),
   Unknown("Unknown");
 
   private final String name;

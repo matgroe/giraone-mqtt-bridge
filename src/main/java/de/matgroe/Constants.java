@@ -23,10 +23,13 @@ package de.matgroe;
  *
  * @author Matthias Groeger - Initial contribution
  */
-public abstract class Contstants {
+public abstract class Constants {
+  public static final String LOCATION_BRIDGE = "GiraoneMqttBridge";
 
   public static final String DATAPOINT_TEMPERATURE = "Temperature";
   public static final String DATAPOINT_HUMIDITY = "HumidityStatus";
+  public static final String DATAPOINT_LOCALTIME = "Local-Time";
+  public static final String DATAPOINT_READY = "Ready";
   public static final String DATAPOINT_ON_OFF = "OnOff";
   public static final String DATAPOINT_SHIFT = "Shift";
   public static final String DATAPOINT_BRIGHTNESS = "Brightness";
@@ -35,6 +38,7 @@ public abstract class Contstants {
   public static final String DATAPOINT_MOVEMENT = "Movement";
   public static final String DATAPOINT_POSITION = "Position";
   public static final String DATAPOINT_SLAT_POSITION = "Slat-Position";
+  public static final String DATAPOINT_UPTIME = "Uptime";
 
   public static final String DATAPOINT_CURRENT = "Current";
   public static final String DATAPOINT_SET_POINT = "Set-Point";

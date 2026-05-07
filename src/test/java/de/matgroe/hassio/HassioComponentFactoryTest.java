@@ -230,4 +230,41 @@ public class HassioComponentFactoryTest {
         },
         () -> fail("Channel not found in project"));
   }
+
+  @Test
+  @DisplayName("Should generate de.matgroe.hassio.types.Sensor")
+  void testGdsChannelLocalTime() {
+    Optional<GiraOneChannel> channel =
+        project.lookupChannelByUrn("urn:gds:ch:GiraOneServer.GIOSRVKX03:GDS-Device-Channel");
+
+    channel.ifPresentOrElse(
+        ch -> {
+          Component component = hassioComponentFactory.from(ch);
+          assertInstanceOf(Sensor.class, component);
+          assertNotNull(component.getUniqueId());
+          assertEquals("diagnostic", component.getEntityCategory());
+          assertEquals("sensor", component.getPlatform());
+          assertEquals("timestamp", component.getDeviceClass());
+          assertEquals(ch.getName(), component.getName());
+        },
+        () -> fail("Channel not found in project"));
+  }
+
+  @Test
+  @DisplayName("Should generate de.matgroe.hassio.types.Sensor")
+  void testGiraOneBridgeUptime() {
+    Optional<GiraOneChannel> channel = project.lookupChannelByUrn("urn:de:matgroe:giraone-bridge");
+
+    channel.ifPresentOrElse(
+        ch -> {
+          Component component = hassioComponentFactory.from(ch);
+          assertInstanceOf(Sensor.class, component);
+          assertNotNull(component.getUniqueId());
+          assertEquals("diagnostic", component.getEntityCategory());
+          assertEquals("sensor", component.getPlatform());
+          assertEquals("timestamp", component.getDeviceClass());
+          assertEquals(ch.getName(), component.getName());
+        },
+        () -> fail("Channel not found in project"));
+  }
 }

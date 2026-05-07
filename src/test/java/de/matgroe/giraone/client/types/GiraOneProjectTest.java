@@ -76,13 +76,15 @@ class GiraOneProjectTest {
     String urn = "urn:gds:chv:KNXheating2Fcooling-Heating-Cooling-Switchable-9";
 
     GiraOneProject project = new GiraOneProject();
-    project.addChannel(GiraOneTestDataProvider.createGiraOneChannel(urn));
-    assertEquals(1, project.lookupChannels().size());
+    int initialSize = project.lookupChannels().size();
 
     project.addChannel(GiraOneTestDataProvider.createGiraOneChannel(urn));
-    assertEquals(1, project.lookupChannels().size());
+    assertEquals(initialSize + 1, project.lookupChannels().size());
+
+    project.addChannel(GiraOneTestDataProvider.createGiraOneChannel(urn));
+    assertEquals(initialSize + 1, project.lookupChannels().size());
 
     project.addChannel(GiraOneTestDataProvider.createGiraOneChannel(urn + "1"));
-    assertEquals(2, project.lookupChannels().size());
+    assertEquals(initialSize + 2, project.lookupChannels().size());
   }
 }

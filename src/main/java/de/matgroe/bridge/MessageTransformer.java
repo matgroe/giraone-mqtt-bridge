@@ -47,6 +47,9 @@ public class MessageTransformer {
         case GiraOneChannelType.Heating:
           return new MessageTransformerStrategyHVAC<>(
               giraOneChannelMqttTopicMapper, giraOneProject, giraOneValue);
+        case GiraOneChannelType.Diagnostic:
+          return new MessageTransformerStrategyInternalDiagnostics<>(
+              giraOneChannelMqttTopicMapper, giraOneProject, giraOneValue);
       }
     }
     return new MessageTransformerStrategyDefault<>(
@@ -65,6 +68,9 @@ public class MessageTransformer {
                 giraOneChannelMqttTopicMapper, giraOneProject, mqttMessage);
           case GiraOneChannelType.Heating:
             return new MessageTransformerStrategyHVAC<>(
+                giraOneChannelMqttTopicMapper, giraOneProject, mqttMessage);
+          case GiraOneChannelType.Diagnostic:
+            return new MessageTransformerStrategyInternalDiagnostics<>(
                 giraOneChannelMqttTopicMapper, giraOneProject, mqttMessage);
         }
       }

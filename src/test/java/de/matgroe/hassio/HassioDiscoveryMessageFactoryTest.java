@@ -27,13 +27,10 @@ import de.matgroe.SpringTestConfiguration;
 import de.matgroe.bridge.GiraOneChannelMqttTopicMapper;
 import de.matgroe.giraone.GiraOneClientProperties;
 import de.matgroe.giraone.client.GiraOneClient;
-import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
 import de.matgroe.hassio.types.Device;
-import de.matgroe.hassio.types.DiscoveryMessage;
 import de.matgroe.hassio.types.Origin;
 import de.matgroe.mqtt.MqttClientProperties;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -102,17 +99,5 @@ public class HassioDiscoveryMessageFactoryTest {
   void testCreateConfigurationTopicName() {
     GiraOneDeviceConfiguration cfg = giraOneClient.lookupGiraOneDeviceConfiguration();
     assertEquals("homeassistant/device/GIOSRVKX0340073A/config", factory.createDiscoveryTopic());
-  }
-
-  @Test
-  @DisplayName("Should generate correct discovery topic name")
-  void testCreateDiscoveryMessage() {
-    DiscoveryMessage dm = factory.createDiscoveryMessage();
-
-    Optional<GiraOneChannel> channel =
-        giraOneClient.getGiraOneProject().lookupChannelByUrn("urn:gds:chv:KNXlight-KNX-Dimmer-1");
-    dm.addComponent(hassioComponentFactory.from(channel.get()));
-
-    System.out.println(gson.toJson(dm));
   }
 }

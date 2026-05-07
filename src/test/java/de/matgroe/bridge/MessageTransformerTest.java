@@ -28,6 +28,7 @@ import de.matgroe.giraone.client.types.GiraOneValue;
 import de.matgroe.giraone.client.types.GiraOneValueChange;
 import de.matgroe.hassio.types.Cover;
 import de.matgroe.mqtt.MqttMessage;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,6 +45,7 @@ class MessageTransformerTest {
   @BeforeEach
   void init() {
     GiraOneProject project = GiraOneTestDataProvider.createGiraOneProject();
+
     transformer =
         new MessageTransformer(new GiraOneChannelMqttTopicMapper("g1-junit", project), project);
   }
@@ -162,5 +164,34 @@ class MessageTransformerTest {
           list.getFirst().topic());
       assertEquals(expectedState, list.getFirst().payload());
     }
+  }
+
+  @Test
+  @DisplayName("should transform local time to time with timezone")
+  void transformLocalTime() {
+    GiraOneValueChange change =
+        new GiraOneValueChange(
+            "urn:gds:dp:GiraOneServer.GIOSRVKX03:GDS-Device-Channel:Local-Time",
+            "2026-05-07 10:24:00",
+            "2026-05-07 10:23:00");
+    List<MqttMessage> list = transformer.from(change).toMqttMessage();
+    assertEquals(1, list.size());
+    assertEquals(
+        "g1-junit/state/giraone_mqtt_bridge/diagnostic/68862d0d_gira_one_server_zeit/local-time",
+        list.getFirst().topic());
+    assertEquals("2026-05-07T10:24:00.000Z", list.getFirst().payload());
+  }
+
+  @Test
+  @DisplayName("should transform local time to time with timezone")
+  void transformUptime() {
+    LocalDateTime ldt = LocalDateTime.now();
+
+    GiraOneValue change = new GiraOneValue("urn:de:matgroe:giraone-bridge:Uptime", "now");
+    List<MqttMessage> list = transformer.from(change).toMqttMessage();
+    assertEquals(1, list.size());
+    assertEquals(
+        "g1-junit/state/giraone_mqtt_bridge/diagnostic/50ece54b_bridge_uptime/uptime",
+        list.getFirst().topic());
   }
 }

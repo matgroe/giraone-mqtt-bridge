@@ -54,6 +54,9 @@ public abstract class Component {
   @SerializedName("retain")
   protected boolean retain;
 
+  @SerializedName("expire_after")
+  protected Integer expiresAfter;
+
   public Component() {
     this.qos = 0;
     this.retain = false;

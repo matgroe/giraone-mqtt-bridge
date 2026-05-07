@@ -18,8 +18,8 @@
 
 package de.matgroe.bridge;
 
-import static de.matgroe.Contstants.DATAPOINT_HEATING;
-import static de.matgroe.Contstants.DATAPOINT_MODE;
+import static de.matgroe.Constants.DATAPOINT_HEATING;
+import static de.matgroe.Constants.DATAPOINT_MODE;
 
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneProject;
