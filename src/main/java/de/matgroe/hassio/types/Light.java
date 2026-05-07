@@ -41,7 +41,6 @@ public class Light extends Switch {
   public Light() {
     brightnessScale = 100;
     this.platform = "light";
-    this.onCommandType = "brightness";
     this.deviceClass = null;
   }
 }

@@ -28,6 +28,7 @@ import de.matgroe.giraone.client.GiraOneTypeMapperFactory;
 import de.matgroe.giraone.client.commands.GetUIConfiguration;
 import de.matgroe.giraone.client.commands.RegisterApplication;
 import de.matgroe.giraone.client.types.GiraOneChannelCollection;
+import de.matgroe.giraone.client.types.GiraOneValue;
 import de.matgroe.util.ResourceLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -87,5 +88,20 @@ class GiraOneWebsocketMessageTest {
     assertEquals(
         ((RegisterApplication) request.getCommand()).getApplicationId(),
         registerApplication.getApplicationId());
+  }
+
+  @Test
+  void shouldDeserializeObjectOfSetValue() {
+    String message = ResourceLoader.loadStringResource("/giraone/2.SetValue/001-resp.json");
+    GiraOneWebsocketResponse response = gson.fromJson(message, GiraOneWebsocketResponse.class);
+    assertNotNull(response);
+    assertNotNull(response.responseBody);
+
+    GiraOneValue value = response.getReply(GiraOneValue.class);
+    assertNotNull(value);
+    assertEquals("0", value.getValue());
+    assertEquals(
+        "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Switching-19:OnOff",
+        value.getDatapointUrn());
   }
 }

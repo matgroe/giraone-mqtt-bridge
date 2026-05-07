@@ -1,0 +1,8 @@
+{
+  "request": {
+    "urn": "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Switching-19:OnOff",
+    "value": "0",
+    "_gdsqueryId": 6,
+    "command": "SetValue"
+  }
+}

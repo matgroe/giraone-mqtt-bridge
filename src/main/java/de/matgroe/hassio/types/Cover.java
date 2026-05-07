@@ -14,38 +14,47 @@ import lombok.Setter;
 @Setter
 public class Cover extends Component {
 
+  public static final String PAYLOAD_OPEN = "open";
+  public static final String PAYLOAD_CLOSE = "close";
+  public static final String PAYLOAD_STOP = "stop";
+  public static final String STATE_CLOSED = "closed";
+  public static final String STATE_CLOSING = "closing";
+  public static final String STATE_OPEN = "open";
+  public static final String STATE_OPENING = "opening";
+  public static final String STATE_STOPPED = "stopped";
+
   @SerializedName("payload_open")
-  protected String payloadOpen;
+  protected String payloadOpen = PAYLOAD_OPEN;
 
   @SerializedName("payload_close")
-  protected String payloadClose;
+  protected String payloadClose = PAYLOAD_CLOSE;
 
   @SerializedName("payload_stop_tilt")
-  protected String payloadStopTilt;
+  protected String payloadStopTilt = PAYLOAD_STOP;
 
   @SerializedName("payload_stop")
-  protected String payloadStop;
+  protected String payloadStop = PAYLOAD_STOP;
 
   @SerializedName("state_closed")
-  protected String stateClosed;
+  protected String stateClosed = STATE_CLOSED;
 
   @SerializedName("state_closing")
-  protected String stateClosing;
+  protected String stateClosing = STATE_CLOSING;
 
   @SerializedName("state_open")
-  protected String stateOpen;
+  protected String stateOpen = STATE_OPEN;
 
   @SerializedName("state_opening")
-  protected String stateOpening;
+  protected String stateOpening = STATE_OPENING;
 
   @SerializedName("state_stopped")
-  protected String stateStopped;
+  protected String stateStopped = STATE_STOPPED;
 
   @SerializedName("position_closed")
-  protected Integer positionClosed;
+  protected Integer positionClosed = 100;
 
   @SerializedName("position_open")
-  protected Integer positionOpen;
+  protected Integer positionOpen = 0;
 
   @SerializedName("set_position_topic")
   protected String positionCommandTopic;
@@ -60,10 +69,10 @@ public class Cover extends Component {
   protected Integer tiltOpenedValue;
 
   @SerializedName("tilt_min")
-  protected Integer tiltMin;
+  protected Integer tiltMin = 0;
 
   @SerializedName("tilt_max")
-  protected Integer tiltMax;
+  protected Integer tiltMax = 100;
 
   @SerializedName("tilt_command_topic")
   protected String tiltCommandTopic;

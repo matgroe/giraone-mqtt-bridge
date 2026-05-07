@@ -21,6 +21,12 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Represents the Homeassistant Integration Sensor.
+ *
+ * <p>https://www.home-assistant.io/integrations/sensor.mqtt/
+ * https://www.home-assistant.io/integrations/sensor/#device-class
+ */
 @Getter
 @Setter
 public class Sensor extends Component {

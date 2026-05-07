@@ -89,10 +89,13 @@ public class GiraOneComponentCollectionDeserializer
 
       JsonArray datapoints = channelObject.getAsJsonArray(PROPERTY_DATAPOINTS);
       channelObject.addProperty(PROPERTY_URN, buildDatapointDeviceUrn(datapoints));
-
+      if (jsonObject.has(PROPERTY_LOCATION)) {
+        channelObject.addProperty(
+            PROPERTY_LOCATION, jsonObject.getAsJsonPrimitive(PROPERTY_LOCATION).getAsString());
+      }
       String channelName =
           String.format(
-              ("%s, %s"),
+              ("%s#%s"),
               jsonObject.getAsJsonPrimitive(PROPERTY_NAME).getAsString(),
               channelObject.getAsJsonPrimitive(PROPERTY_NAME).getAsString());
       channelObject.addProperty(PROPERTY_NAME, channelName);

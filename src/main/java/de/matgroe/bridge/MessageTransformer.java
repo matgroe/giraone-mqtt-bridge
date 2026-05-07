@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package de.matgroe.bridge;
 
 import de.matgroe.giraone.client.types.GiraOneChannel;
@@ -25,27 +24,35 @@ import de.matgroe.giraone.client.types.GiraOneProject;
 import de.matgroe.giraone.client.types.GiraOneValue;
 import de.matgroe.mqtt.MqttMessage;
 import java.util.Optional;
-import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
+/** */
 public class MessageTransformer {
   private final GiraOneChannelMqttTopicMapper giraOneChannelMqttTopicMapper;
   private final GiraOneProject giraOneProject;
+
+  public MessageTransformer(
+      GiraOneChannelMqttTopicMapper giraOneChannelMqttTopicMapper, GiraOneProject giraOneProject) {
+    this.giraOneChannelMqttTopicMapper = giraOneChannelMqttTopicMapper;
+    this.giraOneProject = giraOneProject;
+  }
 
   public MessageTransformerStrategy from(GiraOneValue giraOneValue) {
     Optional<GiraOneChannel> optChannel =
         this.giraOneProject.lookupChannelByDataPoint(giraOneValue.getGiraOneDataPoint());
     if (optChannel.isPresent()) {
-      if (optChannel.get().getChannelType() == GiraOneChannelType.Covering) {
-        return new MessageTransformerStrategyCover<GiraOneValue>(
-            giraOneChannelMqttTopicMapper, giraOneProject, giraOneValue);
-      }
-      if (optChannel.get().getChannelType() == GiraOneChannelType.Heating) {
-        return new MessageTransformerStrategyHVAC<GiraOneValue>(
-            giraOneChannelMqttTopicMapper, giraOneProject, giraOneValue);
+      switch (optChannel.get().getChannelType()) {
+        case GiraOneChannelType.Covering:
+          return new MessageTransformerStrategyCover<>(
+              giraOneChannelMqttTopicMapper, giraOneProject, giraOneValue);
+        case GiraOneChannelType.Heating:
+          return new MessageTransformerStrategyHVAC<>(
+              giraOneChannelMqttTopicMapper, giraOneProject, giraOneValue);
+        case GiraOneChannelType.Diagnostic:
+          return new MessageTransformerStrategyInternalDiagnostics<>(
+              giraOneChannelMqttTopicMapper, giraOneProject, giraOneValue);
       }
     }
-    return new MessageTransformerStrategyDefault<GiraOneValue>(
+    return new MessageTransformerStrategyDefault<>(
         giraOneChannelMqttTopicMapper, giraOneProject, giraOneValue);
   }
 
@@ -55,17 +62,20 @@ public class MessageTransformer {
     if (dp.isPresent()) {
       Optional<GiraOneChannel> optChannel = this.giraOneProject.lookupChannelByDataPoint(dp.get());
       if (optChannel.isPresent()) {
-        if (optChannel.get().getChannelType() == GiraOneChannelType.Covering) {
-          return new MessageTransformerStrategyCover<MqttMessage>(
-              giraOneChannelMqttTopicMapper, giraOneProject, mqttMessage);
-        }
-        if (optChannel.get().getChannelType() == GiraOneChannelType.Heating) {
-          return new MessageTransformerStrategyHVAC<MqttMessage>(
-              giraOneChannelMqttTopicMapper, giraOneProject, mqttMessage);
+        switch (optChannel.get().getChannelType()) {
+          case GiraOneChannelType.Covering:
+            return new MessageTransformerStrategyCover<>(
+                giraOneChannelMqttTopicMapper, giraOneProject, mqttMessage);
+          case GiraOneChannelType.Heating:
+            return new MessageTransformerStrategyHVAC<>(
+                giraOneChannelMqttTopicMapper, giraOneProject, mqttMessage);
+          case GiraOneChannelType.Diagnostic:
+            return new MessageTransformerStrategyInternalDiagnostics<>(
+                giraOneChannelMqttTopicMapper, giraOneProject, mqttMessage);
         }
       }
     }
-    return new MessageTransformerStrategyDefault<MqttMessage>(
+    return new MessageTransformerStrategyDefault<>(
         giraOneChannelMqttTopicMapper, giraOneProject, mqttMessage);
   }
 }

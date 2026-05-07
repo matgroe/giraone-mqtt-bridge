@@ -21,8 +21,10 @@ package de.matgroe.hassio;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.google.gson.Gson;
 import de.matgroe.GiraOneMqttApplicationProperties;
 import de.matgroe.SpringTestConfiguration;
+import de.matgroe.bridge.GiraOneChannelMqttTopicMapper;
 import de.matgroe.giraone.GiraOneClientProperties;
 import de.matgroe.giraone.client.GiraOneClient;
 import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
@@ -57,12 +59,19 @@ public class HassioDiscoveryMessageFactoryTest {
   @Autowired GiraOneClient giraOneClient;
 
   HassioDiscoveryMessageFactory factory;
+  HassioComponentFactory hassioComponentFactory;
+
+  Gson gson = new Gson();
 
   @BeforeEach
   void setUp() {
+
     factory =
         new HassioDiscoveryMessageFactory(
             applicationProperties, giraOneClient.lookupGiraOneDeviceConfiguration());
+    hassioComponentFactory =
+        new HassioComponentFactory(
+            new GiraOneChannelMqttTopicMapper("junit", giraOneClient.getGiraOneProject()));
   }
 
   @Test
@@ -87,7 +96,7 @@ public class HassioDiscoveryMessageFactoryTest {
 
   @Test
   @DisplayName("Should generate correct discovery topic name")
-  void testCreateConfigorationTopicName() {
+  void testCreateConfigurationTopicName() {
     GiraOneDeviceConfiguration cfg = giraOneClient.lookupGiraOneDeviceConfiguration();
     assertEquals("homeassistant/device/GIOSRVKX0340073A/config", factory.createDiscoveryTopic());
   }

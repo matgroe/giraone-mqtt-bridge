@@ -34,6 +34,7 @@ public enum GiraOneChannelType {
   Heating("de.gira.schema.channels.KNX.HeatingCoolingSwitchable"),
   Trigger("de.gira.schema.channels.Trigger"),
   HueLight("de.gira.schema.channels.Hue.Light"),
+  Diagnostic("de.matgroe.internal.diagnostics"),
 
   Unknown("Unknown");
 

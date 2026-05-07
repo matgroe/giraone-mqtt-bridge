@@ -32,6 +32,7 @@ import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import io.reactivex.rxjava3.subjects.ReplaySubject;
 import io.reactivex.rxjava3.subjects.Subject;
+import java.util.Optional;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -189,18 +190,21 @@ public class GiraOneClient {
    *
    * @param dataPoint The {@link GiraOneDataPoint} to change.
    * @param newValue The new value.
+   * @return Optional<GiraOneValue> returns the changeds value as returned from GiraOneServer
    */
-  public void changeGiraOneDataPointValue(GiraOneDataPoint dataPoint, String newValue) {
-    this.websocketClient.changeGiraOneDataPointValue(dataPoint, newValue);
+  public Optional<GiraOneValue> changeGiraOneDataPointValue(
+      GiraOneDataPoint dataPoint, String newValue) {
+    return this.websocketClient.changeGiraOneDataPointValue(dataPoint, newValue);
   }
 
   /**
    * Changes the value for a {@link GiraOneDataPoint}.
    *
    * @param value Contains the {@link GiraOneDataPoint} and the value to change.
+   * @return Optional<GiraOneValue> returns the changeds value as returned from GiraOneServer
    */
-  public void changeGiraOneDataValue(GiraOneValue value) {
-    this.changeGiraOneDataPointValue(value.getGiraOneDataPoint(), value.getValue());
+  public Optional<GiraOneValue> changeGiraOneDataValue(GiraOneValue value) {
+    return this.changeGiraOneDataPointValue(value.getGiraOneDataPoint(), value.getValue());
   }
 
   /**
@@ -213,6 +217,21 @@ public class GiraOneClient {
    * @return a {@link Disposable}
    */
   public Disposable observeGiraOneValues(Consumer<GiraOneValue> consumer) {
+    return this.websocketClient.subscribeOnGiraOneValues(consumer);
+  }
+
+  /**
+   * Register's a listener for {@link GiraOneValue}. A value is getting reported on receiving an
+   * event from gira one server. This may be initiated by invoking {@link
+   * #lookupGiraOneDatapointValue(GiraOneDataPoint)} or by any value event as received from the Gira
+   * One Server.
+   *
+   * @param consumer The Consumer for {@link GiraOneValue} changes.
+   * @param errorHandler The ErrorHandler
+   * @return a {@link Disposable}
+   */
+  public Disposable observeGiraOneValues(
+      Consumer<GiraOneValue> consumer, Consumer<Throwable> errorHandler) {
     return this.websocketClient.subscribeOnGiraOneValues(consumer);
   }
 }

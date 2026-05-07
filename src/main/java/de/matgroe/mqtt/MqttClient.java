@@ -35,8 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MqttClient {
-  private static final String MESSAGE_ID = "message-id";
-
   private final Logger logger = LoggerFactory.getLogger(MqttClient.class);
 
   /** this subject receives the incoming messages from {@link MqttClient} */
@@ -97,6 +95,18 @@ public class MqttClient {
    */
   public Disposable observeMqttConnectionState(Consumer<MqttClientConnectionState> consumer) {
     return connectionState.subscribe(consumer);
+  }
+
+  /**
+   * Register's a listener incoming {@link MqttMessage}
+   *
+   * @param consumer The Consumer for {@link MqttMessage} changes.
+   * @param errorHandler The exception handler
+   * @return a {@link Disposable}
+   */
+  public Disposable observeInboundQueue(
+      Consumer<MqttMessage> consumer, Consumer<Throwable> errorHandler) {
+    return inboundQueue.subscribe(consumer, errorHandler);
   }
 
   /**
@@ -184,11 +194,12 @@ public class MqttClient {
       return false;
     }
 
-    logger.debug("Publishing {}", message);
+    logger.debug("publish {}", message);
     mqtt5Client
         .publishWith()
         .topic(message.topic())
         .payload(message.payload().getBytes())
+        .messageExpiryInterval(message.expiresAfterMs())
         .qos(MqttQos.AT_LEAST_ONCE)
         .retain(true)
         .send()
@@ -197,7 +208,7 @@ public class MqttClient {
               if (throwable != null) {
                 logger.error("publish; ", throwable);
               } else {
-                logger.debug("publish {}", mqttPublishResult);
+                logger.trace("publish {}", mqttPublishResult);
               }
             });
     return true;

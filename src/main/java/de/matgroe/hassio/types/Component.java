@@ -24,7 +24,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class Component {
-
   @SerializedName("platform")
   protected String platform;
 
@@ -55,8 +54,10 @@ public abstract class Component {
   @SerializedName("retain")
   protected boolean retain;
 
+  @SerializedName("expire_after")
+  protected Integer expiresAfter;
+
   public Component() {
-    this.entityCategory = "diagnostic";
     this.qos = 0;
     this.retain = false;
   }

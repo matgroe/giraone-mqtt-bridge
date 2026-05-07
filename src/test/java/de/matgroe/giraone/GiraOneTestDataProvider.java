@@ -17,6 +17,7 @@
  */
 package de.matgroe.giraone;
 
+import static de.matgroe.Constants.LOCATION_BRIDGE;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -33,6 +34,7 @@ import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
 import de.matgroe.giraone.client.types.GiraOneFunctionType;
 import de.matgroe.giraone.client.types.GiraOneProject;
+import de.matgroe.giraone.client.types.GiraOneURN;
 import de.matgroe.giraone.client.webservice.GiraOneWebserviceResponse;
 import de.matgroe.giraone.client.websocket.GiraOneWebsocketResponse;
 import de.matgroe.util.GenericBuilder;
@@ -68,7 +70,21 @@ public class GiraOneTestDataProvider {
     assertNotNull(componentCollection);
     componentCollection.getAllChannels(GiraOneComponentType.KnxButton).forEach(project::addChannel);
 
+    project.addDiagnosticChannel(
+        "urn:de:matgroe:giraone-bridge", "Bridge Uptime", "urn:de:matgroe:giraone-bridge:Uptime");
+
     return project;
+  }
+
+  private static GiraOneChannel createInternalDiagnosticChannel(
+      String channelUrn, String name, String datapointUrn) {
+    GiraOneChannel channel = new GiraOneChannel();
+    channel.setUrn(channelUrn);
+    channel.setLocation(LOCATION_BRIDGE);
+    channel.setName(name);
+    channel.setChannelType(GiraOneChannelType.Diagnostic);
+    channel.addDataPoint(new GiraOneDataPoint(GiraOneURN.of(datapointUrn)));
+    return channel;
   }
 
   public static GiraOneDeviceConfiguration createGiraOneDeviceConfiguration() {

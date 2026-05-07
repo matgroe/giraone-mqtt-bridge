@@ -40,6 +40,9 @@ public class GiraOneValueDeserializer extends GiraOneMessageJsonTypeAdapter
           && "Value".equals(jsonObject.get("valueState").getAsString())) {
         return jsonObject;
       }
+      if (jsonObject.has("urn") && jsonObject.has("value")) {
+        return jsonObject;
+      }
     }
     return null;
   }

@@ -23,6 +23,7 @@ import de.matgroe.GiraOneMqttApplicationProperties;
 import de.matgroe.giraone.client.GiraOneClient;
 import de.matgroe.giraone.client.GiraOneClientConnectionState;
 import de.matgroe.giraone.client.GiraOneClientException;
+import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
 import de.matgroe.giraone.client.types.GiraOneProject;
@@ -38,7 +39,6 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.ReplaySubject;
 import java.util.Optional;
-import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -46,30 +46,23 @@ import org.springframework.stereotype.Component;
 /** This class is responsible for dispatching .. */
 @Component
 public class GiraOneMqttBridge {
-  private static final String GDS_DEVICE_CHANNEL_URN =
-      "urn:gds:dp:GiraOneServer.GIOSRVKX03:GDS-Device-Channel";
-  private static final String GDS_DEVICE_DATAPOINT_READY = "Ready";
-  private static final String GDS_DEVICE_DATAPOINT_LOCAL_TIME = "Local-Time";
+  private final String BRIDGE_DATAPOINT_UPTIME = "urn:de:matgroe:giraone-bridge:Uptime";
 
-  private final ReplaySubject<GiraOneMqttBridgeState> bridgeState = ReplaySubject.createWithSize(1);
   private final Logger logger = LoggerFactory.getLogger(GiraOneMqttBridge.class);
   private final CompositeDisposable giraOneClientDisposables = new CompositeDisposable();
   private final CompositeDisposable mqttClientDiposables = new CompositeDisposable();
-
   private final GiraOneMqttApplicationProperties applicationProperties;
   private final GiraOneClient giraOneClient;
   private final MqttClient mqttClient;
 
   private Disposable giraoneValueDiposable = Disposable.empty();
   private Disposable bridgeStateDiposable = Disposable.empty();
-
   private MessageTransformer messageTransformer;
-
   private HassioDiscoveryMessageFactory hassioDiscoveryMessageFactory;
-
   private HassioComponentFactory hassioComponentFactory;
-
   private GiraOneChannelMqttTopicMapper giraOneChannelMqttTopicMapper;
+
+  final ReplaySubject<GiraOneMqttBridgeState> bridgeState = ReplaySubject.createWithSize(1);
 
   public GiraOneMqttBridge(
       GiraOneMqttApplicationProperties applicationProperties,
@@ -82,40 +75,43 @@ public class GiraOneMqttBridge {
     bridgeState.onNext(GiraOneMqttBridgeState.Stopped);
   }
 
+  /**
+   * @return
+   */
   public boolean isExecuteable() {
     return (this.bridgeState.getValue() != GiraOneMqttBridgeState.Error);
   }
 
-  public void run(String... args) throws Exception {
-    // Register for own state changes
-    bridgeStateDiposable = bridgeState.subscribe(this::onGiraOneMqttBridgeStateChanged);
-
+  /**
+   * Initializes the {@link GiraOneMqttBridge} by subscribing all related Observables. It also
+   * initiates the connection to the GiraOneServer. This must be the first call on the newly created
+   * instance.
+   */
+  public void initialize() {
     // register for MqttClient state changes
     mqttClientDiposables.add(
         mqttClient.observeMqttConnectionState(this::onMqttClientConnectionStateChanged));
 
-    // register for MqttClient messages
-    mqttClientDiposables.add(mqttClient.observeInboundQueue(this::onMqttMessage));
+    // register for incoming MqttClient messages
+    mqttClientDiposables.add(
+        mqttClient.observeInboundQueue(this::onMqttMessage, this::onMqttMessageProcessingError));
 
     // Register at GiraOneClient for all Exceptions
     giraOneClientDisposables.add(
         giraOneClient.observeOnGiraOneClientExceptions(this::onGiraOneClientException));
 
-    // Register for ConnectionState changes
+    // Register for GiraOneClient ConnectionState changes
     giraOneClientDisposables.add(
         this.giraOneClient.observeGiraOneConnectionState(
             this::onGiraOneClientConnectionStateChanged));
 
-    // Register for GiraServer State Updates like time
-    giraOneClientDisposables.add(
-        subscribeOnGiraOneDataPointValues(
-            String.format("%s:.*", GDS_DEVICE_CHANNEL_URN), this::onDeviceChannelEvent));
-
+    // Register for own state changes
+    bridgeStateDiposable = bridgeState.subscribe(this::onGiraOneMqttBridgeStateChanged);
     bridgeState.onNext(GiraOneMqttBridgeState.ConnectingGiraOneClient);
   }
 
   /**
-   * Observing function for {@link GiraOneMqttBridgeState} changes
+   * Observing function for (internal) {@link GiraOneMqttBridgeState} changes
    *
    * @param bridgeState The {@link GiraOneMqttBridge}'s connection state.
    */
@@ -176,26 +172,20 @@ public class GiraOneMqttBridge {
   /** Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#Connected} */
   void handleBridgeStateConnected() {
     sendDiscoveryMessage();
-    giraoneValueDiposable = giraOneClient.observeGiraOneValues(this::onGiraOneValue);
-    // this.lookupGiraOneDataPoints();
+    this.onGiraOneValue(new GiraOneValue(BRIDGE_DATAPOINT_UPTIME, "now"));
+    giraoneValueDiposable =
+        giraOneClient.observeGiraOneValues(
+            this::onGiraOneValue, this::onGiraOneValueProcessingError);
+    this.lookupGiraOneDataPoints();
   }
 
   void lookupGiraOneDataPoints() {
     Thread.ofVirtual()
         .start(
             () -> {
-              giraOneClient
-                  .getGiraOneProject()
-                  .lookupGiraOneDataPoints()
-                  .forEach(
-                      (GiraOneDataPoint dataPoint) -> {
-                        giraOneClient.lookupGiraOneDatapointValue(dataPoint);
-                        try {
-                          Thread.sleep(300);
-                        } catch (InterruptedException e) {
-                          throw new RuntimeException(e);
-                        }
-                      });
+              giraOneClient.getGiraOneProject().lookupGiraOneDataPoints().stream()
+                  .filter(this::mapsToSupportedComponent)
+                  .forEach(giraOneClient::lookupGiraOneDatapointValue);
             });
   }
 
@@ -211,15 +201,6 @@ public class GiraOneMqttBridge {
       giraOneClientDisposables.dispose();
       bridgeStateDiposable.dispose();
     }
-  }
-
-  /**
-   * This callback handles the received messages from the GiraOneServer.
-   *
-   * @param value The Received {@link GiraOneValue}
-   */
-  private void onDeviceChannelEvent(GiraOneValue value) {
-    logger.info("onDeviceChannelEvent:: {}", value);
   }
 
   private void onGiraOneClientException(GiraOneClientException clientException) {
@@ -259,27 +240,27 @@ public class GiraOneMqttBridge {
    *
    * @param mqttMessage
    */
-  private void onMqttMessage(MqttMessage mqttMessage) {
+  void onMqttMessage(MqttMessage mqttMessage) {
     logger.info("Received MqttMessage:: {}", mqttMessage);
-    Optional<GiraOneValue> value = messageTransformer.from(mqttMessage).toGiraOneValue();
-    value.ifPresent(dataPoint -> giraOneClient.changeGiraOneDataValue(value.get()));
+    messageTransformer.from(mqttMessage).toGiraOneValue().stream()
+        .map(giraOneClient::changeGiraOneDataValue)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .forEach(this::onGiraOneValue);
   }
 
-  private void updateGiraOneDataPoint(GiraOneDataPoint dataPoint, String payload) {
-    if (payload.startsWith("#MAP-DATAPOINT#")) {
-      String[] parts = payload.split(":");
-      if (parts.length == 4) {
-        GiraOneDataPoint mapped =
-            new GiraOneDataPoint(dataPoint.getUrn().toString().replace(parts[1], parts[2]));
-        giraOneClient.changeGiraOneDataPointValue(mapped, parts[3]);
-      } else {
-        logger.warn("Received invalid mapping payload {}", payload);
-      }
-    } else {
-      giraOneClient.changeGiraOneDataPointValue(dataPoint, payload);
-      // TODO: wait for changeGiraOneDataPointValue response and report that value
-      onGiraOneValue(new GiraOneValue(dataPoint.getUrn(), payload));
-    }
+  void onMqttMessageProcessingError(Throwable throwable) {
+    logger.error("Caught Exception on proseccing MqttMessage.", throwable);
+  }
+
+  private boolean mapsToSupportedComponent(GiraOneDataPoint datapoint) {
+    Optional<GiraOneChannel> channel =
+        giraOneClient.getGiraOneProject().lookupChannelByDataPoint(datapoint);
+    return channel
+        .filter(
+            giraOneChannel ->
+                !(hassioComponentFactory.from(giraOneChannel) instanceof UnsupportedComponent))
+        .isPresent();
   }
 
   /**
@@ -289,22 +270,24 @@ public class GiraOneMqttBridge {
    * @param giraOneValue
    */
   void onGiraOneValue(GiraOneValue giraOneValue) {
-    Optional<MqttMessage> mqttMessage = messageTransformer.from(giraOneValue).toMqttMessage();
-    mqttMessage.ifPresent(dataPoint -> mqttClient.publish(mqttMessage.get()));
+    if (this.mapsToSupportedComponent(giraOneValue.getGiraOneDataPoint())) {
+      logger.info("Publish  giraOneValue :: {}", giraOneValue);
+      messageTransformer.from(giraOneValue).toMqttMessage().forEach(mqttClient::publish);
+    } else {
+      logger.info("Ignoring giraOneValue :: {}", giraOneValue);
+    }
   }
 
-  public Disposable subscribeOnGiraOneDataPointValues(
-      final String deviceUrnPattern, Consumer<GiraOneValue> consumer) {
-    // return this.datapointValues.filter(f ->
-    // f.getDatapointUrn().matches(deviceUrnPattern)).subscribe(consumer);
-    return Disposable.empty();
+  void onGiraOneValueProcessingError(Throwable throwable) {
+    logger.error("Caught Exception on proseccing GiraOneValue.", throwable);
   }
 
   private void sendDiscoveryMessage() {
     logger.info("Create and send DiscoveryMessage");
     DiscoveryMessage dm = hassioDiscoveryMessageFactory.createDiscoveryMessage();
     GiraOneProject project = this.giraOneClient.getGiraOneProject();
-
+    project.addDiagnosticChannel(
+        "urn:de:matgroe:giraone-bridge:uptime", "Startzeit", BRIDGE_DATAPOINT_UPTIME);
     project.lookupChannels().stream()
         .map(hassioComponentFactory::from)
         .filter(u -> u.getClass() != UnsupportedComponent.class)

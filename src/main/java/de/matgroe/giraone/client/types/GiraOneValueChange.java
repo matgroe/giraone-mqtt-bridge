@@ -17,6 +17,8 @@
  */
 package de.matgroe.giraone.client.types;
 
+import lombok.Getter;
+
 /**
  * The {@link GiraOneValueChange} represents value change for a single source of data. The
  * GiraOneWebsocketClient emits {@link GiraOneValueChange} as a result after received a
@@ -24,9 +26,14 @@ package de.matgroe.giraone.client.types;
  *
  * @author Matthias Gröger - Initial contribution
  */
+@Getter
 public class GiraOneValueChange extends GiraOneValue {
 
-  /** The previous value, the current value is available via super class */
+  /**
+   * The previous value, the current value is available via super class -- GETTER --
+   *
+   * @return The previous value
+   */
   private final String previousValue;
 
   public GiraOneValueChange(String urn, String value, String previous) {
@@ -53,13 +60,6 @@ public class GiraOneValueChange extends GiraOneValue {
    */
   public boolean isValueIncreasing() {
     return getValueAsFloat() > getPreviousValueAsFloat();
-  }
-
-  /**
-   * @return The previous value
-   */
-  public String getPreviousValue() {
-    return previousValue;
   }
 
   /**

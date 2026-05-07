@@ -48,6 +48,8 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -252,14 +254,18 @@ public class GiraOneWebsocketClient {
    *
    * @param dataPoint The {@link GiraOneDataPoint} to lookup.
    * @param value The new value to be set.
+   * @return Optional<GiraOneValue> returns the changeds value as returned from GiraOneServer
    */
-  public void changeGiraOneDataPointValue(final GiraOneDataPoint dataPoint, Object value) {
+  public Optional<GiraOneValue> changeGiraOneDataPointValue(
+      final GiraOneDataPoint dataPoint, Object value) {
     if (connectionState.getValue() == GiraOneWebsocketConnectionState.Connected) {
-      send(
-          SetValue.builder()
-              .with(SetValue::setUrn, dataPoint.getUrn())
-              .with(SetValue::setValue, value)
-              .build());
+      GiraOneCommandResponse response =
+          execute(
+              SetValue.builder()
+                  .with(SetValue::setUrn, dataPoint.getUrn())
+                  .with(SetValue::setValue, value)
+                  .build());
+      return Optional.of(response.getReply(GiraOneValue.class));
     } else {
       this.logger.warn(
           "should changeGiraOneDataPointValue for dataPoint='{}' to '{}', but connectionState is {}",
@@ -268,6 +274,7 @@ public class GiraOneWebsocketClient {
           connectionState.getValue());
       emitConnectionStateException(GiraOneClientConnectionState.Connected);
     }
+    return Optional.empty();
   }
 
   public Disposable subscribeOnConnectionState(Consumer<GiraOneWebsocketConnectionState> onNext) {
@@ -389,8 +396,7 @@ public class GiraOneWebsocketClient {
           logger.debug("Registering GiraOneMqttBridge");
           execute(
               RegisterApplication.builder()
-                  // .with(RegisterApplication::setApplicationId, UUID.randomUUID().toString())
-                  .with(RegisterApplication::setApplicationId, "homeassistant")
+                  .with(RegisterApplication::setApplicationId, UUID.randomUUID().toString())
                   .with(RegisterApplication::setApplicationType, "api")
                   .build());
         });
