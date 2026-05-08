@@ -75,6 +75,9 @@
                         <removeUnusedImports/>
                         <formatAnnotations />
                     </java>
+                    <licenseHeader>
+                        <file>${project.basedir}/license-header.txt</file>
+                    </licenseHeader>
                 </configuration>
                 <executions>
                     <execution>
