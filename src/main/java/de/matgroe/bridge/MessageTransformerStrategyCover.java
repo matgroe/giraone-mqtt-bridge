@@ -64,7 +64,8 @@ class MessageTransformerStrategyCover<T> extends MessageTransformerStrategyDefau
       GiraOneURN dstUrn = srcUrn.makeSibling(DATAPOINT_UP_DOWN);
       String topic = giraOneChannelMqttTopicMapper.stateTopicNameOf(dstUrn);
       String values = String.format("%s%s", valueChange.getPreviousValue(), valueChange.getValue());
-      if (DATAPOINT_STEP_UP_DOWN.equals(srcUrn.getResourceName())) {
+      if (DATAPOINT_STEP_UP_DOWN.equals(srcUrn.getResourceName())
+          || DATAPOINT_UP_DOWN.equals(srcUrn.getResourceName())) {
         switch (values) {
           case "01" -> list.add(new MqttMessage(topic, Cover.STATE_STOPPED));
           case "10" -> list.add(new MqttMessage(topic, Cover.STATE_OPENING));
