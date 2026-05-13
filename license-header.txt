@@ -21,31 +21,3 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package de.matgroe.giraone.client.webservice;
-
-import com.google.gson.JsonObject;
-import com.google.gson.annotations.SerializedName;
-import de.matgroe.giraone.client.GiraOneCommand;
-import de.matgroe.giraone.client.GiraOneTypeMapperFactory;
-
-/**
- * The {@link GiraOneWebserviceRequest} wraps a {@link GiraOneCommand} to get sent out via
- * webservice to the Gira One Server.
- *
- * @author Matthias Gröger - Initial contribution
- */
-public class GiraOneWebserviceRequest {
-  @SerializedName(value = "data")
-  private final JsonObject data;
-
-  private final transient GiraOneCommand command;
-
-  protected GiraOneWebserviceRequest(GiraOneCommand command) {
-    data = (JsonObject) GiraOneTypeMapperFactory.createGson().toJsonTree(command);
-    this.command = command;
-  }
-
-  public GiraOneCommand getCommand() {
-    return this.command;
-  }
-}
