@@ -26,6 +26,8 @@ package de.matgroe.bridge;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.matgroe.GiraOneMqttApplicationProperties;
+import de.matgroe.bridge.translators.giraone.GiraOneTranslatorFactory;
+import de.matgroe.bridge.translators.mqtt.MqttTranslatorFactory;
 import de.matgroe.giraone.client.GiraOneClient;
 import de.matgroe.giraone.client.GiraOneClientConnectionState;
 import de.matgroe.giraone.client.GiraOneClientException;
@@ -63,7 +65,8 @@ public class GiraOneMqttBridge {
 
   private Disposable giraoneValueDiposable = Disposable.empty();
   private Disposable bridgeStateDiposable = Disposable.empty();
-  private MessageTransformer messageTransformer;
+  private MqttTranslatorFactory mqttTranslatorFactory;
+  private GiraOneTranslatorFactory giraOneTranslatorFactory;
   private HassioDiscoveryMessageFactory hassioDiscoveryMessageFactory;
   private HassioComponentFactory hassioComponentFactory;
   private GiraOneChannelMqttTopicMapper giraOneChannelMqttTopicMapper;
@@ -171,8 +174,12 @@ public class GiraOneMqttBridge {
     this.giraOneChannelMqttTopicMapper =
         new GiraOneChannelMqttTopicMapper(topicNamePrefix, giraOneClient.getGiraOneProject());
     this.hassioComponentFactory = new HassioComponentFactory(this.giraOneChannelMqttTopicMapper);
-    this.messageTransformer =
-        new MessageTransformer(giraOneChannelMqttTopicMapper, giraOneClient.getGiraOneProject());
+    this.mqttTranslatorFactory =
+        new MqttTranslatorFactory(giraOneChannelMqttTopicMapper, giraOneClient.getGiraOneProject());
+
+    this.giraOneTranslatorFactory =
+        new GiraOneTranslatorFactory(
+            giraOneChannelMqttTopicMapper, giraOneClient.getGiraOneProject());
   }
 
   /** Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#Connected} */
@@ -248,7 +255,7 @@ public class GiraOneMqttBridge {
    */
   void onMqttMessage(MqttMessage mqttMessage) {
     logger.info("Received MqttMessage:: {}", mqttMessage);
-    messageTransformer.from(mqttMessage).toGiraOneValue().stream()
+    mqttTranslatorFactory.from(mqttMessage).toGiraOneValue().stream()
         .map(giraOneClient::changeGiraOneDataValue)
         .filter(Optional::isPresent)
         .map(Optional::get)
@@ -277,8 +284,8 @@ public class GiraOneMqttBridge {
    */
   void onGiraOneValue(GiraOneValue giraOneValue) {
     if (this.mapsToSupportedComponent(giraOneValue.getGiraOneDataPoint())) {
-      logger.info("Publish  giraOneValue :: {}", giraOneValue);
-      messageTransformer.from(giraOneValue).toMqttMessage().forEach(mqttClient::publish);
+      logger.info("Received giraOneValue :: {}", giraOneValue);
+      giraOneTranslatorFactory.from(giraOneValue).toMqttMessage().forEach(mqttClient::publish);
     } else {
       logger.info("Ignoring giraOneValue :: {}", giraOneValue);
     }

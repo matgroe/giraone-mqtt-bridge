@@ -21,13 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package de.matgroe.bridge;
+package de.matgroe.bridge.translators.giraone;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import de.matgroe.bridge.GiraOneChannelMqttTopicMapper;
 import de.matgroe.giraone.GiraOneTestDataProvider;
 import de.matgroe.giraone.client.types.GiraOneProject;
 import de.matgroe.giraone.client.types.GiraOneValue;
@@ -44,16 +44,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class MessageTransformerTest {
+class GiraOneTranslatorsTest {
 
-  MessageTransformer transformer;
+  GiraOneTranslatorFactory translatorFactory;
 
   @BeforeEach
   void init() {
     GiraOneProject project = GiraOneTestDataProvider.createGiraOneProject();
 
-    transformer =
-        new MessageTransformer(new GiraOneChannelMqttTopicMapper("g1-junit", project), project);
+    translatorFactory =
+        new GiraOneTranslatorFactory(
+            new GiraOneChannelMqttTopicMapper("g1-junit", project), project);
   }
 
   private static Stream<Arguments> provideDatapointUrntoStrategy() {
@@ -61,50 +62,24 @@ class MessageTransformerTest {
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator24-gang2C16A2FBlindActuator12-gang-1.Curtain-2:Up-Down",
             "g1-junit/state/buro/covering/d5a8f603_buro_raffstore_eckfenster_tur/up-down",
-            MessageTransformerStrategyCover.class),
+            GiraOneCoveringTranslator.class),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxHvacActuator6-gang-2.Heatingactuator-1:Heating",
             "g1-junit/state/diele/heating/bbecb629_diele_heizung/heating",
-            MessageTransformerStrategyHVAC.class),
+            GiraOneHeatingTanslator.class),
         Arguments.of(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxButton4Comfort2CSystem55Rocker3-gang-13.Dimming-1:OnOff",
             "ankleide/trigger/dbdf5f47_ankleide_taster_dimmen_1/onoff",
-            MessageTransformerStrategyDefault.class));
+            GiraOneDefaultTranslator.class));
   }
 
-  @DisplayName("should derive MessageTransformerStrategy from topic and GiraOneDataPoint")
+  @DisplayName("should derive MqttMessageTranslator from topic and GiraOneDataPoint")
   @ParameterizedTest
   @MethodSource("provideDatapointUrntoStrategy")
   void testUrnStrategyMapping(String datapointUrn, String topicName, Class<?> expected) {
     MqttMessage mqtt = new MqttMessage(topicName, "X");
     GiraOneValue g1Value = new GiraOneValue(datapointUrn, "1");
-
-    assertInstanceOf(expected, transformer.from(mqtt));
-    assertInstanceOf(expected, transformer.from(g1Value));
-  }
-
-  @Test
-  @DisplayName("should transform default MqttMessage to GiraOneValue")
-  void transformDefaultMqttMessageToGiraOneValue() {
-    MqttMessage m =
-        new MqttMessage(
-            "g1-junit/command/gast/covering/af40fdc5_gast_luftung_dachfenster/movement", "X");
-    List<GiraOneValue> list = transformer.from(m).toGiraOneValue();
-    assertFalse(list.isEmpty());
-    assertEquals("X", list.getFirst().getValue());
-    assertEquals(
-        "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxSwitchingActuator16-gang2C16A2FBlindActuator8-gang-1.Curtain-4:Movement",
-        list.getFirst().getDatapointUrn());
-  }
-
-  @Test
-  @DisplayName("should not transform default MqttMessage to GiraOneValue")
-  void dontTransformDefaultMqttMessageToGiraOneValue() {
-    MqttMessage m =
-        new MqttMessage(
-            "g1-junit/state/knxdimmingactuator4-gang-1/dimmingactuator-4/onoffxxx", "X");
-    List<GiraOneValue> list = transformer.from(m).toGiraOneValue();
-    assertTrue(list.isEmpty());
+    assertInstanceOf(expected, translatorFactory.from(g1Value));
   }
 
   @Test
@@ -114,7 +89,7 @@ class MessageTransformerTest {
         new GiraOneValue(
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-4:OnOff",
             "1");
-    List<MqttMessage> list = transformer.from(v).toMqttMessage();
+    List<MqttMessage> list = translatorFactory.from(v).toMqttMessage();
     assertFalse(list.isEmpty());
     assertEquals("1", list.getFirst().payload());
     assertEquals(
@@ -162,7 +137,7 @@ class MessageTransformerTest {
   void transformStepUpDownToMovingState(
       String urn, String oldValue, String newValue, int expectedMessages, String expectedState) {
     GiraOneValueChange change = new GiraOneValueChange(urn, newValue, oldValue);
-    List<MqttMessage> list = transformer.from(change).toMqttMessage();
+    List<MqttMessage> list = translatorFactory.from(change).toMqttMessage();
     assertEquals(expectedMessages, list.size());
     if (expectedMessages > 0) {
       assertEquals(
@@ -180,7 +155,7 @@ class MessageTransformerTest {
             "urn:gds:dp:GiraOneServer.GIOSRVKX03:GDS-Device-Channel:Local-Time",
             "2026-05-07 10:24:00",
             "2026-05-07 10:23:00");
-    List<MqttMessage> list = transformer.from(change).toMqttMessage();
+    List<MqttMessage> list = translatorFactory.from(change).toMqttMessage();
     assertEquals(1, list.size());
     assertEquals(
         "g1-junit/state/giraone_mqtt_bridge/diagnostic/68862d0d_gira_one_server_zeit/local-time",
@@ -194,7 +169,7 @@ class MessageTransformerTest {
     LocalDateTime ldt = LocalDateTime.now();
 
     GiraOneValue change = new GiraOneValue("urn:de:matgroe:giraone-bridge:Uptime", "now");
-    List<MqttMessage> list = transformer.from(change).toMqttMessage();
+    List<MqttMessage> list = translatorFactory.from(change).toMqttMessage();
     assertEquals(1, list.size());
     assertEquals(
         "g1-junit/state/giraone_mqtt_bridge/diagnostic/50ece54b_bridge_uptime/uptime",
