@@ -4,7 +4,7 @@ on:
      inputs:
       version:
         required: true
-        type: string
+        type: string      
 jobs:
   create-homeasstant-image:
     name: Build Docker Image
@@ -52,32 +52,49 @@ jobs:
     permissions:
       contents: write
       packages: write
+      pull-requests: write 
 
     steps:
     - name: Checkout Home Assistant App Repository
       uses: actions/checkout@v6
       with:
         repository: matgroe/home-assistant-apps
-        ref: main
         token: ${{ secrets.WORKFLOW_TOKEN }}
+
+    - name: Fetch changelog.md
+      uses: sozo-design/curl@v1.0.2
+      with:
+        args: https://raw.githubusercontent.com/matgroe/giraone-mqtt-bridge/refs/heads/main/CHANGELOG.md -o giraone-mqtt-bridge/CHANGELOG.md
 
     - name: Update config.yaml 'version' = ${{ inputs.version }}
       if: inputs.version != ''
       uses: fjogeleit/yaml-update-action@main
       with:
         repository: matgroe/home-assistant-apps
-        branch: main
         valueFile: 'giraone-mqtt-bridge/config.yaml'
+        commitChange: false
         changes: |
             {
               "version": "${{ inputs.version }}",
               "image": "${{ vars.DOCKER_USERNAME }}/${{ vars.HOMEASSISTANT_IMAGE_NAME }}"
             }
-        token: ${{ secrets.WORKFLOW_TOKEN }}
-        message: "[BOT] Update version for Release ${{ inputs.version }}"
-    - name: Summary
+
+    - name: Commit files
       run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -a -m "[BOT] Update changelog for release ${{ inputs.version }}"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        repository: matgroe/home-assistant-apps
+        github_token:
+          ${{ secrets.WORKFLOW_TOKEN }}
+
+    - name: Summary
+      run: |        
         echo "[Home Assistant App Repository](https://github.com/matgroe/home-assistant-apps) is patched" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
         echo "- Patched [config.yaml](https://github.com/matgroe/home-assistant-apps/blob/main/giraone-mqtt-bridge/config.yaml) -- version: ${{ inputs.version }}" >> $GITHUB_STEP_SUMMARY
         echo "- Patched [config.yaml](https://github.com/matgroe/home-assistant-apps/blob/main/giraone-mqtt-bridge/config.yaml) -- image: ${{ vars.DOCKER_USERNAME }}/${{ vars.HOMEASSISTANT_IMAGE_NAME }}" >> $GITHUB_STEP_SUMMARY
+        
