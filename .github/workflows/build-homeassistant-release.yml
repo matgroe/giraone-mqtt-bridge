@@ -46,7 +46,7 @@ jobs:
           docker.io/${{ vars.DOCKER_USERNAME }}/${{ vars.HOMEASSISTANT_IMAGE_NAME }}:latest
 
   update-homeasstant-config:
-    needs: create-homeasstant-image
+    #needs: create-homeasstant-image
     name: Update Home Assistant Config
     runs-on: ubuntu-latest
     permissions:
@@ -84,13 +84,26 @@ jobs:
       with:
         repository: matgroe/home-assistant-apps
         valueFile: 'giraone-mqtt-bridge/config.yaml'
+        commitChange: false
         changes: |
             {
               "version": "${{ inputs.version }}",
               "image": "${{ vars.DOCKER_USERNAME }}/${{ vars.HOMEASSISTANT_IMAGE_NAME }}"
             }
-        token: ${{ secrets.WORKFLOW_TOKEN }}
-        message: "[BOT] Update version for Release ${{ inputs.version }}"
+
+    - name: Commit files
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"        
+        git commit --allow-empty -a -m "[BOT] release ${{ inputs.version }}"
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        repository: matgroe/home-assistant-apps
+        github_token:
+          ${{ secrets.WORKFLOW_TOKEN }}
+
     - name: Summary
       run: |        
         echo "[Home Assistant App Repository](https://github.com/matgroe/home-assistant-apps) is patched" >> $GITHUB_STEP_SUMMARY
