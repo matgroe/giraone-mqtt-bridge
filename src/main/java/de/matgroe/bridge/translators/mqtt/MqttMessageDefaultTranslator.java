@@ -21,14 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package de.matgroe.bridge;
+package de.matgroe.bridge.translators.mqtt;
 
+import de.matgroe.bridge.GiraOneChannelMqttTopicMapper;
+import de.matgroe.giraone.client.types.GiraOneDataPoint;
+import de.matgroe.giraone.client.types.GiraOneProject;
 import de.matgroe.giraone.client.types.GiraOneValue;
 import de.matgroe.mqtt.MqttMessage;
 import java.util.List;
+import java.util.Optional;
+import lombok.AllArgsConstructor;
 
-public interface MessageTransformerStrategy {
-  List<GiraOneValue> toGiraOneValue();
+/**
+ * This {@link MqttMessageTranslator} is reponsible for aplplying special needs on converting from
+ * {@link MqttMessage} to concerning {@link GiraOneValue} messages.
+ *
+ * @author Matthias Gröger - Initial contribution
+ */
+@AllArgsConstructor
+class MqttMessageDefaultTranslator implements MqttMessageTranslator {
+  protected final GiraOneChannelMqttTopicMapper giraOneChannelMqttTopicMapper;
+  protected final GiraOneProject giraOneProject;
+  protected final MqttMessage mqttMessage;
 
-  List<MqttMessage> toMqttMessage();
+  public List<GiraOneValue> toGiraOneValue() {
+    Optional<GiraOneDataPoint> dp =
+        giraOneChannelMqttTopicMapper.giraOneDataPointOf(mqttMessage.topic());
+    return dp.map(dataPoint -> List.of(new GiraOneValue(dataPoint.getUrn(), mqttMessage.payload())))
+        .orElseGet(List::of);
+  }
 }

@@ -65,6 +65,18 @@ jobs:
       uses: sozo-design/curl@v1.0.2
       with:
         args: https://raw.githubusercontent.com/matgroe/giraone-mqtt-bridge/refs/heads/main/CHANGELOG.md -o giraone-mqtt-bridge/CHANGELOG.md
+    
+    - name: Commit files
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -a -m "[BOT] Update changelog for release ${{ inputs.version }}"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        repository: matgroe/home-assistant-apps
+        github_token: ${{ secrets.WORKFLOW_TOKEN }}
+        
 
     - name: Update config.yaml 'version' = ${{ inputs.version }}
       if: inputs.version != ''

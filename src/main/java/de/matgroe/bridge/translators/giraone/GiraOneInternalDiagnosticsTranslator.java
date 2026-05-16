@@ -21,11 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package de.matgroe.bridge;
+package de.matgroe.bridge.translators.giraone;
 
 import static de.matgroe.Constants.DATAPOINT_LOCALTIME;
 import static de.matgroe.Constants.DATAPOINT_UPTIME;
 
+import de.matgroe.bridge.GiraOneChannelMqttTopicMapper;
 import de.matgroe.giraone.client.types.GiraOneProject;
 import de.matgroe.giraone.client.types.GiraOneURN;
 import de.matgroe.giraone.client.types.GiraOneValue;
@@ -40,20 +41,19 @@ import java.util.Locale;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * This strategy is reponsible for apllying special needs on converting between {@link MqttMessage}
- * and {@link GiraOneValue} for internal GDS channels.
+ * This {@link GiraOneValueTranslator} is reponsible for aplplying special needs on converting from
+ * {@link GiraOneValue} to concerning {@link MqttMessage} for internal GDS Channels.
  *
  * @author Matthias Gröger - Initial contribution
  */
 @Slf4j
-class MessageTransformerStrategyInternalDiagnostics<T>
-    extends MessageTransformerStrategyDefault<T> {
+class GiraOneInternalDiagnosticsTranslator extends GiraOneDefaultTranslator {
 
-  public MessageTransformerStrategyInternalDiagnostics(
+  GiraOneInternalDiagnosticsTranslator(
       GiraOneChannelMqttTopicMapper giraOneChannelMqttTopicMapper,
       GiraOneProject giraOneProject,
-      T message) {
-    super(giraOneChannelMqttTopicMapper, giraOneProject, message);
+      GiraOneValue giraOneValue) {
+    super(giraOneChannelMqttTopicMapper, giraOneProject, giraOneValue);
   }
 
   private String makeISO8601(String g1Value) throws ParseException {
@@ -65,26 +65,17 @@ class MessageTransformerStrategyInternalDiagnostics<T>
   @Override
   public List<MqttMessage> toMqttMessage() {
     List<MqttMessage> list = new ArrayList<>();
-    if (message instanceof GiraOneValue g1Value) {
-      GiraOneURN urn = GiraOneURN.of(g1Value.getDatapointUrn());
-      String topic = giraOneChannelMqttTopicMapper.stateTopicNameOf(urn);
-      try {
-        if (DATAPOINT_LOCALTIME.equals(urn.getResourceName())) {
-          list.add(new MqttMessage(topic, makeISO8601(g1Value.getValue())));
-        } else if (DATAPOINT_UPTIME.equals(urn.getResourceName())) {
-          list.add(new MqttMessage(topic, LocalDateTime.now().toString()));
-        }
-      } catch (Exception exp) {
-        log.error("Cannot convert {} to ISO8601", g1Value.getValue(), exp);
+    GiraOneURN urn = GiraOneURN.of(giraOneValue.getDatapointUrn());
+    String topic = giraOneChannelMqttTopicMapper.stateTopicNameOf(urn);
+    try {
+      if (DATAPOINT_LOCALTIME.equals(urn.getResourceName())) {
+        list.add(new MqttMessage(topic, makeISO8601(giraOneValue.getValue())));
+      } else if (DATAPOINT_UPTIME.equals(urn.getResourceName())) {
+        list.add(new MqttMessage(topic, LocalDateTime.now().toString()));
       }
-    } else {
-      list.addAll(super.toMqttMessage());
+    } catch (Exception exp) {
+      log.error("Cannot convert {} to ISO8601", giraOneValue.getValue(), exp);
     }
     return list;
-  }
-
-  public List<GiraOneValue> toGiraOneValue() {
-    // readonly
-    return List.of();
   }
 }
