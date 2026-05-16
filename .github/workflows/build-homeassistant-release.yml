@@ -46,7 +46,7 @@ jobs:
           docker.io/${{ vars.DOCKER_USERNAME }}/${{ vars.HOMEASSISTANT_IMAGE_NAME }}:latest
 
   update-homeasstant-config:
-    #needs: create-homeasstant-image
+    needs: create-homeasstant-image
     name: Update Home Assistant Config
     runs-on: ubuntu-latest
     permissions:
