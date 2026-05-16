@@ -21,51 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package de.matgroe.bridge;
+package de.matgroe.bridge.translators.giraone;
 
-import de.matgroe.giraone.client.types.GiraOneDataPoint;
+import de.matgroe.bridge.GiraOneChannelMqttTopicMapper;
 import de.matgroe.giraone.client.types.GiraOneProject;
 import de.matgroe.giraone.client.types.GiraOneValue;
 import de.matgroe.mqtt.MqttMessage;
 import java.util.List;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 
 /**
- * This strategy is reponsible for converting between {@link MqttMessage} and {@link GiraOneValue}
- * devices.
+ * This {@link GiraOneValueTranslator} is reponsible for aplplying special needs on converting from
+ * {@link GiraOneValue} to concerning {@link MqttMessage}.
  *
  * @author Matthias Gröger - Initial contribution
  */
 @AllArgsConstructor
-class MessageTransformerStrategyDefault<T> implements MessageTransformerStrategy {
+class GiraOneDefaultTranslator implements GiraOneValueTranslator {
   protected final GiraOneChannelMqttTopicMapper giraOneChannelMqttTopicMapper;
   protected final GiraOneProject giraOneProject;
-  protected final T message;
-
-  @Override
-  public List<GiraOneValue> toGiraOneValue() {
-    if (message instanceof MqttMessage mqttMessage) {
-      Optional<GiraOneDataPoint> dp =
-          giraOneChannelMqttTopicMapper.giraOneDataPointOf(mqttMessage.topic());
-      if (dp.isPresent()) {
-        return List.of(new GiraOneValue(dp.get().getUrn(), mqttMessage.payload()));
-      }
-    } else if (message instanceof GiraOneValue giraOneValue) {
-      return List.of(giraOneValue);
-    }
-    return List.of();
-  }
+  protected final GiraOneValue giraOneValue;
 
   @Override
   public List<MqttMessage> toMqttMessage() {
-    if (message instanceof GiraOneValue giraOneValue) {
-      String topic =
-          giraOneChannelMqttTopicMapper.stateTopicNameOf(giraOneValue.getGiraOneDataPoint());
-      return List.of(new MqttMessage(topic, giraOneValue.getValue()));
-    } else if (message instanceof MqttMessage mqttMessage) {
-      return List.of(mqttMessage);
-    }
-    return List.of();
+    String topic =
+        giraOneChannelMqttTopicMapper.stateTopicNameOf(giraOneValue.getGiraOneDataPoint());
+    return List.of(new MqttMessage(topic, giraOneValue.getValue()));
   }
 }

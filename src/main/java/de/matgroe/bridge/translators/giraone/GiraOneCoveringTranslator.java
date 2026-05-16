@@ -21,14 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package de.matgroe.bridge;
+package de.matgroe.bridge.translators.giraone;
 
 import static de.matgroe.Constants.DATAPOINT_MOVEMENT;
 import static de.matgroe.Constants.DATAPOINT_POSITION;
 import static de.matgroe.Constants.DATAPOINT_STEP_UP_DOWN;
 import static de.matgroe.Constants.DATAPOINT_UP_DOWN;
 
-import de.matgroe.giraone.client.types.GiraOneDataPoint;
+import de.matgroe.bridge.GiraOneChannelMqttTopicMapper;
 import de.matgroe.giraone.client.types.GiraOneProject;
 import de.matgroe.giraone.client.types.GiraOneURN;
 import de.matgroe.giraone.client.types.GiraOneValue;
@@ -37,29 +37,28 @@ import de.matgroe.hassio.types.Cover;
 import de.matgroe.mqtt.MqttMessage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * This strategy is reponsible for apllying special needs on converting between {@link MqttMessage}
- * and {@link GiraOneValue} for Cover/Shutter/Window devices.
+ * This {@link GiraOneValueTranslator} is reponsible for aplplying special needs on converting from
+ * {@link GiraOneValue} to concerning {@link MqttMessage} for Cover/Shutter/Window devices.
  *
  * @author Matthias Gröger - Initial contribution
  */
 @Slf4j
-class MessageTransformerStrategyCover<T> extends MessageTransformerStrategyDefault<T> {
+class GiraOneCoveringTranslator extends GiraOneDefaultTranslator {
 
-  public MessageTransformerStrategyCover(
+  GiraOneCoveringTranslator(
       GiraOneChannelMqttTopicMapper giraOneChannelMqttTopicMapper,
       GiraOneProject giraOneProject,
-      T message) {
-    super(giraOneChannelMqttTopicMapper, giraOneProject, message);
+      GiraOneValue giraOneValue) {
+    super(giraOneChannelMqttTopicMapper, giraOneProject, giraOneValue);
   }
 
   @Override
   public List<MqttMessage> toMqttMessage() {
     List<MqttMessage> list = new ArrayList<>();
-    if (message instanceof GiraOneValueChange valueChange) {
+    if (giraOneValue instanceof GiraOneValueChange valueChange) {
       GiraOneURN srcUrn = GiraOneURN.of(valueChange.getDatapointUrn());
       GiraOneURN dstUrn = srcUrn.makeSibling(DATAPOINT_UP_DOWN);
       String topic = giraOneChannelMqttTopicMapper.stateTopicNameOf(dstUrn);
@@ -87,27 +86,5 @@ class MessageTransformerStrategyCover<T> extends MessageTransformerStrategyDefau
     } else {
       return super.toMqttMessage();
     }
-  }
-
-  public List<GiraOneValue> toGiraOneValue() {
-    List<GiraOneValue> list = new ArrayList<>();
-    if (message instanceof MqttMessage mqttMessage) {
-      Optional<GiraOneDataPoint> dataPoint =
-          giraOneChannelMqttTopicMapper.giraOneDataPointOf(mqttMessage.topic());
-      if (dataPoint.isPresent()) {
-        GiraOneURN urn = dataPoint.get().getUrn();
-        if (DATAPOINT_UP_DOWN.equals(urn.getResourceName())) {
-          switch (mqttMessage.payload()) {
-            case Cover.PAYLOAD_CLOSE -> list.add(new GiraOneValue(urn, "1"));
-            case Cover.PAYLOAD_OPEN -> list.add(new GiraOneValue(urn, "0"));
-            case Cover.PAYLOAD_STOP ->
-                list.add(new GiraOneValue(urn.makeSibling(DATAPOINT_STEP_UP_DOWN), "0"));
-          }
-        } else {
-          list.addAll(super.toGiraOneValue());
-        }
-      }
-    }
-    return list;
   }
 }

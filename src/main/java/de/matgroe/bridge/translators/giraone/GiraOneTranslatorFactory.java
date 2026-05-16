@@ -21,67 +21,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package de.matgroe.bridge;
+package de.matgroe.bridge.translators.giraone;
 
+import de.matgroe.bridge.GiraOneChannelMqttTopicMapper;
 import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneChannelType;
-import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneProject;
 import de.matgroe.giraone.client.types.GiraOneValue;
 import de.matgroe.mqtt.MqttMessage;
 import java.util.Optional;
 
-/** */
-public class MessageTransformer {
+/**
+ * This Factory creates a {@link GiraOneValueTranslator} implementation to convert {@link
+ * GiraOneValue} into a concerning {@link MqttMessage}
+ *
+ * @author Matthias Gröger - Initial contribution
+ */
+public class GiraOneTranslatorFactory {
   private final GiraOneChannelMqttTopicMapper giraOneChannelMqttTopicMapper;
   private final GiraOneProject giraOneProject;
 
-  public MessageTransformer(
+  public GiraOneTranslatorFactory(
       GiraOneChannelMqttTopicMapper giraOneChannelMqttTopicMapper, GiraOneProject giraOneProject) {
     this.giraOneChannelMqttTopicMapper = giraOneChannelMqttTopicMapper;
     this.giraOneProject = giraOneProject;
   }
 
-  public MessageTransformerStrategy from(GiraOneValue giraOneValue) {
+  public GiraOneValueTranslator from(GiraOneValue giraOneValue) {
     Optional<GiraOneChannel> optChannel =
         this.giraOneProject.lookupChannelByDataPoint(giraOneValue.getGiraOneDataPoint());
     if (optChannel.isPresent()) {
       switch (optChannel.get().getChannelType()) {
         case GiraOneChannelType.Covering:
-          return new MessageTransformerStrategyCover<>(
+          return new GiraOneCoveringTranslator(
               giraOneChannelMqttTopicMapper, giraOneProject, giraOneValue);
         case GiraOneChannelType.Heating:
-          return new MessageTransformerStrategyHVAC<>(
+          return new GiraOneHeatingTanslator(
               giraOneChannelMqttTopicMapper, giraOneProject, giraOneValue);
         case GiraOneChannelType.Diagnostic:
-          return new MessageTransformerStrategyInternalDiagnostics<>(
+          return new GiraOneInternalDiagnosticsTranslator(
               giraOneChannelMqttTopicMapper, giraOneProject, giraOneValue);
       }
     }
-    return new MessageTransformerStrategyDefault<>(
+    return new GiraOneDefaultTranslator(
         giraOneChannelMqttTopicMapper, giraOneProject, giraOneValue);
-  }
-
-  public MessageTransformerStrategy from(MqttMessage mqttMessage) {
-    Optional<GiraOneDataPoint> dp =
-        giraOneChannelMqttTopicMapper.giraOneDataPointOf(mqttMessage.topic());
-    if (dp.isPresent()) {
-      Optional<GiraOneChannel> optChannel = this.giraOneProject.lookupChannelByDataPoint(dp.get());
-      if (optChannel.isPresent()) {
-        switch (optChannel.get().getChannelType()) {
-          case GiraOneChannelType.Covering:
-            return new MessageTransformerStrategyCover<>(
-                giraOneChannelMqttTopicMapper, giraOneProject, mqttMessage);
-          case GiraOneChannelType.Heating:
-            return new MessageTransformerStrategyHVAC<>(
-                giraOneChannelMqttTopicMapper, giraOneProject, mqttMessage);
-          case GiraOneChannelType.Diagnostic:
-            return new MessageTransformerStrategyInternalDiagnostics<>(
-                giraOneChannelMqttTopicMapper, giraOneProject, mqttMessage);
-        }
-      }
-    }
-    return new MessageTransformerStrategyDefault<>(
-        giraOneChannelMqttTopicMapper, giraOneProject, mqttMessage);
   }
 }
