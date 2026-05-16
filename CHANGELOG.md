@@ -1,5 +1,7 @@
 # Changelog
 
+## 0.3.0
+- Realese for Testing purpuses 
 
 ## 0.2.0
 - Feature: Control HVAC/Clima
