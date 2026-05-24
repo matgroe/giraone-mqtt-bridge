@@ -31,10 +31,12 @@ import de.matgroe.giraone.client.types.GiraOneProject;
 import de.matgroe.giraone.client.types.GiraOneURN;
 import de.matgroe.giraone.client.types.GiraOneValue;
 import de.matgroe.mqtt.MqttMessage;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -48,6 +50,8 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 class GiraOneInternalDiagnosticsTranslator extends GiraOneDefaultTranslator {
+  private static final DateTimeFormatter PARSER =
+      DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss", Locale.ROOT);
 
   GiraOneInternalDiagnosticsTranslator(
       GiraOneChannelMqttTopicMapper giraOneChannelMqttTopicMapper,
@@ -56,22 +60,24 @@ class GiraOneInternalDiagnosticsTranslator extends GiraOneDefaultTranslator {
     super(giraOneChannelMqttTopicMapper, giraOneProject, giraOneValue);
   }
 
-  private String makeISO8601(String g1Value) throws ParseException {
-    DateFormat from = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-    DateFormat to = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
-    return to.format(from.parse(g1Value));
+  private String makeISO8601(String dateString, ZoneId zone) throws ParseException {
+    ZonedDateTime dateTime = LocalDateTime.parse(dateString, PARSER).atZone(zone);
+    return dateTime.withZoneSameInstant(ZoneOffset.UTC).toString();
   }
 
   @Override
   public List<MqttMessage> toMqttMessage() {
+    ZoneId zone = ZoneId.of("Europe/Berlin");
+
     List<MqttMessage> list = new ArrayList<>();
     GiraOneURN urn = GiraOneURN.of(giraOneValue.getDatapointUrn());
     String topic = giraOneChannelMqttTopicMapper.stateTopicNameOf(urn);
     try {
       if (DATAPOINT_LOCALTIME.equals(urn.getResourceName())) {
-        list.add(new MqttMessage(topic, makeISO8601(giraOneValue.getValue())));
+        list.add(new MqttMessage(topic, makeISO8601(giraOneValue.getValue(), zone)));
       } else if (DATAPOINT_UPTIME.equals(urn.getResourceName())) {
-        list.add(new MqttMessage(topic, LocalDateTime.now().toString()));
+        String localDateTime = LocalDateTime.now(zone).format(PARSER);
+        list.add(new MqttMessage(topic, makeISO8601(localDateTime, zone)));
       }
     } catch (Exception exp) {
       log.error("Cannot convert {} to ISO8601", giraOneValue.getValue(), exp);

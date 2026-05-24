@@ -200,7 +200,7 @@ public class MqttClient {
       return false;
     }
 
-    logger.debug("publish {}", message);
+    logger.info("Publishing MqttMessage {}", message);
     mqtt5Client
         .publishWith()
         .topic(message.topic())

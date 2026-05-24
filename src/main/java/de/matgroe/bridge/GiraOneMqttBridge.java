@@ -264,6 +264,7 @@ public class GiraOneMqttBridge {
 
   void onMqttMessageProcessingError(Throwable throwable) {
     logger.error("Caught Exception on proseccing MqttMessage.", throwable);
+    this.bridgeState.onNext(GiraOneMqttBridgeState.Error);
   }
 
   private boolean mapsToSupportedComponent(GiraOneDataPoint datapoint) {
