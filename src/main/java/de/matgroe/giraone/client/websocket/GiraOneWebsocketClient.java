@@ -265,6 +265,7 @@ public class GiraOneWebsocketClient {
   public Optional<GiraOneValue> changeGiraOneDataPointValue(
       final GiraOneDataPoint dataPoint, Object value) {
     if (connectionState.getValue() == GiraOneWebsocketConnectionState.Connected) {
+      logger.info("Change GiraOneValue :: {} to {}", dataPoint, value);
       GiraOneCommandResponse response =
           execute(
               SetValue.builder()

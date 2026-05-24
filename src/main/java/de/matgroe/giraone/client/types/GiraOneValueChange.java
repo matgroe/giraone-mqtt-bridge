@@ -69,6 +69,16 @@ public class GiraOneValueChange extends GiraOneValue {
   }
 
   /**
+   * Checks, if the numeric value is changed and the changed value is greater than the given
+   * allowance
+   *
+   * @return returns true, if change is greater than allowance, false otherwise.
+   */
+  public boolean isValueChangeInAllowance(float allowance) {
+    return Math.abs(getValueAsFloat() - getPreviousValueAsFloat()) < allowance;
+  }
+
+  /**
    * @return The previous value as Number
    */
   public Number getPreviousValueAsNumber() {

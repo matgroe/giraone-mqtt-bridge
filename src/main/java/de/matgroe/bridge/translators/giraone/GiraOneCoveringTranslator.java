@@ -75,10 +75,14 @@ class GiraOneCoveringTranslator extends GiraOneDefaultTranslator {
           list.add(new MqttMessage(topic, Cover.STATE_STOPPED));
         }
       } else if (DATAPOINT_POSITION.equals(srcUrn.getResourceName())) {
-        list.add(
-            new MqttMessage(
-                topic,
-                valueChange.isValueIncreasing() ? Cover.STATE_CLOSING : Cover.STATE_OPENING));
+        String topicPosition = giraOneChannelMqttTopicMapper.stateTopicNameOf(srcUrn);
+        list.add(new MqttMessage(topicPosition, valueChange.getValue()));
+        if (!valueChange.isValueChangeInAllowance(1.5f)) {
+          list.add(
+              new MqttMessage(
+                  topic,
+                  valueChange.isValueIncreasing() ? Cover.STATE_CLOSING : Cover.STATE_OPENING));
+        }
       } else {
         list.addAll(super.toMqttMessage());
       }
