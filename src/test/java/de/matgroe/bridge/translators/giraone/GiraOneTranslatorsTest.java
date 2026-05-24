@@ -34,7 +34,6 @@ import de.matgroe.giraone.client.types.GiraOneValue;
 import de.matgroe.giraone.client.types.GiraOneValueChange;
 import de.matgroe.hassio.types.Cover;
 import de.matgroe.mqtt.MqttMessage;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
