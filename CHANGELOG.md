@@ -1,4 +1,6 @@
 # Changelog
+## 0.9.1
+- Improved Stability
 
 ## 0.9.0
 - Experimental release for testing purposes.
