@@ -50,4 +50,5 @@ abstract class GiraOneJsonPropertyNames {
   static final String PROPERTY_SUBLOCATIONS = "subLocations";
   static final String PROPERTY_COMPONENTS = "components";
   static final String PROPERTY_PARAMETER = "parameters";
+  static final String PROPERTY_ID = "id";
 }

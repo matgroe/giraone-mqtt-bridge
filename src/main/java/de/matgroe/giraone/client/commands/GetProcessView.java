@@ -21,62 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package de.matgroe.giraone.client.types;
+package de.matgroe.giraone.client.commands;
 
-import java.util.Objects;
-import lombok.Getter;
+import de.matgroe.giraone.client.GiraOneCommand;
+import de.matgroe.giraone.client.GiraOneServerCommand;
+import de.matgroe.util.GenericBuilder;
 import lombok.Setter;
 
 /**
- * The GiraOneDataPoint defines a source of data which may have a value.
+ * {@link GiraOneCommand} for reading the DiagnosticDeviceList
  *
  * @author Matthias Gröger - Initial contribution
  */
-@Getter
+@GiraOneServerCommand(name = "GetProcessView", responsePayload = "processView")
 @Setter
-public class GiraOneDataPoint {
-  private GiraOneURN urn;
-  private int id;
+public class GetProcessView extends GiraOneCommand {
+  private String ui = "true";
+  private String cached = "true";
+  private boolean urns = true;
 
-  public GiraOneDataPoint(final String urn) {
-    this.urn = GiraOneURN.of(urn);
+  public static GenericBuilder<GetProcessView> builder() {
+    return GenericBuilder.of(GetProcessView::new);
   }
 
-  public GiraOneDataPoint(final GiraOneURN urn) {
-    this.urn = urn;
-  }
-
-  public String getName() {
-    return urn.getResourceName();
-  }
-
-  public GiraOneURN getDeviceUrn() {
-    return urn.getParent();
-  }
-
-  public void setUrn(String urn) {
-    this.urn = GiraOneURN.of(urn);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    GiraOneDataPoint dataPoint = (GiraOneDataPoint) o;
-    return Objects.equals(getUrn(), dataPoint.getUrn());
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(urn);
-  }
-
-  @Override
-  public String toString() {
-    return urn.toString();
-  }
+  protected GetProcessView() {}
 }

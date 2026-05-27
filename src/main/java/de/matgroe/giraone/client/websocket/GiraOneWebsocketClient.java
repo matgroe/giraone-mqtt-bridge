@@ -32,6 +32,7 @@ import de.matgroe.giraone.client.GiraOneCommandResponse;
 import de.matgroe.giraone.client.GiraOneMessageType;
 import de.matgroe.giraone.client.GiraOneTypeMapperFactory;
 import de.matgroe.giraone.client.commands.GetDeviceConfig;
+import de.matgroe.giraone.client.commands.GetProcessView;
 import de.matgroe.giraone.client.commands.GetUIConfiguration;
 import de.matgroe.giraone.client.commands.GetValue;
 import de.matgroe.giraone.client.commands.RegisterApplication;
@@ -40,6 +41,7 @@ import de.matgroe.giraone.client.types.GiraOneChannelCollection;
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
 import de.matgroe.giraone.client.types.GiraOneEvent;
+import de.matgroe.giraone.client.types.GiraOneProcessView;
 import de.matgroe.giraone.client.types.GiraOneURN;
 import de.matgroe.giraone.client.types.GiraOneValue;
 import de.matgroe.giraone.client.types.GiraOneValueChange;
@@ -71,9 +73,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class GiraOneWebsocketClient {
-
   private static final String TEMPLATE_WEBSOCKET_URL = "wss://%s:4432/gds/api?%s";
-  private static final int DEFAULT_TIMEOUT_SECONDS = 10;
+  private static final int DEFAULT_TIMEOUT_SECONDS = 30;
 
   private final CompositeDisposable websocketEndpointDisposables = new CompositeDisposable();
   private final Logger logger = LoggerFactory.getLogger(GiraOneWebsocketClient.class);
@@ -238,6 +239,13 @@ public class GiraOneWebsocketClient {
         GiraOneClientException.UNEXPECTED_CONNECTION_STATE,
         GiraOneClientConnectionState.Connected.toString(),
         Objects.requireNonNull(connectionState.getValue()).toString());
+  }
+
+  public GiraOneProcessView lookupProcessView() {
+    if (connectionState.getValue() == GiraOneWebsocketConnectionState.Connected) {
+      return execute(GetProcessView.builder().build()).getReply(GiraOneProcessView.class);
+    }
+    return new GiraOneProcessView();
   }
 
   /**
