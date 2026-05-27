@@ -31,6 +31,7 @@ import de.matgroe.giraone.client.commands.GetDeviceConfig;
 import de.matgroe.giraone.client.commands.GetDiagnosticDeviceList;
 import de.matgroe.giraone.client.commands.GetGiraOneDevices;
 import de.matgroe.giraone.client.commands.GetPasswordSalt;
+import de.matgroe.giraone.client.commands.GetProcessView;
 import de.matgroe.giraone.client.commands.GetUIConfiguration;
 import de.matgroe.giraone.client.commands.GetValue;
 import de.matgroe.giraone.client.commands.RegisterApplication;
@@ -80,6 +81,7 @@ public abstract class GiraOneTypeMapperFactory {
           GetGiraOneDevices.class,
           GetPasswordSalt.class,
           GetUIConfiguration.class,
+          GetProcessView.class,
           GetValue.class,
           RegisterApplication.class,
           SetValue.class);

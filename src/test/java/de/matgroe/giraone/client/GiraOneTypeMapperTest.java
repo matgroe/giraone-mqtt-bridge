@@ -25,6 +25,7 @@ package de.matgroe.giraone.client;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonPrimitive;
@@ -34,9 +35,11 @@ import de.matgroe.giraone.client.types.GiraOneChannelType;
 import de.matgroe.giraone.client.types.GiraOneChannelTypeId;
 import de.matgroe.giraone.client.types.GiraOneComponentCollection;
 import de.matgroe.giraone.client.types.GiraOneComponentType;
+import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
 import de.matgroe.giraone.client.types.GiraOneEvent;
 import de.matgroe.giraone.client.types.GiraOneFunctionType;
+import de.matgroe.giraone.client.types.GiraOneProcessView;
 import de.matgroe.giraone.client.types.GiraOneValue;
 import de.matgroe.giraone.client.webservice.GiraOneWebserviceResponse;
 import de.matgroe.giraone.client.websocket.GiraOneWebsocketResponse;
@@ -177,11 +180,10 @@ public class GiraOneTypeMapperTest {
             .findFirst()
             .orElse(null);
     assertNotNull(g1ch);
+    Optional<GiraOneDataPoint> onoff = g1ch.getDatapoint("OnOff");
+    assertTrue(onoff.isPresent());
+    assertEquals(204378, onoff.get().getId());
   }
-
-  // GiraOneChannel{urn='urn:gds:chv:KNXlight-KNX-Dimmer-2', name='Wohnen / Essen 1',
-  // location='Essen / Wohnen', functionType=Light, channelType=Dimmer, channelTypeId=Light,
-  // dataPoints=[urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-2:Brightness, urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-2:Shift, urn:gds:dp:GiraOneServer.GIOSRVKX03:KnxDimmingActuator4-gang-1.DimmingActuator-2:OnOff]}
 
   @DisplayName("message should deserialize to GiraOneCommandResponse of GiraOneChannelValue")
   @Test
@@ -249,5 +251,15 @@ public class GiraOneTypeMapperTest {
     assertEquals(GiraOneFunctionType.Light, channel.getFunctionType());
     assertEquals(Optional.of("0.4"), channel.getParameterValue("ButtonTimeout"));
     assertEquals(Optional.of("Aus"), channel.getParameterValue("OffText"));
+  }
+
+  @DisplayName("message should deserialize to GiraOneProcessState")
+  @Test
+  void shouldDeserialize2GiraOneProcessState() {
+    GiraOneCommandResponse response =
+        createGiraOneWebsocketResponseFrom("/giraone/3.GetProcessView/001-resp.json");
+    assertNotNull(response);
+    assertNotNull(response.getResponseBody());
+    assertNotNull(response.getReply(GiraOneProcessView.class));
   }
 }

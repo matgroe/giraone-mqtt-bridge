@@ -27,6 +27,7 @@ import de.matgroe.giraone.GiraOneClientProperties;
 import de.matgroe.giraone.client.types.GiraOneComponentType;
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
+import de.matgroe.giraone.client.types.GiraOneProcessView;
 import de.matgroe.giraone.client.types.GiraOneProject;
 import de.matgroe.giraone.client.types.GiraOneURN;
 import de.matgroe.giraone.client.types.GiraOneValue;
@@ -210,7 +211,12 @@ public class GiraOneClient {
    * @return Optional<GiraOneValue> returns the changeds value as returned from GiraOneServer
    */
   public Optional<GiraOneValue> changeGiraOneDataValue(GiraOneValue value) {
-    return this.changeGiraOneDataPointValue(value.getGiraOneDataPoint(), value.getValue());
+    try {
+      return this.changeGiraOneDataPointValue(value.getGiraOneDataPoint(), value.getValue());
+    } catch (GiraOneClientException exp) {
+      logger.error(exp.getMessage(), exp);
+      return Optional.of(value);
+    }
   }
 
   /**
@@ -239,5 +245,14 @@ public class GiraOneClient {
   public Disposable observeGiraOneValues(
       Consumer<GiraOneValue> consumer, Consumer<Throwable> errorHandler) {
     return this.websocketClient.subscribeOnGiraOneValues(consumer);
+  }
+
+  /**
+   * Asks the GiraOneServer for the current process state View
+   *
+   * @return a {@link GiraOneProcessView}
+   */
+  public GiraOneProcessView lookupProcessView() {
+    return this.websocketClient.lookupProcessView();
   }
 }

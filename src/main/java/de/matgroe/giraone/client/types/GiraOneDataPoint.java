@@ -24,14 +24,19 @@
 package de.matgroe.giraone.client.types;
 
 import java.util.Objects;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * The GiraOneDataPoint defines a source of data which may have a value.
  *
  * @author Matthias Gröger - Initial contribution
  */
+@Getter
+@Setter
 public class GiraOneDataPoint {
   private GiraOneURN urn;
+  private int id;
 
   public GiraOneDataPoint(final String urn) {
     this.urn = GiraOneURN.of(urn);
@@ -47,10 +52,6 @@ public class GiraOneDataPoint {
 
   public GiraOneURN getDeviceUrn() {
     return urn.getParent();
-  }
-
-  public GiraOneURN getUrn() {
-    return urn;
   }
 
   public void setUrn(String urn) {
