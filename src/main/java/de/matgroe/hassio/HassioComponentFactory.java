@@ -104,7 +104,7 @@ public class HassioComponentFactory {
         component = createInternalDiagnostic(channel);
         break;
       default:
-        logger.warn("no factory implementation for {} ", channel);
+        // logger.warn("no factory implementation for {} ", channel);
         component = createUnsupportedComponent(channel);
     }
     component.setUniqueId(DigestUtils.sha1Hex(channel.getUrn()));

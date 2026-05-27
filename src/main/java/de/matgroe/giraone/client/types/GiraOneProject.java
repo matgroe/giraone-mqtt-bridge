@@ -130,22 +130,47 @@ public class GiraOneProject {
   }
 
   /**
+   * This method iterates over all channels for the given dataPointUrn and returns the concerning
+   * {@link GiraOneDataPoint} if there is any.
+   *
+   * @param datapointId - The datapoint id
+   * @return A {@link Optional} of {@link GiraOneDataPoint}
+   */
+  public Optional<GiraOneDataPoint> lookupGiraOneDataPoint(final int datapointId) {
+    return this.channels.stream()
+        .map(GiraOneChannel::getDataPoints)
+        .flatMap(Collection::stream)
+        .filter(f -> f.getId() == datapointId)
+        .findFirst();
+  }
+
+  /**
    * Adds an internal diagnostic channel to the project
    *
    * @param channelUrn The disgnostic channel URN
    * @param name The chanel name
-   * @param datapointUrn A List of datapoints for the channel
+   * @param datapointUrns A List of datapoints for the channel
    */
-  public void addDiagnosticChannel(String channelUrn, String name, String... datapointUrn) {
+  public void addDiagnosticChannel(String channelUrn, String name, GiraOneURN... datapointUrns) {
     GiraOneChannel channel = new GiraOneChannel();
     channel.setUrn(channelUrn);
     channel.setLocation(LOCATION_BRIDGE);
     channel.setName(name);
     channel.setChannelType(GiraOneChannelType.Diagnostic);
-    Stream.of(datapointUrn)
-        .map(m -> new GiraOneDataPoint(GiraOneURN.of(m)))
-        .forEach(channel::addDataPoint);
+    Stream.of(datapointUrns).map(GiraOneDataPoint::new).forEach(channel::addDataPoint);
     this.channels.add(channel);
+  }
+
+  /**
+   * Adds an internal diagnostic channel to the project
+   *
+   * @param channelUrn The disgnostic channel URN
+   * @param name The chanel name
+   * @param datapointUrns A List of datapoints for the channel
+   */
+  public void addDiagnosticChannel(String channelUrn, String name, String... datapointUrns) {
+    this.addDiagnosticChannel(
+        channelUrn, name, Stream.of(datapointUrns).map(GiraOneURN::of).toArray(GiraOneURN[]::new));
   }
 
   private boolean matches(String dataPointUrn, GiraOneDataPoint dataPoint) {

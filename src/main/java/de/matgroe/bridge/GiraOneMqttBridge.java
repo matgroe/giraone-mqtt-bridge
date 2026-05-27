@@ -25,6 +25,7 @@ package de.matgroe.bridge;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import de.matgroe.Constants;
 import de.matgroe.GiraOneMqttApplicationProperties;
 import de.matgroe.bridge.translators.giraone.GiraOneTranslatorFactory;
 import de.matgroe.bridge.translators.mqtt.MqttTranslatorFactory;
@@ -34,8 +35,11 @@ import de.matgroe.giraone.client.GiraOneClientException;
 import de.matgroe.giraone.client.types.GiraOneChannel;
 import de.matgroe.giraone.client.types.GiraOneDataPoint;
 import de.matgroe.giraone.client.types.GiraOneDeviceConfiguration;
+import de.matgroe.giraone.client.types.GiraOneProcessState;
 import de.matgroe.giraone.client.types.GiraOneProject;
+import de.matgroe.giraone.client.types.GiraOneURN;
 import de.matgroe.giraone.client.types.GiraOneValue;
+import de.matgroe.giraone.client.types.GiraOneValueState;
 import de.matgroe.hassio.HassioComponentFactory;
 import de.matgroe.hassio.HassioDiscoveryMessageFactory;
 import de.matgroe.hassio.types.DiscoveryMessage;
@@ -46,6 +50,7 @@ import de.matgroe.mqtt.MqttMessage;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.ReplaySubject;
+import java.util.Arrays;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +59,15 @@ import org.springframework.stereotype.Component;
 /** This class is responsible for dispatching .. */
 @Component
 public class GiraOneMqttBridge {
-  private final String BRIDGE_DATAPOINT_UPTIME = "urn:de:matgroe:giraone-bridge:Uptime";
+  private final String BRIDGE_DIAGNOSTIC_CHANNEL_URN = "urn:de:matgroe:giraone-bridge:diagnostic";
+  private final GiraOneURN DIAGNOSTIC_URN_UPTIME =
+      GiraOneURN.of(BRIDGE_DIAGNOSTIC_CHANNEL_URN, Constants.DATAPOINT_UPTIME);
+  private final GiraOneURN DIAGNOSTIC_URN_MQTT_STATE =
+      GiraOneURN.of(BRIDGE_DIAGNOSTIC_CHANNEL_URN, Constants.DATAPOINT_MQTT_STATE);
+  private final GiraOneURN DIAGNOSTIC_URN_GIRAONE_STATE =
+      GiraOneURN.of(BRIDGE_DIAGNOSTIC_CHANNEL_URN, Constants.DATAPOINT_GIRAONE_STATE);
+  private final GiraOneURN DIAGNOSTIC_URN_BRIDGE_STATE =
+      GiraOneURN.of(BRIDGE_DIAGNOSTIC_CHANNEL_URN, Constants.DATAPOINT_BRIDGE_STATE);
 
   private final Logger logger = LoggerFactory.getLogger(GiraOneMqttBridge.class);
   private final CompositeDisposable giraOneClientDisposables = new CompositeDisposable();
@@ -126,6 +139,7 @@ public class GiraOneMqttBridge {
    */
   void onGiraOneMqttBridgeStateChanged(GiraOneMqttBridgeState bridgeState) {
     logger.info("GiraOneMqttBridgeState changed to '{}'", bridgeState);
+    this.onGiraOneValue(new GiraOneValue(DIAGNOSTIC_URN_BRIDGE_STATE, bridgeState.toString()));
     switch (bridgeState) {
       case Stopped -> handleBridgeStateStopped();
       case ConnectingGiraOneClient -> handleBridgeStateConnectingGiraOneClient();
@@ -185,21 +199,34 @@ public class GiraOneMqttBridge {
   /** Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#Connected} */
   void handleBridgeStateConnected() {
     sendDiscoveryMessage();
-    this.onGiraOneValue(new GiraOneValue(BRIDGE_DATAPOINT_UPTIME, "now"));
+    this.onGiraOneValue(new GiraOneValue(DIAGNOSTIC_URN_UPTIME, "now"));
     giraoneValueDiposable =
         giraOneClient.observeGiraOneValues(
             this::onGiraOneValue, this::onGiraOneValueProcessingError);
-    this.lookupGiraOneDataPoints();
+    this.lookupProcessView();
   }
 
-  void lookupGiraOneDataPoints() {
+  /** Asks the GiraServer for current process state and transforms it into mqtt state */
+  void lookupProcessView() {
     Thread.ofVirtual()
         .start(
             () -> {
-              giraOneClient.getGiraOneProject().lookupGiraOneDataPoints().stream()
-                  .filter(this::mapsToSupportedComponent)
-                  .forEach(giraOneClient::lookupGiraOneDatapointValue);
+              Arrays.stream(giraOneClient.lookupProcessView().getDatapoints())
+                  .filter(f -> f.getValueState() == GiraOneValueState.Value)
+                  .map(this::createGiraOneValue)
+                  .filter(Optional::isPresent)
+                  .map(Optional::get)
+                  .forEach(this::onGiraOneValue);
             });
+  }
+
+  private Optional<GiraOneValue> createGiraOneValue(GiraOneProcessState state) {
+    Optional<GiraOneDataPoint> dp =
+        this.giraOneClient.getGiraOneProject().lookupGiraOneDataPoint(state.getId());
+    if (dp.isPresent()) {
+      return Optional.of(new GiraOneValue(dp.get(), state.getState()));
+    }
+    return Optional.empty();
   }
 
   /** Handler for GiraOneMqttBridgeState changed to {@link GiraOneMqttBridgeState#Disconnected} */
@@ -218,6 +245,7 @@ public class GiraOneMqttBridge {
 
   private void onGiraOneClientException(GiraOneClientException clientException) {
     logger.error("GiraOneClientException {}", clientException.getMessage(), clientException);
+    bridgeState.onNext(GiraOneMqttBridgeState.Error);
   }
 
   /**
@@ -255,11 +283,15 @@ public class GiraOneMqttBridge {
    */
   void onMqttMessage(MqttMessage mqttMessage) {
     logger.info("Received MqttMessage:: {}", mqttMessage);
-    mqttTranslatorFactory.from(mqttMessage).toGiraOneValue().stream()
-        .map(giraOneClient::changeGiraOneDataValue)
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .forEach(this::onGiraOneValue);
+    if (mqttTranslatorFactory != null) {
+      mqttTranslatorFactory.from(mqttMessage).toGiraOneValue().stream()
+          .map(giraOneClient::changeGiraOneDataValue)
+          .filter(Optional::isPresent)
+          .map(Optional::get)
+          .forEach(this::onGiraOneValue);
+    } else {
+      logger.info("Not ready yet, ignoring received message {}", mqttMessage);
+    }
   }
 
   void onMqttMessageProcessingError(Throwable throwable) {
@@ -284,7 +316,8 @@ public class GiraOneMqttBridge {
    * @param giraOneValue
    */
   void onGiraOneValue(GiraOneValue giraOneValue) {
-    if (this.mapsToSupportedComponent(giraOneValue.getGiraOneDataPoint())) {
+    if (giraOneTranslatorFactory != null
+        && this.mapsToSupportedComponent(giraOneValue.getGiraOneDataPoint())) {
       logger.info("Received giraOneValue :: {}", giraOneValue);
       giraOneTranslatorFactory.from(giraOneValue).toMqttMessage().forEach(mqttClient::publish);
     } else {
@@ -300,8 +333,15 @@ public class GiraOneMqttBridge {
     logger.info("Create and send DiscoveryMessage");
     DiscoveryMessage dm = hassioDiscoveryMessageFactory.createDiscoveryMessage();
     GiraOneProject project = this.giraOneClient.getGiraOneProject();
+
+    project.addDiagnosticChannel(BRIDGE_DIAGNOSTIC_CHANNEL_URN, "Startzeit", DIAGNOSTIC_URN_UPTIME);
     project.addDiagnosticChannel(
-        "urn:de:matgroe:giraone-bridge:uptime", "Startzeit", BRIDGE_DATAPOINT_UPTIME);
+        BRIDGE_DIAGNOSTIC_CHANNEL_URN, "MQTT Status", DIAGNOSTIC_URN_MQTT_STATE);
+    project.addDiagnosticChannel(
+        BRIDGE_DIAGNOSTIC_CHANNEL_URN, "GiraOne Status", DIAGNOSTIC_URN_GIRAONE_STATE);
+    project.addDiagnosticChannel(
+        BRIDGE_DIAGNOSTIC_CHANNEL_URN, "Bridge Status", DIAGNOSTIC_URN_BRIDGE_STATE);
+
     project.lookupChannels().stream()
         .map(hassioComponentFactory::from)
         .filter(u -> u.getClass() != UnsupportedComponent.class)

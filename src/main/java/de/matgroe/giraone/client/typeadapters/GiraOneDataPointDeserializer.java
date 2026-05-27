@@ -48,8 +48,13 @@ public class GiraOneDataPointDeserializer extends GiraOneMessageJsonTypeAdapter
       try {
         JsonObject jsonObject = jsonElement.getAsJsonObject();
         if (jsonObject.has(GiraOneJsonPropertyNames.PROPERTY_URN)) {
-          return new GiraOneDataPoint(
-              jsonObject.get(GiraOneJsonPropertyNames.PROPERTY_URN).getAsString());
+          GiraOneDataPoint dp =
+              new GiraOneDataPoint(
+                  jsonObject.get(GiraOneJsonPropertyNames.PROPERTY_URN).getAsString());
+          if (jsonObject.has(GiraOneJsonPropertyNames.PROPERTY_ID)) {
+            dp.setId(jsonObject.get(GiraOneJsonPropertyNames.PROPERTY_ID).getAsInt());
+          }
+          return dp;
         }
         return new GiraOneDataPoint(GiraOneURN.INVALID);
       } catch (IllegalArgumentException e) {

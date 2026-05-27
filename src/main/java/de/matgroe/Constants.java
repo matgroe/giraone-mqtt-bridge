@@ -44,6 +44,9 @@ public abstract class Constants {
   public static final String DATAPOINT_POSITION = "Position";
   public static final String DATAPOINT_SLAT_POSITION = "Slat-Position";
   public static final String DATAPOINT_UPTIME = "Uptime";
+  public static final String DATAPOINT_MQTT_STATE = "MqttConnectionState";
+  public static final String DATAPOINT_GIRAONE_STATE = "GiraOneConnectionState";
+  public static final String DATAPOINT_BRIDGE_STATE = "BridgeState";
 
   public static final String DATAPOINT_CURRENT = "Current";
   public static final String DATAPOINT_SET_POINT = "Set-Point";
