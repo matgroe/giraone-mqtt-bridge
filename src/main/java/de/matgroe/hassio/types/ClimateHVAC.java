@@ -92,7 +92,7 @@ public class ClimateHVAC extends Component {
     this.minTemp = 7.0f;
     this.maxTemp = 35.0f;
     this.precission = "0.1";
-    this.tempStep = 1.0f;
+    this.tempStep = 0.5f;
     this.initialTemp = 21.0f;
   }
 }
