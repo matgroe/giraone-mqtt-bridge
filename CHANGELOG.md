@@ -1,4 +1,8 @@
 # Changelog
+
+## 0.9.2
+- HVAC Temperature is changeable by 0.5 C steps
+  
 ## 0.9.1
 - Improved Stability
 
